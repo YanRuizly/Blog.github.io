@@ -3,7 +3,7 @@
   <entry>
     <title><![CDATA[Tensorflow实战]]></title>
     <url>%2F2018%2F03%2F16%2FTensorflow%E5%AE%9E%E6%88%98%2F</url>
-    <content type="text"></content>
+    <content type="text"><![CDATA[#输入层 ##输入层是整个神经网络的输入 #卷积层 #池化层 #全连接层 #Softmax层]]></content>
       <categories>
         <category>深度学习</category>
       </categories>
