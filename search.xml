@@ -3,7 +3,7 @@
   <entry>
     <title><![CDATA[Tensorflow实战 - 卷积神经网络]]></title>
     <url>%2F2018%2F03%2F16%2FTensorflow%E5%AE%9E%E6%88%98%20-%20%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%2F</url>
-    <content type="text"><![CDATA[经典卷积神经网络模型LeNet5模型 第一层，卷积层 第二层，池化层 第三层，卷积层 第四层，池化层 第五层，全连接层 第六层，全连接层 第七层，全连接层 1输入层 -&gt; (卷积层 +-&gt; 池化层？) +-&gt; 全连接层 + Inception-v3模型Inception结构将不同的卷积层通过并联的方式结合到一起 Inception-v3模型TensorFlow-Slim工具12net = slim.conv2d(输入节点矩阵, 当前卷积层过滤器的深度, 过滤器的尺寸)可选参数: 过滤器移动步长、是否使用全0填充、激活函数选择、变量的命名空间 计算 矩阵大小的计算 参数 连接数]]></content>
+    <content type="text"><![CDATA[经典卷积神经网络模型LeNet5模型 第一层，卷积层 第二层，池化层 第三层，卷积层 第四层，池化层 第五层，全连接层 第六层，全连接层 第七层，全连接层 1输入层 -&gt; (卷积层 +-&gt; 池化层？) +-&gt; 全连接层 + Inception-v3模型Inception结构将不同的卷积层通过并联的方式结合到一起 Inception-v3模型TensorFlow-Slim工具12net = slim.conv2d(输入节点矩阵, 当前卷积层过滤器的深度, 过滤器的尺寸)可选参数: 过滤器移动步长（stride）、是否使用全0填充（padding="SAME"/"VALID"）、激活函数选择、变量的命名空间 计算 矩阵大小的计算 参数 连接数 迁移学习将一个问题上训练好的模型通过简单的调整使其适用于一个新的问题。通过迁移学习，可以使用少量的训练数据在短时间内训练出效果还不错的神经网络。]]></content>
       <categories>
         <category>深度学习</category>
       </categories>

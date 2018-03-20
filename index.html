@@ -400,7 +400,7 @@
 </blockquote>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">输入层 -&gt; (卷积层 +-&gt; 池化层？) +-&gt; 全连接层 +</span><br></pre></td></tr></table></figure>
 <h1 id="Inception-v3模型"><a href="#Inception-v3模型" class="headerlink" title="Inception-v3模型"></a>Inception-v3模型</h1><h2 id="Inception结构"><a href="#Inception结构" class="headerlink" title="Inception结构"></a>Inception结构</h2><p>将不同的卷积层通过并联的方式结合到一起</p>
-<h2 id="Inception-v3模型-1"><a href="#Inception-v3模型-1" class="headerlink" title="Inception-v3模型"></a>Inception-v3模型</h2><p>TensorFlow-Slim工具<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">net = slim.conv2d(输入节点矩阵, 当前卷积层过滤器的深度, 过滤器的尺寸)</span><br><span class="line">可选参数: 过滤器移动步长、是否使用全<span class="number">0</span>填充、激活函数选择、变量的命名空间</span><br></pre></td></tr></table></figure></p>
+<h2 id="Inception-v3模型-1"><a href="#Inception-v3模型-1" class="headerlink" title="Inception-v3模型"></a>Inception-v3模型</h2><p>TensorFlow-Slim工具<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">net = slim.conv2d(输入节点矩阵, 当前卷积层过滤器的深度, 过滤器的尺寸)</span><br><span class="line">可选参数: 过滤器移动步长（stride）、是否使用全<span class="number">0</span>填充（padding=<span class="string">"SAME"</span>/<span class="string">"VALID"</span>）、激活函数选择、变量的命名空间</span><br></pre></td></tr></table></figure></p>
 <h1 id="计算"><a href="#计算" class="headerlink" title="计算"></a>计算</h1><blockquote>
 <ul>
 <li>矩阵大小的计算</li>
@@ -408,6 +408,7 @@
 <li>连接数</li>
 </ul>
 </blockquote>
+<h1 id="迁移学习"><a href="#迁移学习" class="headerlink" title="迁移学习"></a>迁移学习</h1><p>将一个问题上训练好的模型通过简单的调整使其适用于一个新的问题。通过迁移学习，可以使用少量的训练数据在短时间内训练出效果还不错的神经网络。</p>
 
           
         
