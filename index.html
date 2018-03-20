@@ -294,6 +294,154 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/20/Tensorflow实战 - 图像数据处理/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="闫 锐">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/love.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="饲养员的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/20/Tensorflow实战 - 图像数据处理/" itemprop="url">Tensorflow实战 - 卷积神经网络</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-20T14:57:03+08:00">
+                2018-03-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/深度学习/" itemprop="url" rel="index">
+                    <span itemprop="name">深度学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="TFRecord输入数据格式"><a href="#TFRecord输入数据格式" class="headerlink" title="TFRecord输入数据格式"></a>TFRecord输入数据格式</h1><h2 id="TFRecord格式介绍"><a href="#TFRecord格式介绍" class="headerlink" title="TFRecord格式介绍"></a>TFRecord格式介绍</h2><p>tf.train.Example Protocol Buffer的格式存储<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">message Example &#123;</span><br><span class="line">	Feature features = <span class="number">1</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">message Feature &#123;</span><br><span class="line">	map&lt;String, Feature&gt; features = <span class="number">1</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">message Feature &#123;</span><br><span class="line">	oneof kind &#123;</span><br><span class="line">		BytesList bytes_list = <span class="number">1</span>;</span><br><span class="line">		FloatList float_list = <span class="number">2</span>;</span><br><span class="line">		Int64List int64_list = <span class="number">3</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>#图像数据处理</p>
+<h2 id="Tensorflow图像处理函数"><a href="#Tensorflow图像处理函数" class="headerlink" title="Tensorflow图像处理函数"></a>Tensorflow图像处理函数</h2><p>&lt; * 图像编码处理<br>Tensorflow处理图像时，将图像视为矩阵，然而图像在存储时并不直接记录这些矩阵中的数字，而是记录经过压缩编码后的结果。所以要将一张图片还原成一个三维矩阵，需要解码的过程。TF提供了对jpeg和png格式图像的编码/解码函数。 在读入图像时，要使用解码函数才能得到三维矩阵；在保存图像时，需要使用编码函数才能将三维矩阵转换为需要的编码格式。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 读入图像的原始数据  </span></span><br><span class="line">image_raw_data = tf.gfile.FastGFile(<span class="string">"F:/input.jpeg"</span>, <span class="string">'rb'</span>).read()</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 将图像使用jpeg的格式解码从而得到图像对应的三维矩阵，解码之后的结果为一个张量  </span></span><br><span class="line">img_data = tf.image.decode_jpeg(image_raw_data)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 将数据的类型转换为8位无符号整型  </span></span><br><span class="line">img_data = tf.image.convert_image_dtype(img_data, dtype=tf.uint8)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 将表示一张图片的三维矩阵重新按照png格式编码并存入文件中。  </span></span><br><span class="line">encoder_png_image = tf.image.encode_png(img_data)  </span><br><span class="line"><span class="keyword">with</span> tf.gfile.GFile(<span class="string">"F:/output.png"</span>, <span class="string">'wb'</span>) <span class="keyword">as</span> f:  </span><br><span class="line">	f.write(encoder_png_image.eval())  </span><br><span class="line"><span class="comment"># 按照jpeg格式编码，保存 </span></span><br><span class="line">encoder_jpeg_image = tf.image.encode_png(img_data)  </span><br><span class="line"><span class="keyword">with</span> tf.gfile.GFile(<span class="string">"F:/output.jpeg"</span>, <span class="string">'wb'</span>) <span class="keyword">as</span> f:  </span><br><span class="line">	f.write(encoder_jpeg_image.eval())</span><br></pre></td></tr></table></figure>
+<p>&lt; * </p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/16/Tensorflow实战 - 卷积神经网络/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -804,7 +952,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
