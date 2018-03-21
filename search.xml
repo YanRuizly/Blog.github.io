@@ -3,7 +3,7 @@
   <entry>
     <title><![CDATA[Tensorflow实战 - 卷积神经网络]]></title>
     <url>%2F2018%2F03%2F21%2FTensorflow%E5%AE%9E%E6%88%98%20-%20%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BE%93%E5%85%A5%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86%E6%A1%86%E6%9E%B6%2F</url>
-    <content type="text"><![CDATA[多线程输入数据处理框架为了避免图像预处理成为神经网络模型训练效率的瓶颈。 经典输入数据处理流程图123456op=&gt;operation: 指定原始数据的文件列表op2=&gt;operation: 创建文件列表队列op3=&gt;operation: 从文件中读取数据op4=&gt;operation: 数据预处理op5=&gt;operation: 整理成Batch作为神经网络输入op-&gt;op2-&gt;op3-&gt;op4-&gt;op5 队列与多线程队列 FIFOQueue先进先出队列 RandomShuffleQueue随机队列 多线程 tf.Coordinator协同多线程一起停止123@should_stop@request_stop@join tf.QueueRunner启动多个线程来操作同一个队列]]></content>
+    <content type="text"><![CDATA[多线程输入数据处理框架为了避免图像预处理成为神经网络模型训练效率的瓶颈。 经典输入数据处理流程图123456op=&gt;operation: 指定原始数据的文件列表op2=&gt;operation: 创建文件列表队列op3=&gt;operation: 从文件中读取数据op4=&gt;operation: 数据预处理op5=&gt;operation: 整理成Batch作为神经网络输入op-&gt;op2-&gt;op3-&gt;op4-&gt;op5 队列与多线程队列 FIFOQueue先进先出队列 RandomShuffleQueue随机队列 多线程 tf.Coordinator协同多线程一起停止123@should_stop@request_stop@join tf.QueueRunner启动多个线程来操作同一个队列 输入文件队列tf.train.match_filenames_once函数来获取符合一个正则表达式的所有文件tf.train.string_input_producer函数管理文件列表]]></content>
       <categories>
         <category>深度学习</category>
       </categories>
