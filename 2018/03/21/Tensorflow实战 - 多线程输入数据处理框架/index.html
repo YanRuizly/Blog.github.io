@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="饲养员的博客">
 <meta property="og:description" content="多线程输入数据处理框架为了避免图像预处理成为神经网络模型训练效率的瓶颈。 经典输入数据处理流程图123456op=&amp;gt;operation: 指定原始数据的文件列表op2=&amp;gt;operation: 创建文件列表队列op3=&amp;gt;operation: 从文件中读取数据op4=&amp;gt;operation: 数据预处理op5=&amp;gt;operation: 整理成Batch作为神经网络输入op-&amp;">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-03-21T03:07:20.335Z">
+<meta property="og:updated_time" content="2018-03-21T04:49:23.191Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Tensorflow实战 - 卷积神经网络">
 <meta name="twitter:description" content="多线程输入数据处理框架为了避免图像预处理成为神经网络模型训练效率的瓶颈。 经典输入数据处理流程图123456op=&amp;gt;operation: 指定原始数据的文件列表op2=&amp;gt;operation: 创建文件列表队列op3=&amp;gt;operation: 从文件中读取数据op4=&amp;gt;operation: 数据预处理op5=&amp;gt;operation: 整理成Batch作为神经网络输入op-&amp;">
@@ -389,17 +389,23 @@
       
         <h1 id="多线程输入数据处理框架"><a href="#多线程输入数据处理框架" class="headerlink" title="多线程输入数据处理框架"></a>多线程输入数据处理框架</h1><p>为了避免图像预处理成为神经网络模型训练效率的瓶颈。</p>
 <h2 id="经典输入数据处理流程图"><a href="#经典输入数据处理流程图" class="headerlink" title="经典输入数据处理流程图"></a>经典输入数据处理流程图</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">op=&gt;operation: 指定原始数据的文件列表</span><br><span class="line">op2=&gt;operation: 创建文件列表队列</span><br><span class="line">op3=&gt;operation: 从文件中读取数据</span><br><span class="line">op4=&gt;operation: 数据预处理</span><br><span class="line">op5=&gt;operation: 整理成Batch作为神经网络输入</span><br><span class="line">op-&gt;op2-&gt;op3-&gt;op4-&gt;op5</span><br></pre></td></tr></table></figure>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">输入层 -&gt; (卷积层 +-&gt; 池化层？) +-&gt; 全连接层 +</span><br></pre></td></tr></table></figure>
-<h1 id="Inception-v3模型"><a href="#Inception-v3模型" class="headerlink" title="Inception-v3模型"></a>Inception-v3模型</h1><h2 id="Inception结构"><a href="#Inception结构" class="headerlink" title="Inception结构"></a>Inception结构</h2><p>将不同的卷积层通过并联的方式结合到一起</p>
-<h2 id="Inception-v3模型-1"><a href="#Inception-v3模型-1" class="headerlink" title="Inception-v3模型"></a>Inception-v3模型</h2><p>TensorFlow-Slim工具<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">net = slim.conv2d(输入节点矩阵, 当前卷积层过滤器的深度, 过滤器的尺寸)</span><br><span class="line">可选参数: 过滤器移动步长（stride）、是否使用全<span class="number">0</span>填充（padding=<span class="string">"SAME"</span>/<span class="string">"VALID"</span>）、激活函数选择、变量的命名空间</span><br></pre></td></tr></table></figure></p>
-<h1 id="计算"><a href="#计算" class="headerlink" title="计算"></a>计算</h1><blockquote>
+<h2 id="队列与多线程"><a href="#队列与多线程" class="headerlink" title="队列与多线程"></a>队列与多线程</h2><h3 id="队列"><a href="#队列" class="headerlink" title="队列"></a>队列</h3><blockquote>
 <ul>
-<li>矩阵大小的计算</li>
-<li>参数</li>
-<li>连接数</li>
+<li>FIFOQueue先进先出队列</li>
+<li>RandomShuffleQueue随机队列</li>
 </ul>
 </blockquote>
-<h1 id="迁移学习"><a href="#迁移学习" class="headerlink" title="迁移学习"></a>迁移学习</h1><p>将一个问题上训练好的模型通过简单的调整使其适用于一个新的问题。通过迁移学习，可以使用少量的训练数据在短时间内训练出效果还不错的神经网络。</p>
+<h3 id="多线程"><a href="#多线程" class="headerlink" title="多线程"></a>多线程</h3><blockquote>
+<ul>
+<li>tf.Coordinator协同多线程一起停止<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@should_stop</span></span><br><span class="line"><span class="meta">@request_stop</span></span><br><span class="line"><span class="meta">@join</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li>tf.QueueRunner启动多个线程来操作同一个队列</li>
+</ul>
+</blockquote>
 
       
     </div>
@@ -574,7 +580,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#多线程输入数据处理框架"><span class="nav-number">1.</span> <span class="nav-text">多线程输入数据处理框架</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#经典输入数据处理流程图"><span class="nav-number">1.1.</span> <span class="nav-text">经典输入数据处理流程图</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Inception-v3模型"><span class="nav-number">2.</span> <span class="nav-text">Inception-v3模型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Inception结构"><span class="nav-number">2.1.</span> <span class="nav-text">Inception结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Inception-v3模型-1"><span class="nav-number">2.2.</span> <span class="nav-text">Inception-v3模型</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#计算"><span class="nav-number">3.</span> <span class="nav-text">计算</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#迁移学习"><span class="nav-number">4.</span> <span class="nav-text">迁移学习</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#多线程输入数据处理框架"><span class="nav-number">1.</span> <span class="nav-text">多线程输入数据处理框架</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#经典输入数据处理流程图"><span class="nav-number">1.1.</span> <span class="nav-text">经典输入数据处理流程图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#队列与多线程"><span class="nav-number">1.2.</span> <span class="nav-text">队列与多线程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#队列"><span class="nav-number">1.2.1.</span> <span class="nav-text">队列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多线程"><span class="nav-number">1.2.2.</span> <span class="nav-text">多线程</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
