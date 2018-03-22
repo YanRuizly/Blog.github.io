@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[Tensorflow实战 - 循环神经网络]]></title>
+    <url>%2F2018%2F03%2F22%2FTensorflow%E5%AE%9E%E6%88%98%20-%20%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%2F</url>
+    <content type="text"><![CDATA[循环神经网络(RNN)长短时记忆网络结构(LTSM)]]></content>
+      <categories>
+        <category>深度学习</category>
+      </categories>
+      <tags>
+        <tag>深度学习</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[Tensorflow实战 - 多线程输入数据处理框架]]></title>
     <url>%2F2018%2F03%2F21%2FTensorflow%E5%AE%9E%E6%88%98%20-%20%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BE%93%E5%85%A5%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86%E6%A1%86%E6%9E%B6%2F</url>
     <content type="text"><![CDATA[多线程输入数据处理框架为了避免图像预处理成为神经网络模型训练效率的瓶颈。 经典输入数据处理流程图123456op=&gt;operation: 指定原始数据的文件列表op2=&gt;operation: 创建文件列表队列op3=&gt;operation: 从文件中读取数据op4=&gt;operation: 数据预处理op5=&gt;operation: 整理成Batch作为神经网络输入op-&gt;op2-&gt;op3-&gt;op4-&gt;op5 队列与多线程队列 FIFOQueue先进先出队列 RandomShuffleQueue随机队列 多线程 tf.Coordinator协同多线程一起停止123@should_stop@request_stop@join tf.QueueRunner启动多个线程来操作同一个队列 输入文件队列 tf.train.match_filenames_once函数来获取符合一个正则表达式的所有文件 tf.train.string_input_producer函数管理文件列表123456789101112131415161718192021222324252627# 样例代码import tensorflow as tf# 使用tf.train.match_filenames_once函数获取文件列表files = tf.train.match_filenames_once("Records/data.tfrecords-*")# 通过tf.train.string_input_producer函数创建输入队列，输入队列的文件列表为tf.train.match_filenames_once函数获取的文件列表，shuffle参数设置为False来避免随机打乱读取文件的顺序。一般情况下设置为Truefilename_queue = tf.train.string_input_producer(files, shuffle=False) # 读取并解析一个样本reader = tf.TFRecordReader()_, serialized_example = reader.read(filename_queue)features = tf.parse_single_example( serialized_example, features=&#123; 'i': tf.FixedLenFeature([], tf.int64), 'j': tf.FixedLenFeature([], tf.int64), &#125;)with tf.Session() as sess:# 使用tf.train.match_filenames_once函数时需要初始化一些变量 tf.global_variables_initializer().run() print sess.run(files)# 声明tf.train.Coordinator类来协同不同线程，并启动线程 coord = tf.train.Coordinator() threads = tf.train.start_queue_runners(sess=sess, coord=coord)# 多次执行获取数据的操作 for i in range(6): print sess.run([features['i'], features['j']]) coord.request_stop() coord.join(threads) 组合训练数据(batching)将多个输入样例组织成一个batch可以提高模型训练的效率，所以在得到单个样例的预处理结果之后，还需要将它们组织成batch，然后再提供给神经网络的输入层 tf.train.batch tf.train.shuffle_batch1234567# [example ,label]参数给出了需要组合的元素，一般example和label分别代表训练样本和这个样本对应的正确标签。batch_size参数给出了每个batch中样例的个数。capacity给出了队列的最大容量。队列长度 = 容量，TF将暂停入队，等待元素出队。元素个数 &lt; 容量，TF将重新启动入队example_batch, label_batch = tf.train.batch([example , label],batch_size = batch_size , capacity = capacity)# min_after_dequeue参数限制了出队时队列中元素的最少个数。当队列中元素太少时，随机打乱样例顺序的作用就不大了example_batch, label_batch = tf.train.shuffle_batch([example , label],batch_size = batch_size , capacity = capacity , min_after_dequeue = 30)# 并行化处理输入数据的方法指定num_thread参数 &gt; 1，多个线程会同时读取一个文件中的不同样例并进行预处理。多线程处理不同文件，使用tf.train.shuffle_batch_join函数 输入数据处理框架]]></content>
@@ -26,17 +37,6 @@
     <title><![CDATA[Tensorflow实战 - 卷积神经网络]]></title>
     <url>%2F2018%2F03%2F16%2FTensorflow%E5%AE%9E%E6%88%98%20-%20%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%2F</url>
     <content type="text"><![CDATA[经典卷积神经网络模型LeNet5模型 第一层，卷积层 第二层，池化层 第三层，卷积层 第四层，池化层 第五层，全连接层 第六层，全连接层 第七层，全连接层 1输入层 -&gt; (卷积层 +-&gt; 池化层？) +-&gt; 全连接层 + Inception-v3模型Inception结构将不同的卷积层通过并联的方式结合到一起 Inception-v3模型TensorFlow-Slim工具12net = slim.conv2d(输入节点矩阵, 当前卷积层过滤器的深度, 过滤器的尺寸)可选参数: 过滤器移动步长（stride）、是否使用全0填充（padding="SAME"/"VALID"）、激活函数选择、变量的命名空间 计算 矩阵大小的计算 参数 连接数 迁移学习将一个问题上训练好的模型通过简单的调整使其适用于一个新的问题。通过迁移学习，可以使用少量的训练数据在短时间内训练出效果还不错的神经网络。]]></content>
-      <categories>
-        <category>深度学习</category>
-      </categories>
-      <tags>
-        <tag>深度学习</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[Tensorflow实战 - 循环神经网络]]></title>
-    <url>%2F2018%2F03%2F16%2FTensorflow%E5%AE%9E%E6%88%98%20-%20%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%2F</url>
-    <content type="text"><![CDATA[循环神经网络(RNN)长短时记忆网络结构(LTSM)]]></content>
       <categories>
         <category>深度学习</category>
       </categories>
