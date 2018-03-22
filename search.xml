@@ -1,133 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<search> 
-  
-    
-    <entry>
-      <title>Tensorflow实战 - 循环神经网络</title>
-      <link href="/2018/03/22/Tensorflow%E5%AE%9E%E6%88%98%20-%20%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/"/>
-      <content type="html"><![CDATA[<h1 id="循环神经网络-RNN"><a href="#循环神经网络-RNN" class="headerlink" title="循环神经网络(RNN)"></a>循环神经网络(RNN)</h1><h1 id="长短时记忆网络结构-LTSM"><a href="#长短时记忆网络结构-LTSM" class="headerlink" title="长短时记忆网络结构(LTSM)"></a>长短时记忆网络结构(LTSM)</h1><p>LSTM单元结构示意图<br><img src="/images/4.png" alt="cmd-markdown-logo"></p><blockquote><ul><li>遗忘门</li><li>输入门</li><li>输出门</li></ul></blockquote>]]></content>
-      
+<search>
+  <entry>
+    <title><![CDATA[Tensorflow实战 - 循环神经网络]]></title>
+    <url>%2F2018%2F03%2F22%2FTensorflow%E5%AE%9E%E6%88%98%20-%20%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%2F</url>
+    <content type="text"><![CDATA[循环神经网络(RNN)长短时记忆网络结构(LTSM)LSTM单元结构示意图 遗忘门 输入门 输出门 循环神经网络的变种双向循环神经网络深层循环神经网络循环神经网络的dropout循环神经网络样例应用自然语言建模时序预测]]></content>
       <categories>
-          
-          <category> 深度学习 </category>
-          
+        <category>深度学习</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> 深度学习 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    <entry>
-      <title>Tensorflow实战 - 多线程输入数据处理框架</title>
-      <link href="/2018/03/21/Tensorflow%E5%AE%9E%E6%88%98%20-%20%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BE%93%E5%85%A5%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86%E6%A1%86%E6%9E%B6/"/>
-      <content type="html"><![CDATA[<h1 id="多线程输入数据处理框架"><a href="#多线程输入数据处理框架" class="headerlink" title="多线程输入数据处理框架"></a>多线程输入数据处理框架</h1><p>为了避免图像预处理成为神经网络模型训练效率的瓶颈。</p><h2 id="经典输入数据处理流程图"><a href="#经典输入数据处理流程图" class="headerlink" title="经典输入数据处理流程图"></a>经典输入数据处理流程图</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">op=&gt;operation: 指定原始数据的文件列表</span><br><span class="line">op2=&gt;operation: 创建文件列表队列</span><br><span class="line">op3=&gt;operation: 从文件中读取数据</span><br><span class="line">op4=&gt;operation: 数据预处理</span><br><span class="line">op5=&gt;operation: 整理成Batch作为神经网络输入</span><br><span class="line">op-&gt;op2-&gt;op3-&gt;op4-&gt;op5</span><br></pre></td></tr></table></figure><h2 id="队列与多线程"><a href="#队列与多线程" class="headerlink" title="队列与多线程"></a>队列与多线程</h2><h3 id="队列"><a href="#队列" class="headerlink" title="队列"></a>队列</h3><blockquote><ul><li>FIFOQueue先进先出队列</li><li>RandomShuffleQueue随机队列</li></ul></blockquote><h3 id="多线程"><a href="#多线程" class="headerlink" title="多线程"></a>多线程</h3><blockquote><ul><li>tf.Coordinator协同多线程一起停止<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@should_stop</span></span><br><span class="line"><span class="meta">@request_stop</span></span><br><span class="line"><span class="meta">@join</span></span><br></pre></td></tr></table></figure></li></ul></blockquote><blockquote><ul><li>tf.QueueRunner启动多个线程来操作同一个队列</li></ul></blockquote><h2 id="输入文件队列"><a href="#输入文件队列" class="headerlink" title="输入文件队列"></a>输入文件队列</h2><blockquote><ul><li>tf.train.match_filenames_once函数来获取符合一个正则表达式的所有文件</li><li>tf.train.string_input_producer函数管理文件列表<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 样例代码</span></span><br><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"><span class="comment"># 使用tf.train.match_filenames_once函数获取文件列表</span></span><br><span class="line">files = tf.train.match_filenames_once(<span class="string">"Records/data.tfrecords-*"</span>)</span><br><span class="line"><span class="comment"># 通过tf.train.string_input_producer函数创建输入队列，输入队列的文件列表为tf.train.match_filenames_once函数获取的文件列表，shuffle参数设置为False来避免随机打乱读取文件的顺序。一般情况下设置为True</span></span><br><span class="line">filename_queue = tf.train.string_input_producer(files, shuffle=<span class="keyword">False</span>) </span><br><span class="line"><span class="comment"># 读取并解析一个样本</span></span><br><span class="line">reader = tf.TFRecordReader()</span><br><span class="line">_, serialized_example = reader.read(filename_queue)</span><br><span class="line">features = tf.parse_single_example(</span><br><span class="line">      serialized_example,</span><br><span class="line">      features=&#123;</span><br><span class="line">          <span class="string">'i'</span>: tf.FixedLenFeature([], tf.int64),</span><br><span class="line">          <span class="string">'j'</span>: tf.FixedLenFeature([], tf.int64),</span><br><span class="line">      &#125;)</span><br><span class="line"><span class="keyword">with</span> tf.Session() <span class="keyword">as</span> sess:</span><br><span class="line"><span class="comment"># 使用tf.train.match_filenames_once函数时需要初始化一些变量</span></span><br><span class="line">    tf.global_variables_initializer().run()</span><br><span class="line">    <span class="keyword">print</span> sess.run(files)</span><br><span class="line"><span class="comment"># 声明tf.train.Coordinator类来协同不同线程，并启动线程</span></span><br><span class="line">    coord = tf.train.Coordinator()</span><br><span class="line">    threads = tf.train.start_queue_runners(sess=sess, coord=coord)</span><br><span class="line"><span class="comment"># 多次执行获取数据的操作</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">6</span>):</span><br><span class="line">        <span class="keyword">print</span> sess.run([features[<span class="string">'i'</span>], features[<span class="string">'j'</span>]])</span><br><span class="line">    coord.request_stop()</span><br><span class="line">    coord.join(threads)</span><br></pre></td></tr></table></figure></li></ul></blockquote><h2 id="组合训练数据-batching"><a href="#组合训练数据-batching" class="headerlink" title="组合训练数据(batching)"></a>组合训练数据(batching)</h2><p>将多个输入样例组织成一个batch可以提高模型训练的效率，所以在得到单个样例的预处理结果之后，还需要将它们组织成batch，然后再提供给神经网络的输入层</p><blockquote><ul><li>tf.train.batch</li><li>tf.train.shuffle_batch<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># [example ,label]参数给出了需要组合的元素，一般example和label分别代表训练样本和这个样本对应的正确标签。batch_size参数给出了每个batch中样例的个数。capacity给出了队列的最大容量。队列长度 = 容量，TF将暂停入队，等待元素出队。元素个数 &lt; 容量，TF将重新启动入队</span></span><br><span class="line">example_batch, label_batch = tf.train.batch([example , label],batch_size = batch_size , capacity = capacity)</span><br><span class="line"><span class="comment"># min_after_dequeue参数限制了出队时队列中元素的最少个数。当队列中元素太少时，随机打乱样例顺序的作用就不大了</span></span><br><span class="line">example_batch, label_batch = tf.train.shuffle_batch([example , label],batch_size = batch_size , capacity = capacity , min_after_dequeue = <span class="number">30</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 并行化处理输入数据的方法</span></span><br><span class="line">指定num_thread参数 &gt; <span class="number">1</span>，多个线程会同时读取一个文件中的不同样例并进行预处理。多线程处理不同文件，使用tf.train.shuffle_batch_join函数</span><br></pre></td></tr></table></figure></li></ul></blockquote><h2 id="输入数据处理框架"><a href="#输入数据处理框架" class="headerlink" title="输入数据处理框架"></a>输入数据处理框架</h2><p><img src="" alt="cmd-markdown-logo"></p>]]></content>
-      
+      <tags>
+        <tag>深度学习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Tensorflow实战 - 多线程输入数据处理框架]]></title>
+    <url>%2F2018%2F03%2F21%2FTensorflow%E5%AE%9E%E6%88%98%20-%20%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BE%93%E5%85%A5%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86%E6%A1%86%E6%9E%B6%2F</url>
+    <content type="text"><![CDATA[多线程输入数据处理框架为了避免图像预处理成为神经网络模型训练效率的瓶颈。 经典输入数据处理流程图123456op=&gt;operation: 指定原始数据的文件列表op2=&gt;operation: 创建文件列表队列op3=&gt;operation: 从文件中读取数据op4=&gt;operation: 数据预处理op5=&gt;operation: 整理成Batch作为神经网络输入op-&gt;op2-&gt;op3-&gt;op4-&gt;op5 队列与多线程队列 FIFOQueue先进先出队列 RandomShuffleQueue随机队列 多线程 tf.Coordinator协同多线程一起停止123@should_stop@request_stop@join tf.QueueRunner启动多个线程来操作同一个队列 输入文件队列 tf.train.match_filenames_once函数来获取符合一个正则表达式的所有文件 tf.train.string_input_producer函数管理文件列表123456789101112131415161718192021222324252627# 样例代码import tensorflow as tf# 使用tf.train.match_filenames_once函数获取文件列表files = tf.train.match_filenames_once("Records/data.tfrecords-*")# 通过tf.train.string_input_producer函数创建输入队列，输入队列的文件列表为tf.train.match_filenames_once函数获取的文件列表，shuffle参数设置为False来避免随机打乱读取文件的顺序。一般情况下设置为Truefilename_queue = tf.train.string_input_producer(files, shuffle=False) # 读取并解析一个样本reader = tf.TFRecordReader()_, serialized_example = reader.read(filename_queue)features = tf.parse_single_example( serialized_example, features=&#123; 'i': tf.FixedLenFeature([], tf.int64), 'j': tf.FixedLenFeature([], tf.int64), &#125;)with tf.Session() as sess:# 使用tf.train.match_filenames_once函数时需要初始化一些变量 tf.global_variables_initializer().run() print sess.run(files)# 声明tf.train.Coordinator类来协同不同线程，并启动线程 coord = tf.train.Coordinator() threads = tf.train.start_queue_runners(sess=sess, coord=coord)# 多次执行获取数据的操作 for i in range(6): print sess.run([features['i'], features['j']]) coord.request_stop() coord.join(threads) 组合训练数据(batching)将多个输入样例组织成一个batch可以提高模型训练的效率，所以在得到单个样例的预处理结果之后，还需要将它们组织成batch，然后再提供给神经网络的输入层 tf.train.batch tf.train.shuffle_batch1234567# [example ,label]参数给出了需要组合的元素，一般example和label分别代表训练样本和这个样本对应的正确标签。batch_size参数给出了每个batch中样例的个数。capacity给出了队列的最大容量。队列长度 = 容量，TF将暂停入队，等待元素出队。元素个数 &lt; 容量，TF将重新启动入队example_batch, label_batch = tf.train.batch([example , label],batch_size = batch_size , capacity = capacity)# min_after_dequeue参数限制了出队时队列中元素的最少个数。当队列中元素太少时，随机打乱样例顺序的作用就不大了example_batch, label_batch = tf.train.shuffle_batch([example , label],batch_size = batch_size , capacity = capacity , min_after_dequeue = 30)# 并行化处理输入数据的方法指定num_thread参数 &gt; 1，多个线程会同时读取一个文件中的不同样例并进行预处理。多线程处理不同文件，使用tf.train.shuffle_batch_join函数 输入数据处理框架]]></content>
       <categories>
-          
-          <category> 深度学习 </category>
-          
+        <category>深度学习</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> 深度学习 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    <entry>
-      <title>Tensorflow实战 - 图像数据处理</title>
-      <link href="/2018/03/20/Tensorflow%E5%AE%9E%E6%88%98%20-%20%E5%9B%BE%E5%83%8F%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/"/>
-      <content type="html"><![CDATA[<h1 id="TFRecord输入数据格式"><a href="#TFRecord输入数据格式" class="headerlink" title="TFRecord输入数据格式"></a>TFRecord输入数据格式</h1><h2 id="TFRecord格式介绍"><a href="#TFRecord格式介绍" class="headerlink" title="TFRecord格式介绍"></a>TFRecord格式介绍</h2><p>tf.train.Example Protocol Buffer的格式存储<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">message Example &#123;</span><br><span class="line">Feature features = <span class="number">1</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">message Feature &#123;</span><br><span class="line">map&lt;String, Feature&gt; features = <span class="number">1</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">message Feature &#123;</span><br><span class="line">oneof kind &#123;</span><br><span class="line">BytesList bytes_list = <span class="number">1</span>;</span><br><span class="line">FloatList float_list = <span class="number">2</span>;</span><br><span class="line">Int64List int64_list = <span class="number">3</span>;</span><br><span class="line">&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p><h1 id="图像数据处理"><a href="#图像数据处理" class="headerlink" title="图像数据处理"></a>图像数据处理</h1><p>使用图像预处理的方法可以减小无关因素对图像识别模型效果的影响</p><h2 id="Tensorflow图像处理函数"><a href="#Tensorflow图像处理函数" class="headerlink" title="Tensorflow图像处理函数"></a>Tensorflow图像处理函数</h2><h3 id="图像编码处理"><a href="#图像编码处理" class="headerlink" title="图像编码处理"></a>图像编码处理</h3><p>Tensorflow处理图像时，将图像视为矩阵，然而图像在存储时并不直接记录这些矩阵中的数字，而是记录经过压缩编码后的结果。所以要将一张图片还原成一个三维矩阵，需要解码的过程。TF提供了对jpeg和png格式图像的编码/解码函数。 在读入图像时，要使用解码函数才能得到三维矩阵；在保存图像时，需要使用编码函数才能将三维矩阵转换为需要的编码格式。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 读入图像的原始数据  </span></span><br><span class="line">image_raw_data = tf.gfile.FastGFile(<span class="string">"F:/input.jpeg"</span>, <span class="string">'rb'</span>).read()  </span><br><span class="line"></span><br><span class="line"><span class="comment"># 将图像使用jpeg的格式解码从而得到图像对应的三维矩阵，解码之后的结果为一个张量  </span></span><br><span class="line">img_data = tf.image.decode_jpeg(image_raw_data)  </span><br><span class="line"></span><br><span class="line"><span class="comment"># 将数据的类型转换为8位无符号整型  </span></span><br><span class="line">img_data = tf.image.convert_image_dtype(img_data, dtype=tf.uint8)  </span><br><span class="line"></span><br><span class="line"><span class="comment"># 将表示一张图片的三维矩阵重新按照png格式编码并存入文件中。  </span></span><br><span class="line">encoder_png_image = tf.image.encode_png(img_data)  </span><br><span class="line"><span class="keyword">with</span> tf.gfile.GFile(<span class="string">"F:/output.png"</span>, <span class="string">'wb'</span>) <span class="keyword">as</span> f:  </span><br><span class="line">f.write(encoder_png_image.eval())  </span><br><span class="line"></span><br><span class="line"><span class="comment"># 按照jpeg格式编码，保存 </span></span><br><span class="line">encoder_jpeg_image = tf.image.encode_png(img_data)  </span><br><span class="line"><span class="keyword">with</span> tf.gfile.GFile(<span class="string">"F:/output.jpeg"</span>, <span class="string">'wb'</span>) <span class="keyword">as</span> f:  </span><br><span class="line">f.write(encoder_jpeg_image.eval())</span><br></pre></td></tr></table></figure></p><h3 id="图像大小调整"><a href="#图像大小调整" class="headerlink" title="图像大小调整"></a>图像大小调整</h3><p>神经网络输入节点的个数是固定的，所以在将图像的像素作为输入提供给神经网络之前，需要将图像的大小统一。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">tf.image.resize_images(param1,param2,param3，method)</span><br><span class="line"><span class="meta">@param1 原始图像</span></span><br><span class="line"><span class="meta">@param2、@param3 调整后图像的大小 </span></span><br><span class="line"><span class="meta">@method 调整图像大小的算法</span></span><br></pre></td></tr></table></figure></p><p>tf.image.resize_images函数的method参数取值对应算法<br>| method取值        | 图像大小调整算法   |<br>| ——–   | —–:  |<br>| 0          | 双线性插值法(Bilinear interpolation) |<br>| 1          | 最近邻居法(Nearest neighbor interpolation)   |<br>| 2          | 双三次插值法(Bicubic interpolation)    |<br>| 3          | 面积插值法(Area interpolation)    | </p><p>图像的裁剪和填充<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 裁剪或者填充图像中间区域</span></span><br><span class="line">tf.image.resize_image_with_crop_or_pad(param1,param2,param3)</span><br><span class="line"><span class="meta">@param1 原始图像</span></span><br><span class="line"><span class="meta">@param2、@param3 调整后图像的大小 </span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 裁剪或者填充给定区域的图像</span></span><br><span class="line">tf.image.crop_to_bounding_box(param2 * param3 &lt; 原始图像尺寸)</span><br><span class="line">tf.image.pad_to_bounding_box</span><br></pre></td></tr></table></figure></p><h3 id="图像翻转"><a href="#图像翻转" class="headerlink" title="图像翻转"></a>图像翻转</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 图像上下翻转</span></span><br><span class="line">flipped = tf.image.flip_up_down(img_data)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 图像左右翻转</span></span><br><span class="line">flipped = tf.image.flip_left_right(img_data)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 图像沿对角线翻转</span></span><br><span class="line">transposed = tf.image.transpose_image(img_data)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 以一定概率上下翻转</span></span><br><span class="line">flipped = tf.image.random_flip_up_down(img_data)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 以一定概率左右翻转</span></span><br><span class="line">flipped = tf.image.random_flip_left_right(img_data)</span><br></pre></td></tr></table></figure><h3 id="图像色彩调整"><a href="#图像色彩调整" class="headerlink" title="图像色彩调整"></a>图像色彩调整</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 将图像的亮度+(-)a</span></span><br><span class="line">adjusted = tf.image.adjust_brightness(img_data, +(-)a)</span><br><span class="line"><span class="comment"># 在[-max_data, max_data]的范围随机调整图像的亮度</span></span><br><span class="line">adjusted = tf.image.random_brightness(image, max_delta)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将图像的对比度+(-)a</span></span><br><span class="line">adjusted = tf.image.adjust_contrast(img_data, +(-)a)</span><br><span class="line"><span class="comment"># 在[lower, upper]的范围内随机调整图的对比度</span></span><br><span class="line">adjusted = tf.image.random_contrast(image, lower, upper)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 调整图像的色相</span></span><br><span class="line">adjusted = tf.image.adjust_hue(ima_data , a)</span><br><span class="line"><span class="comment"># 在[-max_delta , max_delta]的范围内随机调整图像的色相</span></span><br><span class="line"><span class="comment"># max_delta的取值在[0, 0.5]之间</span></span><br><span class="line">adjusted = tf.image.random_hue(image , max_delta)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 调整图像的饱和度</span></span><br><span class="line">adjusted = tf.image.adjust_saturation(img_data , a)</span><br><span class="line">adjusted = tf.image.random_saturation(image , lower , upper)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 图像标准化</span></span><br><span class="line">adjusted = tf.image.per_image_whitening(img_data)</span><br><span class="line">调整亮度均值为<span class="number">0</span>，方差为<span class="number">1</span></span><br></pre></td></tr></table></figure><h3 id="处理标注框"><a href="#处理标注框" class="headerlink" title="处理标注框"></a>处理标注框</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 加入标注框</span></span><br><span class="line">tf.image.draw_bounding_boxes</span><br><span class="line"></span><br><span class="line"><span class="comment">#随机截取图像</span></span><br><span class="line">tf.image.sample_distored_bounding_box</span><br></pre></td></tr></table></figure>]]></content>
-      
+      <tags>
+        <tag>深度学习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Tensorflow实战 - 图像数据处理]]></title>
+    <url>%2F2018%2F03%2F20%2FTensorflow%E5%AE%9E%E6%88%98%20-%20%E5%9B%BE%E5%83%8F%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86%2F</url>
+    <content type="text"><![CDATA[TFRecord输入数据格式TFRecord格式介绍tf.train.Example Protocol Buffer的格式存储123456789101112131415message Example &#123; Feature features = 1;&#125;;message Feature &#123; map&lt;String, Feature&gt; features = 1;&#125;;message Feature &#123; oneof kind &#123; BytesList bytes_list = 1; FloatList float_list = 2; Int64List int64_list = 3; &#125;&#125;; 图像数据处理使用图像预处理的方法可以减小无关因素对图像识别模型效果的影响 Tensorflow图像处理函数图像编码处理Tensorflow处理图像时，将图像视为矩阵，然而图像在存储时并不直接记录这些矩阵中的数字，而是记录经过压缩编码后的结果。所以要将一张图片还原成一个三维矩阵，需要解码的过程。TF提供了对jpeg和png格式图像的编码/解码函数。 在读入图像时，要使用解码函数才能得到三维矩阵；在保存图像时，需要使用编码函数才能将三维矩阵转换为需要的编码格式。123456789101112131415161718# 读入图像的原始数据 image_raw_data = tf.gfile.FastGFile("F:/input.jpeg", 'rb').read() # 将图像使用jpeg的格式解码从而得到图像对应的三维矩阵，解码之后的结果为一个张量 img_data = tf.image.decode_jpeg(image_raw_data) # 将数据的类型转换为8位无符号整型 img_data = tf.image.convert_image_dtype(img_data, dtype=tf.uint8) # 将表示一张图片的三维矩阵重新按照png格式编码并存入文件中。 encoder_png_image = tf.image.encode_png(img_data) with tf.gfile.GFile("F:/output.png", 'wb') as f: f.write(encoder_png_image.eval()) # 按照jpeg格式编码，保存 encoder_jpeg_image = tf.image.encode_png(img_data) with tf.gfile.GFile("F:/output.jpeg", 'wb') as f: f.write(encoder_jpeg_image.eval()) 图像大小调整神经网络输入节点的个数是固定的，所以在将图像的像素作为输入提供给神经网络之前，需要将图像的大小统一。1234tf.image.resize_images(param1,param2,param3，method)@param1 原始图像@param2、@param3 调整后图像的大小 @method 调整图像大小的算法 tf.image.resize_images函数的method参数取值对应算法| method取值 | 图像大小调整算法 || ——– | —–: || 0 | 双线性插值法(Bilinear interpolation) || 1 | 最近邻居法(Nearest neighbor interpolation) || 2 | 双三次插值法(Bicubic interpolation) || 3 | 面积插值法(Area interpolation) | 图像的裁剪和填充12345678# 裁剪或者填充图像中间区域tf.image.resize_image_with_crop_or_pad(param1,param2,param3)@param1 原始图像@param2、@param3 调整后图像的大小 # 裁剪或者填充给定区域的图像tf.image.crop_to_bounding_box(param2 * param3 &lt; 原始图像尺寸)tf.image.pad_to_bounding_box 图像翻转1234567891011121314# 图像上下翻转flipped = tf.image.flip_up_down(img_data)# 图像左右翻转flipped = tf.image.flip_left_right(img_data)# 图像沿对角线翻转transposed = tf.image.transpose_image(img_data)# 以一定概率上下翻转flipped = tf.image.random_flip_up_down(img_data)# 以一定概率左右翻转flipped = tf.image.random_flip_left_right(img_data) 图像色彩调整1234567891011121314151617181920212223# 将图像的亮度+(-)aadjusted = tf.image.adjust_brightness(img_data, +(-)a)# 在[-max_data, max_data]的范围随机调整图像的亮度adjusted = tf.image.random_brightness(image, max_delta)# 将图像的对比度+(-)aadjusted = tf.image.adjust_contrast(img_data, +(-)a)# 在[lower, upper]的范围内随机调整图的对比度adjusted = tf.image.random_contrast(image, lower, upper)# 调整图像的色相adjusted = tf.image.adjust_hue(ima_data , a)# 在[-max_delta , max_delta]的范围内随机调整图像的色相# max_delta的取值在[0, 0.5]之间adjusted = tf.image.random_hue(image , max_delta)# 调整图像的饱和度adjusted = tf.image.adjust_saturation(img_data , a)adjusted = tf.image.random_saturation(image , lower , upper)# 图像标准化adjusted = tf.image.per_image_whitening(img_data)调整亮度均值为0，方差为1 处理标注框12345# 加入标注框tf.image.draw_bounding_boxes#随机截取图像tf.image.sample_distored_bounding_box]]></content>
       <categories>
-          
-          <category> 深度学习 </category>
-          
+        <category>深度学习</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> 深度学习 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    <entry>
-      <title>Tensorflow实战 - 卷积神经网络</title>
-      <link href="/2018/03/16/Tensorflow%E5%AE%9E%E6%88%98%20-%20%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/"/>
-      <content type="html"><![CDATA[<h1 id="经典卷积神经网络模型"><a href="#经典卷积神经网络模型" class="headerlink" title="经典卷积神经网络模型"></a>经典卷积神经网络模型</h1><h2 id="LeNet5模型"><a href="#LeNet5模型" class="headerlink" title="LeNet5模型"></a>LeNet5模型</h2><blockquote><ul><li>第一层，卷积层</li><li>第二层，池化层</li><li>第三层，卷积层</li><li>第四层，池化层</li><li>第五层，全连接层</li><li>第六层，全连接层</li><li>第七层，全连接层</li></ul></blockquote><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">输入层 -&gt; (卷积层 +-&gt; 池化层？) +-&gt; 全连接层 +</span><br></pre></td></tr></table></figure><h1 id="Inception-v3模型"><a href="#Inception-v3模型" class="headerlink" title="Inception-v3模型"></a>Inception-v3模型</h1><h2 id="Inception结构"><a href="#Inception结构" class="headerlink" title="Inception结构"></a>Inception结构</h2><p>将不同的卷积层通过并联的方式结合到一起</p><h2 id="Inception-v3模型-1"><a href="#Inception-v3模型-1" class="headerlink" title="Inception-v3模型"></a>Inception-v3模型</h2><p>TensorFlow-Slim工具<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">net = slim.conv2d(输入节点矩阵, 当前卷积层过滤器的深度, 过滤器的尺寸)</span><br><span class="line">可选参数: 过滤器移动步长（stride）、是否使用全<span class="number">0</span>填充（padding=<span class="string">"SAME"</span>/<span class="string">"VALID"</span>）、激活函数选择、变量的命名空间</span><br></pre></td></tr></table></figure></p><h1 id="计算"><a href="#计算" class="headerlink" title="计算"></a>计算</h1><blockquote><ul><li>矩阵大小的计算</li><li>参数</li><li>连接数</li></ul></blockquote><h1 id="迁移学习"><a href="#迁移学习" class="headerlink" title="迁移学习"></a>迁移学习</h1><p>将一个问题上训练好的模型通过简单的调整使其适用于一个新的问题。通过迁移学习，可以使用少量的训练数据在短时间内训练出效果还不错的神经网络。</p>]]></content>
-      
+      <tags>
+        <tag>深度学习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Tensorflow实战 - 卷积神经网络]]></title>
+    <url>%2F2018%2F03%2F16%2FTensorflow%E5%AE%9E%E6%88%98%20-%20%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%2F</url>
+    <content type="text"><![CDATA[经典卷积神经网络模型LeNet5模型 第一层，卷积层 第二层，池化层 第三层，卷积层 第四层，池化层 第五层，全连接层 第六层，全连接层 第七层，全连接层 1输入层 -&gt; (卷积层 +-&gt; 池化层？) +-&gt; 全连接层 + Inception-v3模型Inception结构将不同的卷积层通过并联的方式结合到一起 Inception-v3模型TensorFlow-Slim工具12net = slim.conv2d(输入节点矩阵, 当前卷积层过滤器的深度, 过滤器的尺寸)可选参数: 过滤器移动步长（stride）、是否使用全0填充（padding="SAME"/"VALID"）、激活函数选择、变量的命名空间 计算 矩阵大小的计算 参数 连接数 迁移学习将一个问题上训练好的模型通过简单的调整使其适用于一个新的问题。通过迁移学习，可以使用少量的训练数据在短时间内训练出效果还不错的神经网络。]]></content>
       <categories>
-          
-          <category> 深度学习 </category>
-          
+        <category>深度学习</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> 深度学习 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    <entry>
-      <title>Tensorflow实战</title>
-      <link href="/2018/03/16/Tensorflow%E5%AE%9E%E6%88%98/"/>
-      <content type="html"><![CDATA[<h1 id="卷积神经网络"><a href="#卷积神经网络" class="headerlink" title="卷积神经网络"></a>卷积神经网络</h1><h2 id="卷积神经网络的结构"><a href="#卷积神经网络的结构" class="headerlink" title="卷积神经网络的结构"></a>卷积神经网络的结构</h2><blockquote><ul><li>输入层</li><li>卷积层</li><li>池化层</li><li>全连接层</li><li>Softmax层</li></ul></blockquote><h2 id="卷积层"><a href="#卷积层" class="headerlink" title="卷积层"></a>卷积层</h2><blockquote><ul><li>过滤器</li><li>内核</li></ul></blockquote><h2 id="池化层"><a href="#池化层" class="headerlink" title="池化层"></a>池化层</h2><p>池化层使用的过滤器只影响一个深度上的节点</p><blockquote><ul><li>最大池化层 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pool</span><br></pre></td></tr></table></figure></li></ul></blockquote><blockquote><ul><li>平均池化层</li><li>其他</li></ul></blockquote>]]></content>
-      
+      <tags>
+        <tag>深度学习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Tensorflow实战]]></title>
+    <url>%2F2018%2F03%2F16%2FTensorflow%E5%AE%9E%E6%88%98%2F</url>
+    <content type="text"><![CDATA[卷积神经网络卷积神经网络的结构 输入层 卷积层 池化层 全连接层 Softmax层 卷积层 过滤器 内核 池化层池化层使用的过滤器只影响一个深度上的节点 最大池化层 1pool 平均池化层 其他]]></content>
       <categories>
-          
-          <category> 深度学习 </category>
-          
+        <category>深度学习</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> 深度学习 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    <entry>
-      <title>Hello,Hexo</title>
-      <link href="/2018/03/16/Hello-Hexo/"/>
-      <content type="html"><![CDATA[]]></content>
-      
+      <tags>
+        <tag>深度学习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Hello,Hexo]]></title>
+    <url>%2F2018%2F03%2F16%2FHello-Hexo%2F</url>
+    <content type="text"></content>
       <categories>
-          
-          <category> 搭建博客 </category>
-          
+        <category>搭建博客</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> hexo </tag>
-            
-            <tag> github </tag>
-            
-            <tag> npm </tag>
-            
-            <tag> 基础 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-  
-  
+      <tags>
+        <tag>hexo</tag>
+        <tag>github</tag>
+        <tag>npm</tag>
+        <tag>基础</tag>
+      </tags>
+  </entry>
 </search>
