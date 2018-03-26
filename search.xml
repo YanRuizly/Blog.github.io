@@ -3,7 +3,7 @@
   <entry>
     <title><![CDATA[Tensorflow实战 - TensorBoard计算加速]]></title>
     <url>%2F2018%2F03%2F26%2FTensorflow%E5%AE%9E%E6%88%98%20-%20Tensorflow%E8%AE%A1%E7%AE%97%E5%8A%A0%E9%80%9F%2F</url>
-    <content type="text"><![CDATA[Tensorflow计算加速Tensorflow使用GPUtf.ConfigProto1234567tf.ConfigProto一般用在创建session的时候。用来对session进行参数配置with tf.Session(config = tf.ConfigProto(...),...)#tf.ConfigProto()的参数log_device_placement=True : 是否打印设备分配日志allow_soft_placement=True ： 如果你指定的设备不存在，允许TF自动分配设备tf.ConfigProto(log_device_placement=True,allow_soft_placement=True) 深度学习训练并行模式 异步模式 同步模式 多GPU并行]]></content>
+    <content type="text"><![CDATA[Tensorflow计算加速Tensorflow使用GPUtf.ConfigProto1234567tf.ConfigProto一般用在创建session的时候。用来对session进行参数配置with tf.Session(config = tf.ConfigProto(...),...)#tf.ConfigProto()的参数log_device_placement=True : 是否打印设备分配日志allow_soft_placement=True ： 如果你指定的设备不存在，允许TF自动分配设备tf.ConfigProto(log_device_placement=True,allow_soft_placement=True) 深度学习训练并行模式 异步模式 同步模式 多GPU并行分布式Tensorflow]]></content>
       <categories>
         <category>深度学习</category>
       </categories>
