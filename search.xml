@@ -3,7 +3,7 @@
   <entry>
     <title><![CDATA[Tensorflow实战 - 循环神经网络]]></title>
     <url>%2F2018%2F03%2F22%2FTensorflow%E5%AE%9E%E6%88%98%20-%20%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%2F</url>
-    <content type="text"><![CDATA[循环神经网络(RNN)长短时记忆网络结构(LTSM)LSTM单元结构示意图 遗忘门 输入门 输出门 循环神经网络的变种双向循环神经网络深层循环神经网络循环神经网络的dropout循环神经网络样例应用自然语言建模时序预测]]></content>
+    <content type="text"><![CDATA[循环神经网络(RNN)长短时记忆网络结构(LTSM)LSTM单元结构示意图 遗忘门 输入门 输出门 循环神经网络的变种双向循环神经网络深层循环神经网络循环神经网络的dropout循环神经网络样例应用自然语言建模数据预处理ptb_raw_data 读取PTB原始数据，并将单词转化为单词IDptb_iterator 截断并组织成batch 时序序列预测使用TFLean自定义模型tf.contrib.learn 预测正弦函数]]></content>
       <categories>
         <category>深度学习</category>
       </categories>
