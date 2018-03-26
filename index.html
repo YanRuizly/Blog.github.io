@@ -294,6 +294,297 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/26/Tensorflow实战 - Tensorflow计算加速/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="闫 锐">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/love.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="饲养员的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/26/Tensorflow实战 - Tensorflow计算加速/" itemprop="url">Tensorflow实战 - TensorBoard计算加速</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-26T15:00:03+08:00">
+                2018-03-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/深度学习/" itemprop="url" rel="index">
+                    <span itemprop="name">深度学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="TensorBoard计算加速"><a href="#TensorBoard计算加速" class="headerlink" title="TensorBoard计算加速"></a>TensorBoard计算加速</h1><h2 id="TensorBoard使用GPU"><a href="#TensorBoard使用GPU" class="headerlink" title="TensorBoard使用GPU"></a>TensorBoard使用GPU</h2><h3 id="tf-ConfigProto"><a href="#tf-ConfigProto" class="headerlink" title="tf.ConfigProto"></a>tf.ConfigProto</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">tf.ConfigProto一般用在创建session的时候。用来对session进行参数配置</span><br><span class="line"><span class="keyword">with</span> tf.Session(config = tf.ConfigProto(...),...)</span><br><span class="line"></span><br><span class="line"><span class="comment">#tf.ConfigProto()的参数</span></span><br><span class="line">log_device_placement=<span class="keyword">True</span> : 是否打印设备分配日志</span><br><span class="line">allow_soft_placement=<span class="keyword">True</span> ： 如果你指定的设备不存在，允许TF自动分配设备</span><br><span class="line">tf.ConfigProto(log_device_placement=<span class="keyword">True</span>,allow_soft_placement=<span class="keyword">True</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="深度学习训练并行模式"><a href="#深度学习训练并行模式" class="headerlink" title="深度学习训练并行模式"></a>深度学习训练并行模式</h2><blockquote>
+<ul>
+<li>异步模式</li>
+<li>同步模式</li>
+</ul>
+</blockquote>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/26/Tensorflow实战 - TensorBoard可视化/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="闫 锐">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/love.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="饲养员的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/26/Tensorflow实战 - TensorBoard可视化/" itemprop="url">Tensorflow实战 - TensorBoard可视化</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-26T10:57:03+08:00">
+                2018-03-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/深度学习/" itemprop="url" rel="index">
+                    <span itemprop="name">深度学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="TensorBoard简介"><a href="#TensorBoard简介" class="headerlink" title="TensorBoard简介"></a>TensorBoard简介</h1><p>通过Tensorflow程序运行过程中的输出的日志文件可视化Tensorflow程序的运行状态</p>
+<h2 id="TensorBoard日志输出"><a href="#TensorBoard日志输出" class="headerlink" title="TensorBoard日志输出"></a>TensorBoard日志输出</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line">input1 = tf.constant([<span class="number">1.0</span>,<span class="number">2.0</span>,<span class="number">3.0</span>], name=<span class="string">"input1"</span>)</span><br><span class="line">input2 = tf.Variable(tf.random_uniform([<span class="number">3</span>]),name=<span class="string">"input2"</span>)</span><br><span class="line">output = tf.add_n([input1,input2],name=<span class="string">"add"</span>)</span><br><span class="line">writer = tf.summary.FileWriter(<span class="string">"F://log"</span>,tf.get_default_graph())</span><br><span class="line">writer.close()</span><br></pre></td></tr></table></figure>
+<h2 id="TensorBoard服务启动"><a href="#TensorBoard服务启动" class="headerlink" title="TensorBoard服务启动"></a>TensorBoard服务启动</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tensorboard --logdir=F://log</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/22/Tensorflow实战 - 循环神经网络/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -771,169 +1062,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/16/Tensorflow实战 - 卷积神经网络/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="闫 锐">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/love.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="饲养员的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/16/Tensorflow实战 - 卷积神经网络/" itemprop="url">Tensorflow实战 - 卷积神经网络</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-16T14:57:03+08:00">
-                2018-03-16
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/深度学习/" itemprop="url" rel="index">
-                    <span itemprop="name">深度学习</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="经典卷积神经网络模型"><a href="#经典卷积神经网络模型" class="headerlink" title="经典卷积神经网络模型"></a>经典卷积神经网络模型</h1><h2 id="LeNet5模型"><a href="#LeNet5模型" class="headerlink" title="LeNet5模型"></a>LeNet5模型</h2><blockquote>
-<ul>
-<li>第一层，卷积层</li>
-<li>第二层，池化层</li>
-<li>第三层，卷积层</li>
-<li>第四层，池化层</li>
-<li>第五层，全连接层</li>
-<li>第六层，全连接层</li>
-<li>第七层，全连接层</li>
-</ul>
-</blockquote>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">输入层 -&gt; (卷积层 +-&gt; 池化层？) +-&gt; 全连接层 +</span><br></pre></td></tr></table></figure>
-<h1 id="Inception-v3模型"><a href="#Inception-v3模型" class="headerlink" title="Inception-v3模型"></a>Inception-v3模型</h1><h2 id="Inception结构"><a href="#Inception结构" class="headerlink" title="Inception结构"></a>Inception结构</h2><p>将不同的卷积层通过并联的方式结合到一起</p>
-<h2 id="Inception-v3模型-1"><a href="#Inception-v3模型-1" class="headerlink" title="Inception-v3模型"></a>Inception-v3模型</h2><p>TensorFlow-Slim工具<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">net = slim.conv2d(输入节点矩阵, 当前卷积层过滤器的深度, 过滤器的尺寸)</span><br><span class="line">可选参数: 过滤器移动步长（stride）、是否使用全<span class="number">0</span>填充（padding=<span class="string">"SAME"</span>/<span class="string">"VALID"</span>）、激活函数选择、变量的命名空间</span><br></pre></td></tr></table></figure></p>
-<h1 id="计算"><a href="#计算" class="headerlink" title="计算"></a>计算</h1><blockquote>
-<ul>
-<li>矩阵大小的计算</li>
-<li>参数</li>
-<li>连接数</li>
-</ul>
-</blockquote>
-<h1 id="迁移学习"><a href="#迁移学习" class="headerlink" title="迁移学习"></a>迁移学习</h1><p>将一个问题上训练好的模型通过简单的调整使其适用于一个新的问题。通过迁移学习，可以使用少量的训练数据在短时间内训练出效果还不错的神经网络。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/16/Tensorflow实战/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1055,6 +1183,169 @@
 <li>其他</li>
 </ul>
 </blockquote>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/16/Tensorflow实战 - 卷积神经网络/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="闫 锐">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/love.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="饲养员的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/16/Tensorflow实战 - 卷积神经网络/" itemprop="url">Tensorflow实战 - 卷积神经网络</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-16T14:57:03+08:00">
+                2018-03-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/深度学习/" itemprop="url" rel="index">
+                    <span itemprop="name">深度学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="经典卷积神经网络模型"><a href="#经典卷积神经网络模型" class="headerlink" title="经典卷积神经网络模型"></a>经典卷积神经网络模型</h1><h2 id="LeNet5模型"><a href="#LeNet5模型" class="headerlink" title="LeNet5模型"></a>LeNet5模型</h2><blockquote>
+<ul>
+<li>第一层，卷积层</li>
+<li>第二层，池化层</li>
+<li>第三层，卷积层</li>
+<li>第四层，池化层</li>
+<li>第五层，全连接层</li>
+<li>第六层，全连接层</li>
+<li>第七层，全连接层</li>
+</ul>
+</blockquote>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">输入层 -&gt; (卷积层 +-&gt; 池化层？) +-&gt; 全连接层 +</span><br></pre></td></tr></table></figure>
+<h1 id="Inception-v3模型"><a href="#Inception-v3模型" class="headerlink" title="Inception-v3模型"></a>Inception-v3模型</h1><h2 id="Inception结构"><a href="#Inception结构" class="headerlink" title="Inception结构"></a>Inception结构</h2><p>将不同的卷积层通过并联的方式结合到一起</p>
+<h2 id="Inception-v3模型-1"><a href="#Inception-v3模型-1" class="headerlink" title="Inception-v3模型"></a>Inception-v3模型</h2><p>TensorFlow-Slim工具<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">net = slim.conv2d(输入节点矩阵, 当前卷积层过滤器的深度, 过滤器的尺寸)</span><br><span class="line">可选参数: 过滤器移动步长（stride）、是否使用全<span class="number">0</span>填充（padding=<span class="string">"SAME"</span>/<span class="string">"VALID"</span>）、激活函数选择、变量的命名空间</span><br></pre></td></tr></table></figure></p>
+<h1 id="计算"><a href="#计算" class="headerlink" title="计算"></a>计算</h1><blockquote>
+<ul>
+<li>矩阵大小的计算</li>
+<li>参数</li>
+<li>连接数</li>
+</ul>
+</blockquote>
+<h1 id="迁移学习"><a href="#迁移学习" class="headerlink" title="迁移学习"></a>迁移学习</h1><p>将一个问题上训练好的模型通过简单的调整使其适用于一个新的问题。通过迁移学习，可以使用少量的训练数据在短时间内训练出效果还不错的神经网络。</p>
 
           
         
@@ -1281,7 +1572,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-count">8</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
