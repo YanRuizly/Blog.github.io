@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="饲养员的博客">
 <meta property="og:description" content="Tensorflow计算加速Tensorflow使用GPUtf.ConfigProto1234567tf.ConfigProto一般用在创建session的时候。用来对session进行参数配置with tf.Session(config = tf.ConfigProto(...),...)#tf.ConfigProto()的参数log_device_placement=True : 是否打印设备">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-03-26T07:13:03.397Z">
+<meta property="og:updated_time" content="2018-03-26T07:57:33.266Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Tensorflow实战 - TensorBoard计算加速">
 <meta name="twitter:description" content="Tensorflow计算加速Tensorflow使用GPUtf.ConfigProto1234567tf.ConfigProto一般用在创建session的时候。用来对session进行参数配置with tf.Session(config = tf.ConfigProto(...),...)#tf.ConfigProto()的参数log_device_placement=True : 是否打印设备">
@@ -394,7 +394,7 @@
 <li>同步模式</li>
 </ul>
 </blockquote>
-<h2 id="多GPU并行"><a href="#多GPU并行" class="headerlink" title="多GPU并行"></a>多GPU并行</h2><h2 id="分布式Tensorflow"><a href="#分布式Tensorflow" class="headerlink" title="分布式Tensorflow"></a>分布式Tensorflow</h2>
+<h2 id="多GPU并行"><a href="#多GPU并行" class="headerlink" title="多GPU并行"></a>多GPU并行</h2><h2 id="分布式Tensorflow"><a href="#分布式Tensorflow" class="headerlink" title="分布式Tensorflow"></a>分布式Tensorflow</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">tf.train.ClusterSpec(&#123;</span><br><span class="line">	<span class="string">"worker"</span>:[</span><br><span class="line">		<span class="string">"tf.worker0:2222"</span>,</span><br><span class="line">		<span class="string">"tf.worker1:2222"</span>,</span><br><span class="line">		<span class="string">"tf.worker2:2222"</span></span><br><span class="line">	],[</span><br><span class="line">	<span class="string">"ps"</span>:[</span><br><span class="line">		<span class="string">""</span></span><br><span class="line">	]&#125;)</span><br></pre></td></tr></table></figure>
       
     </div>
     
@@ -433,6 +433,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/03/27/Python学习/" rel="prev" title="Python学习">
+                Python学习 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -513,7 +517,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-count">9</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -524,7 +528,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">3</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -535,7 +539,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
