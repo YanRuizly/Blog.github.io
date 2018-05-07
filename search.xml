@@ -1,9 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title><![CDATA[Python学习]]></title>
-    <url>%2F2018%2F03%2F27%2FPython%E5%AD%A6%E4%B9%A0%2F</url>
+    <title><![CDATA[大数据]]></title>
+    <url>%2F2018%2F05%2F07%2F%E5%A4%A7%E6%95%B0%E6%8D%AE%2F</url>
     <content type="text"></content>
+      <categories>
+        <category>大数据</category>
+      </categories>
+      <tags>
+        <tag>大数据</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Tensorflow实战 - 模型持久化]]></title>
+    <url>%2F2018%2F04%2F03%2FTensorflow%E5%AE%9E%E6%88%98%20-%20%E6%A8%A1%E5%9E%8B%E6%8C%81%E4%B9%85%E5%8C%96%2F</url>
+    <content type="text"><![CDATA[持久化代码实现tf.train.Saver12saver = tf.train.Saver()saver.save( ... ) Tensorflow模型保存到ckpt文件中，生成三个文件model.ckpt.meta，保存计算图的结构model.ckpt，保存TF程序中每一个变量的取值checkpoint，保存了一个目录下所有的模型文件列表]]></content>
+      <categories>
+        <category>深度学习</category>
+      </categories>
+      <tags>
+        <tag>深度学习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Tensorflow高级API - TensorBoard计算加速]]></title>
+    <url>%2F2018%2F03%2F30%2FTensorflow%E9%AB%98%E7%BA%A7API%2F</url>
+    <content type="text"><![CDATA[对Dataset中的元素做变换Dataset支持一类特殊的操作：Transformation。一个Dataset通过Transformation变成一个新的Dataset。通常我们可以通过Transformation完成数据变换，打乱，组成batch，生成epoch等一系列操作。 常用的Transformation有： map batch shuffle repeat (1) mapmap接收一个函数，Dataset中的每个元素都会被当作这个函数的输入，并将函数返回值作为新的Dataset。 (2) batchbatch就是将多个元素组合成batch，如下面的程序将dataset中的每个元素组成了大小为32的batch：1dataset = dataset.batch(32) (3) shuffleshuffle的功能为打乱dataset中的元素，它有一个参数buffersize，表示打乱时使用的buffer的大小 (4) repeatrepeat的功能就是将整个序列重复多次，主要用来处理机器学习中的epoch，假设原先的数据是一个epoch，使用repeat(5)就可以将之变成5个epoch]]></content>
+      <categories>
+        <category>深度学习</category>
+      </categories>
+      <tags>
+        <tag>深度学习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Python学习 - 文件目录处理]]></title>
+    <url>%2F2018%2F03%2F27%2FPython%E5%AD%A6%E4%B9%A0%2F</url>
+    <content type="text"><![CDATA[OS模块Python os模块包含普遍的操作系统功能。如果你希望你的程序能够与平台无关的话，这个模块是尤为重要的。在自动化测试中，经常需要查找操作文件，比如说查找配置文件（从而读取配置文件的信息），查找测试报告（从而发送测试报告邮件），经常要对大量文件和大量路径进行操作，这就依赖于os模块 1.当前路径及路径下的文件os.getcwd()：查看当前所在路径。os.listdir(path):列举目录下的所有文件。返回的是列表类型。 2.绝对路径os.path.abspath(path):返回path的绝对路径。 3.查看路径的文件夹部分和文件名部分os.path.split(path):将路径分解为(文件夹,文件名)，返回的是元组类型。可以看出，若路径字符串最后一个字符是\,则只有文件夹部分有值；若路径字符串中均无\,则只有文件名部分有值。若路径字符串有\，且不在最后，则文件夹和文件名均有值。且返回的文件夹的结果不包含.os.path.join(path1,path2,…):将path进行组合，若其中有绝对路径，则之前的path将被删除。os.path.dirname(path):返回path中的文件夹部分，结果不包含’\’os.path.basename(path):返回path中的文件名。 4.查看文件时间os.path.getmtime(path):文件或文件夹的最后修改时间，从新纪元到访问时的秒数。os.path.getatime(path):文件或文件夹的最后访问时间，从新纪元到访问时的秒数。os.path.getctime(path):文件或文件夹的创建时间，从新纪元到访问时的秒数。]]></content>
+      <categories>
+        <category>Python基础</category>
+      </categories>
+      <tags>
+        <tag>Python基础</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Python学习 - 基础]]></title>
+    <url>%2F2018%2F03%2F27%2FPython%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80%2F</url>
+    <content type="text"><![CDATA[tf.placeholder(dtype, shape=None, name=None) placeholder，占位符，在tensorflow中类似于函数参数，运行时必须传入值。 dtype：数据类型。常用的是tf.float32,tf.float64等数值类型。shape：数据形状。默认是None，就是一维值，也可以是多维，比如[2,3], [None, 3]表示列是3，行不定。name：名称。]]></content>
       <categories>
         <category>Python基础</category>
       </categories>

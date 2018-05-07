@@ -79,15 +79,18 @@
 
 
 
+<meta name="description" content="OS模块Python os模块包含普遍的操作系统功能。如果你希望你的程序能够与平台无关的话，这个模块是尤为重要的。在自动化测试中，经常需要查找操作文件，比如说查找配置文件（从而读取配置文件的信息），查找测试报告（从而发送测试报告邮件），经常要对大量文件和大量路径进行操作，这就依赖于os模块 1.当前路径及路径下的文件os.getcwd()：查看当前所在路径。os.listdir(path):列举目">
 <meta name="keywords" content="Python基础">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Python学习">
+<meta property="og:title" content="Python学习 - 文件目录处理">
 <meta property="og:url" content="http://yoursite.com/2018/03/27/Python学习/index.html">
 <meta property="og:site_name" content="饲养员的博客">
+<meta property="og:description" content="OS模块Python os模块包含普遍的操作系统功能。如果你希望你的程序能够与平台无关的话，这个模块是尤为重要的。在自动化测试中，经常需要查找操作文件，比如说查找配置文件（从而读取配置文件的信息），查找测试报告（从而发送测试报告邮件），经常要对大量文件和大量路径进行操作，这就依赖于os模块 1.当前路径及路径下的文件os.getcwd()：查看当前所在路径。os.listdir(path):列举目">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-03-27T07:19:09.874Z">
+<meta property="og:updated_time" content="2018-03-27T07:35:02.279Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Python学习">
+<meta name="twitter:title" content="Python学习 - 文件目录处理">
+<meta name="twitter:description" content="OS模块Python os模块包含普遍的操作系统功能。如果你希望你的程序能够与平台无关的话，这个模块是尤为重要的。在自动化测试中，经常需要查找操作文件，比如说查找配置文件（从而读取配置文件的信息），查找测试报告（从而发送测试报告邮件），经常要对大量文件和大量路径进行操作，这就依赖于os模块 1.当前路径及路径下的文件os.getcwd()：查看当前所在路径。os.listdir(path):列举目">
 
 
 
@@ -123,7 +126,7 @@
 
 
 
-  <title>Python学习 | 饲养员的博客</title>
+  <title>Python学习 - 文件目录处理 | 饲养员的博客</title>
   
 
 
@@ -312,7 +315,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Python学习</h1>
+          <h1 class="post-title" itemprop="name headline">Python学习 - 文件目录处理</h1>
         
 
         <div class="post-meta">
@@ -384,7 +387,12 @@
       
 
       
-        
+        <h1 id="OS模块"><a href="#OS模块" class="headerlink" title="OS模块"></a>OS模块</h1><p>Python os模块包含普遍的操作系统功能。如果你希望你的程序能够与平台无关的话，这个模块是尤为重要的。在自动化测试中，经常需要查找操作文件，比如说查找配置文件（从而读取配置文件的信息），查找测试报告（从而发送测试报告邮件），经常要对大量文件和大量路径进行操作，这就依赖于os模块</p>
+<p>1.当前路径及路径下的文件<br>os.getcwd()：查看当前所在路径。<br>os.listdir(path):列举目录下的所有文件。返回的是列表类型。</p>
+<p>2.绝对路径<br>os.path.abspath(path):返回path的绝对路径。</p>
+<p>3.查看路径的文件夹部分和文件名部分<br>os.path.split(path):将路径分解为(文件夹,文件名)，返回的是元组类型。可以看出，若路径字符串最后一个字符是\,则只有文件夹部分有值；若路径字符串中均无\,则只有文件名部分有值。若路径字符串有\，且不在最后，则文件夹和文件名均有值。且返回的文件夹的结果不包含.<br>os.path.join(path1,path2,…):将path进行组合，若其中有绝对路径，则之前的path将被删除。<br>os.path.dirname(path):返回path中的文件夹部分，结果不包含’\’<br>os.path.basename(path):返回path中的文件名。</p>
+<p>4.查看文件时间<br>os.path.getmtime(path):文件或文件夹的最后修改时间，从新纪元到访问时的秒数。<br>os.path.getatime(path):文件或文件夹的最后访问时间，从新纪元到访问时的秒数。<br>os.path.getctime(path):文件或文件夹的创建时间，从新纪元到访问时的秒数。</p>
+
       
     </div>
     
@@ -414,8 +422,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/03/26/Tensorflow实战 - Tensorflow计算加速/" rel="next" title="Tensorflow实战 - TensorBoard计算加速">
-                <i class="fa fa-chevron-left"></i> Tensorflow实战 - TensorBoard计算加速
+              <a href="/2018/03/27/Python学习-基础/" rel="next" title="Python学习 - 基础">
+                <i class="fa fa-chevron-left"></i> Python学习 - 基础
               </a>
             
           </div>
@@ -423,6 +431,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/03/30/Tensorflow高级API/" rel="prev" title="Tensorflow高级API - TensorBoard计算加速">
+                Tensorflow高级API - TensorBoard计算加速 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -474,8 +486,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -494,7 +515,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-count">13</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -505,7 +526,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -516,7 +537,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-count">7</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -539,6 +560,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#OS模块"><span class="nav-number">1.</span> <span class="nav-text">OS模块</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
