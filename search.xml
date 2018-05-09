@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[Tensorflow实战 - 模型持久化]]></title>
+    <url>%2F2018%2F05%2F09%2FTensorflow%E5%AE%9E%E6%88%98%20-%20%E6%A8%A1%E5%9E%8B%E7%9A%84%E4%BF%9D%E5%AD%98%E4%B8%8E%E6%81%A2%E5%A4%8D%2F</url>
+    <content type="text"><![CDATA[持久化代码实现tf.train.Saver12saver = tf.train.Saver()saver.save( ... ) Tensorflow模型保存到ckpt文件中，生成三个文件model.ckpt.meta，保存计算图的结构model.ckpt，保存TF程序中每一个变量的取值checkpoint，保存了一个目录下所有的模型文件列表]]></content>
+      <categories>
+        <category>深度学习</category>
+      </categories>
+      <tags>
+        <tag>深度学习</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[大数据]]></title>
     <url>%2F2018%2F05%2F07%2F%E5%A4%A7%E6%95%B0%E6%8D%AE%2F</url>
     <content type="text"></content>
@@ -14,7 +25,7 @@
   <entry>
     <title><![CDATA[Tensorflow实战 - 模型持久化]]></title>
     <url>%2F2018%2F04%2F03%2FTensorflow%E5%AE%9E%E6%88%98%20-%20%E6%A8%A1%E5%9E%8B%E6%8C%81%E4%B9%85%E5%8C%96%2F</url>
-    <content type="text"><![CDATA[持久化代码实现tf.train.Saver12saver = tf.train.Saver()saver.save( ... ) Tensorflow模型保存到ckpt文件中，生成三个文件model.ckpt.meta，保存计算图的结构model.ckpt，保存TF程序中每一个变量的取值checkpoint，保存了一个目录下所有的模型文件列表]]></content>
+    <content type="text"><![CDATA[持久化代码实现tf.train.Saver12saver = tf.train.Saver()saver.save( ... ) 模型的保存12345678910import tensorflow as tfckpt_dir = r'...\model.ckpt'v1 = tf.Variable(tf.constant(1.0, shape=[1], name="v1"))v2 = tf.Variable(tf.constant(2.0, shape=[1], name="v2"))result = v1 + v2 init = tf.global_variables_initializer()saver = tf.train.Saver()with tf.Session() as sess: sess.run(init) saver.save(sess,ckpt_dir) tf.train.Saver()使用的时候必须在之前是有变量存在的，上述代码中定义了v1,v2两个变量，保存在模型文件中。 代码产生四个文件 checkpoint文件保存了一个录下多有的模型文件列表 model.ckpt.meta保存了TensorFlow计算图的结构信息 model.ckpt保存每个变量的取值，此处文件名的写入方式会因不同参数的设置而不同，但加载restore时的文件路径名是以checkpoint文件中的“model_checkpoint_path”值决定的。 模型的恢复恢复时特别注意checkpoints文件中的“model_checkpoint_path”值，一定与meta、ckpt路径对应起来123456789import tensorflow as tf ckpt_dir = r'...\model.ckpt'v1 = tf.Variable(tf.constant(1.0, shape=[1]), name="v1") v2 = tf.Variable(tf.constant(2.0, shape=[1]), name="v2") result = v1 + v2 saver = tf.train.Saver() with tf.Session() as sess: saver.restore(sess, ckpt_dir) print(sess.run(result)) 上述恢复时重复了计算图上的运算 直接加载持久化的图不重复计算图的计算12345678910111213141516import tensorflow as tf checkpoint = r'...\ckpts' #checkpoint路径ckpt_dir = r'...\model.ckpt'meta_dir = r'...\ckpts\model.ckpt.meta'graph = tf.Graph()sess_conf = tf.ConfigProto()sess = tf.Session(graph=graph, config=sess_conf)with graph.as_default(): saver = tf.train.import_meta_graph(model_meta) saver.restore(source_sess, ckpts) # or # latest_checkpoint = tf.train.latest_checkpoint(model_checkpoints) # saver.restore(source_sess, latest_checkpoint) tensor = graph.get_tensor_by_name('tensorname') print(sess.run(tensor)) 从训练好的模型中的保存部分参数到新模型每次都重新训练新的模型，是一件十分耗时费力的事情，在我们的项目中有用到tensorflow-finetune的知识，就是取出中间某些层的权值，去掉最后一层FC，那么就需要对原模型部分参数保存，首先还是一样直接加载持久化的图按照tf.train.Saver源码中关于var_list的解释：var_list specifies the variables that will be saved and restored. It can be passed as a dict or a list,可以选择性的保存参数12345678910111213141516171819202122232425import tensorflow as tf checkpoint = r'...\ckpts' #checkpoint路径ckpt_dir = r'...\ckpts\model.ckpt'meta_dir = r'...\ckpts\model.ckpt.meta'# 包含部分参数的ckptpart_ckpt = r'...\ckptsp\model.ckpt'sourceGraph = tf.Graph()sess_conf = tf.ConfigProto()sess = tf.Session(graph=graph, config=sess_conf)with sourceGraph.as_default(): saver = tf.train.import_meta_graph(model_meta) saver.restore(source_sess, ckpts) # 获得所有训练的变量名称 variables_names = [v.name for v in tf.trainable_variables()] tensorList = [] for name in variables_names: if 'name(last_fc)' not in name: tensorList.append(sourceGraph.get_tensor_by_name(name)) # tensorList中保存了去掉最后一层fc的其他层权值 # 重新构建一个save1 saver1 = tf.train.Saver(tensorList) saver1.save(source_sess, part_ckpt + '/model.ckpt', global_step='...') 包含部分参数的模型恢复]]></content>
       <categories>
         <category>深度学习</category>
       </categories>
@@ -34,9 +45,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[Python学习 - 文件目录处理]]></title>
-    <url>%2F2018%2F03%2F27%2FPython%E5%AD%A6%E4%B9%A0%2F</url>
-    <content type="text"><![CDATA[OS模块Python os模块包含普遍的操作系统功能。如果你希望你的程序能够与平台无关的话，这个模块是尤为重要的。在自动化测试中，经常需要查找操作文件，比如说查找配置文件（从而读取配置文件的信息），查找测试报告（从而发送测试报告邮件），经常要对大量文件和大量路径进行操作，这就依赖于os模块 1.当前路径及路径下的文件os.getcwd()：查看当前所在路径。os.listdir(path):列举目录下的所有文件。返回的是列表类型。 2.绝对路径os.path.abspath(path):返回path的绝对路径。 3.查看路径的文件夹部分和文件名部分os.path.split(path):将路径分解为(文件夹,文件名)，返回的是元组类型。可以看出，若路径字符串最后一个字符是\,则只有文件夹部分有值；若路径字符串中均无\,则只有文件名部分有值。若路径字符串有\，且不在最后，则文件夹和文件名均有值。且返回的文件夹的结果不包含.os.path.join(path1,path2,…):将path进行组合，若其中有绝对路径，则之前的path将被删除。os.path.dirname(path):返回path中的文件夹部分，结果不包含’\’os.path.basename(path):返回path中的文件名。 4.查看文件时间os.path.getmtime(path):文件或文件夹的最后修改时间，从新纪元到访问时的秒数。os.path.getatime(path):文件或文件夹的最后访问时间，从新纪元到访问时的秒数。os.path.getctime(path):文件或文件夹的创建时间，从新纪元到访问时的秒数。]]></content>
+    <title><![CDATA[Python学习 - 基础]]></title>
+    <url>%2F2018%2F03%2F27%2FPython%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80%2F</url>
+    <content type="text"><![CDATA[tf.placeholder(dtype, shape=None, name=None) placeholder，占位符，在tensorflow中类似于函数参数，运行时必须传入值。 dtype：数据类型。常用的是tf.float32,tf.float64等数值类型。shape：数据形状。默认是None，就是一维值，也可以是多维，比如[2,3], [None, 3]表示列是3，行不定。name：名称。]]></content>
       <categories>
         <category>Python基础</category>
       </categories>
@@ -45,9 +56,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[Python学习 - 基础]]></title>
-    <url>%2F2018%2F03%2F27%2FPython%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80%2F</url>
-    <content type="text"><![CDATA[tf.placeholder(dtype, shape=None, name=None) placeholder，占位符，在tensorflow中类似于函数参数，运行时必须传入值。 dtype：数据类型。常用的是tf.float32,tf.float64等数值类型。shape：数据形状。默认是None，就是一维值，也可以是多维，比如[2,3], [None, 3]表示列是3，行不定。name：名称。]]></content>
+    <title><![CDATA[Python学习 - 文件目录处理]]></title>
+    <url>%2F2018%2F03%2F27%2FPython%E5%AD%A6%E4%B9%A0%2F</url>
+    <content type="text"><![CDATA[OS模块Python os模块包含普遍的操作系统功能。如果你希望你的程序能够与平台无关的话，这个模块是尤为重要的。在自动化测试中，经常需要查找操作文件，比如说查找配置文件（从而读取配置文件的信息），查找测试报告（从而发送测试报告邮件），经常要对大量文件和大量路径进行操作，这就依赖于os模块 1.当前路径及路径下的文件os.getcwd()：查看当前所在路径。os.listdir(path):列举目录下的所有文件。返回的是列表类型。 2.绝对路径os.path.abspath(path):返回path的绝对路径。 3.查看路径的文件夹部分和文件名部分os.path.split(path):将路径分解为(文件夹,文件名)，返回的是元组类型。可以看出，若路径字符串最后一个字符是\,则只有文件夹部分有值；若路径字符串中均无\,则只有文件名部分有值。若路径字符串有\，且不在最后，则文件夹和文件名均有值。且返回的文件夹的结果不包含.os.path.join(path1,path2,…):将path进行组合，若其中有绝对路径，则之前的path将被删除。os.path.dirname(path):返回path中的文件夹部分，结果不包含’\’os.path.basename(path):返回path中的文件名。 4.查看文件时间os.path.getmtime(path):文件或文件夹的最后修改时间，从新纪元到访问时的秒数。os.path.getatime(path):文件或文件夹的最后访问时间，从新纪元到访问时的秒数。os.path.getctime(path):文件或文件夹的创建时间，从新纪元到访问时的秒数。]]></content>
       <categories>
         <category>Python基础</category>
       </categories>
@@ -111,9 +122,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[Tensorflow实战]]></title>
-    <url>%2F2018%2F03%2F16%2FTensorflow%E5%AE%9E%E6%88%98%2F</url>
-    <content type="text"><![CDATA[卷积神经网络卷积神经网络的结构 输入层 卷积层 池化层 全连接层 Softmax层 卷积层 过滤器 内核 池化层池化层使用的过滤器只影响一个深度上的节点 最大池化层 1pool 平均池化层 其他]]></content>
+    <title><![CDATA[Tensorflow实战 - 卷积神经网络]]></title>
+    <url>%2F2018%2F03%2F16%2FTensorflow%E5%AE%9E%E6%88%98%20-%20%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%2F</url>
+    <content type="text"><![CDATA[经典卷积神经网络模型LeNet5模型 第一层，卷积层 第二层，池化层 第三层，卷积层 第四层，池化层 第五层，全连接层 第六层，全连接层 第七层，全连接层 1输入层 -&gt; (卷积层 +-&gt; 池化层？) +-&gt; 全连接层 + Inception-v3模型Inception结构将不同的卷积层通过并联的方式结合到一起 Inception-v3模型TensorFlow-Slim工具12net = slim.conv2d(输入节点矩阵, 当前卷积层过滤器的深度, 过滤器的尺寸)可选参数: 过滤器移动步长（stride）、是否使用全0填充（padding="SAME"/"VALID"）、激活函数选择、变量的命名空间 计算 矩阵大小的计算 参数 连接数 迁移学习将一个问题上训练好的模型通过简单的调整使其适用于一个新的问题。通过迁移学习，可以使用少量的训练数据在短时间内训练出效果还不错的神经网络。]]></content>
       <categories>
         <category>深度学习</category>
       </categories>
@@ -122,9 +133,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[Tensorflow实战 - 卷积神经网络]]></title>
-    <url>%2F2018%2F03%2F16%2FTensorflow%E5%AE%9E%E6%88%98%20-%20%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%2F</url>
-    <content type="text"><![CDATA[经典卷积神经网络模型LeNet5模型 第一层，卷积层 第二层，池化层 第三层，卷积层 第四层，池化层 第五层，全连接层 第六层，全连接层 第七层，全连接层 1输入层 -&gt; (卷积层 +-&gt; 池化层？) +-&gt; 全连接层 + Inception-v3模型Inception结构将不同的卷积层通过并联的方式结合到一起 Inception-v3模型TensorFlow-Slim工具12net = slim.conv2d(输入节点矩阵, 当前卷积层过滤器的深度, 过滤器的尺寸)可选参数: 过滤器移动步长（stride）、是否使用全0填充（padding="SAME"/"VALID"）、激活函数选择、变量的命名空间 计算 矩阵大小的计算 参数 连接数 迁移学习将一个问题上训练好的模型通过简单的调整使其适用于一个新的问题。通过迁移学习，可以使用少量的训练数据在短时间内训练出效果还不错的神经网络。]]></content>
+    <title><![CDATA[Tensorflow实战]]></title>
+    <url>%2F2018%2F03%2F16%2FTensorflow%E5%AE%9E%E6%88%98%2F</url>
+    <content type="text"><![CDATA[卷积神经网络卷积神经网络的结构 输入层 卷积层 池化层 全连接层 Softmax层 卷积层 过滤器 内核 池化层池化层使用的过滤器只影响一个深度上的节点 最大池化层 1pool 平均池化层 其他]]></content>
       <categories>
         <category>深度学习</category>
       </categories>

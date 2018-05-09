@@ -294,7 +294,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/16/Tensorflow实战/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/20/Tensorflow实战 - 图像数据处理/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="闫 锐">
@@ -313,7 +313,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/16/Tensorflow实战/" itemprop="url">Tensorflow实战</a></h1>
+                <a class="post-title-link" href="/2018/03/20/Tensorflow实战 - 图像数据处理/" itemprop="url">Tensorflow实战 - 图像数据处理</a></h1>
         
 
         <div class="post-meta">
@@ -325,8 +325,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-16T14:57:03+08:00">
-                2018-03-16
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-20T14:57:03+08:00">
+                2018-03-20
               </time>
             
 
@@ -387,34 +387,15 @@
       
         
           
-            <h1 id="卷积神经网络"><a href="#卷积神经网络" class="headerlink" title="卷积神经网络"></a>卷积神经网络</h1><h2 id="卷积神经网络的结构"><a href="#卷积神经网络的结构" class="headerlink" title="卷积神经网络的结构"></a>卷积神经网络的结构</h2><blockquote>
-<ul>
-<li>输入层</li>
-<li>卷积层</li>
-<li>池化层</li>
-<li>全连接层</li>
-<li>Softmax层</li>
-</ul>
-</blockquote>
-<h2 id="卷积层"><a href="#卷积层" class="headerlink" title="卷积层"></a>卷积层</h2><blockquote>
-<ul>
-<li>过滤器</li>
-<li>内核</li>
-</ul>
-</blockquote>
-<h2 id="池化层"><a href="#池化层" class="headerlink" title="池化层"></a>池化层</h2><p>池化层使用的过滤器只影响一个深度上的节点</p>
-<blockquote>
-<ul>
-<li>最大池化层 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pool</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</blockquote>
-<blockquote>
-<ul>
-<li>平均池化层</li>
-<li>其他</li>
-</ul>
-</blockquote>
+            <h1 id="TFRecord输入数据格式"><a href="#TFRecord输入数据格式" class="headerlink" title="TFRecord输入数据格式"></a>TFRecord输入数据格式</h1><h2 id="TFRecord格式介绍"><a href="#TFRecord格式介绍" class="headerlink" title="TFRecord格式介绍"></a>TFRecord格式介绍</h2><p>tf.train.Example Protocol Buffer的格式存储<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">message Example &#123;</span><br><span class="line">	Feature features = <span class="number">1</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">message Feature &#123;</span><br><span class="line">	map&lt;String, Feature&gt; features = <span class="number">1</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">message Feature &#123;</span><br><span class="line">	oneof kind &#123;</span><br><span class="line">		BytesList bytes_list = <span class="number">1</span>;</span><br><span class="line">		FloatList float_list = <span class="number">2</span>;</span><br><span class="line">		Int64List int64_list = <span class="number">3</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<h1 id="图像数据处理"><a href="#图像数据处理" class="headerlink" title="图像数据处理"></a>图像数据处理</h1><p>使用图像预处理的方法可以减小无关因素对图像识别模型效果的影响</p>
+<h2 id="Tensorflow图像处理函数"><a href="#Tensorflow图像处理函数" class="headerlink" title="Tensorflow图像处理函数"></a>Tensorflow图像处理函数</h2><h3 id="图像编码处理"><a href="#图像编码处理" class="headerlink" title="图像编码处理"></a>图像编码处理</h3><p>Tensorflow处理图像时，将图像视为矩阵，然而图像在存储时并不直接记录这些矩阵中的数字，而是记录经过压缩编码后的结果。所以要将一张图片还原成一个三维矩阵，需要解码的过程。TF提供了对jpeg和png格式图像的编码/解码函数。 在读入图像时，要使用解码函数才能得到三维矩阵；在保存图像时，需要使用编码函数才能将三维矩阵转换为需要的编码格式。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 读入图像的原始数据  </span></span><br><span class="line">image_raw_data = tf.gfile.FastGFile(<span class="string">"F:/input.jpeg"</span>, <span class="string">'rb'</span>).read()  </span><br><span class="line"></span><br><span class="line"><span class="comment"># 将图像使用jpeg的格式解码从而得到图像对应的三维矩阵，解码之后的结果为一个张量  </span></span><br><span class="line">img_data = tf.image.decode_jpeg(image_raw_data)  </span><br><span class="line"></span><br><span class="line"><span class="comment"># 将数据的类型转换为8位无符号整型  </span></span><br><span class="line">img_data = tf.image.convert_image_dtype(img_data, dtype=tf.uint8)  </span><br><span class="line"></span><br><span class="line"><span class="comment"># 将表示一张图片的三维矩阵重新按照png格式编码并存入文件中。  </span></span><br><span class="line">encoder_png_image = tf.image.encode_png(img_data)  </span><br><span class="line"><span class="keyword">with</span> tf.gfile.GFile(<span class="string">"F:/output.png"</span>, <span class="string">'wb'</span>) <span class="keyword">as</span> f:  </span><br><span class="line">	f.write(encoder_png_image.eval())  </span><br><span class="line">	</span><br><span class="line"><span class="comment"># 按照jpeg格式编码，保存 </span></span><br><span class="line">encoder_jpeg_image = tf.image.encode_png(img_data)  </span><br><span class="line"><span class="keyword">with</span> tf.gfile.GFile(<span class="string">"F:/output.jpeg"</span>, <span class="string">'wb'</span>) <span class="keyword">as</span> f:  </span><br><span class="line">	f.write(encoder_jpeg_image.eval())</span><br></pre></td></tr></table></figure></p>
+<h3 id="图像大小调整"><a href="#图像大小调整" class="headerlink" title="图像大小调整"></a>图像大小调整</h3><p>神经网络输入节点的个数是固定的，所以在将图像的像素作为输入提供给神经网络之前，需要将图像的大小统一。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">tf.image.resize_images(param1,param2,param3，method)</span><br><span class="line"><span class="meta">@param1 原始图像</span></span><br><span class="line"><span class="meta">@param2、@param3 调整后图像的大小 </span></span><br><span class="line"><span class="meta">@method 调整图像大小的算法</span></span><br></pre></td></tr></table></figure></p>
+<p>tf.image.resize_images函数的method参数取值对应算法<br>| method取值        | 图像大小调整算法   |<br>| ——–   | —–:  |<br>| 0          | 双线性插值法(Bilinear interpolation) |<br>| 1          | 最近邻居法(Nearest neighbor interpolation)   |<br>| 2          | 双三次插值法(Bicubic interpolation)    |<br>| 3          | 面积插值法(Area interpolation)    | </p>
+<p>图像的裁剪和填充<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 裁剪或者填充图像中间区域</span></span><br><span class="line">tf.image.resize_image_with_crop_or_pad(param1,param2,param3)</span><br><span class="line"><span class="meta">@param1 原始图像</span></span><br><span class="line"><span class="meta">@param2、@param3 调整后图像的大小 </span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 裁剪或者填充给定区域的图像</span></span><br><span class="line">tf.image.crop_to_bounding_box(param2 * param3 &lt; 原始图像尺寸)</span><br><span class="line">tf.image.pad_to_bounding_box</span><br></pre></td></tr></table></figure></p>
+<h3 id="图像翻转"><a href="#图像翻转" class="headerlink" title="图像翻转"></a>图像翻转</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 图像上下翻转</span></span><br><span class="line">flipped = tf.image.flip_up_down(img_data)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 图像左右翻转</span></span><br><span class="line">flipped = tf.image.flip_left_right(img_data)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 图像沿对角线翻转</span></span><br><span class="line">transposed = tf.image.transpose_image(img_data)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 以一定概率上下翻转</span></span><br><span class="line">flipped = tf.image.random_flip_up_down(img_data)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 以一定概率左右翻转</span></span><br><span class="line">flipped = tf.image.random_flip_left_right(img_data)</span><br></pre></td></tr></table></figure>
+<h3 id="图像色彩调整"><a href="#图像色彩调整" class="headerlink" title="图像色彩调整"></a>图像色彩调整</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 将图像的亮度+(-)a</span></span><br><span class="line">adjusted = tf.image.adjust_brightness(img_data, +(-)a)</span><br><span class="line"><span class="comment"># 在[-max_data, max_data]的范围随机调整图像的亮度</span></span><br><span class="line">adjusted = tf.image.random_brightness(image, max_delta)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将图像的对比度+(-)a</span></span><br><span class="line">adjusted = tf.image.adjust_contrast(img_data, +(-)a)</span><br><span class="line"><span class="comment"># 在[lower, upper]的范围内随机调整图的对比度</span></span><br><span class="line">adjusted = tf.image.random_contrast(image, lower, upper)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 调整图像的色相</span></span><br><span class="line">adjusted = tf.image.adjust_hue(ima_data , a)</span><br><span class="line"><span class="comment"># 在[-max_delta , max_delta]的范围内随机调整图像的色相</span></span><br><span class="line"><span class="comment"># max_delta的取值在[0, 0.5]之间</span></span><br><span class="line">adjusted = tf.image.random_hue(image , max_delta)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 调整图像的饱和度</span></span><br><span class="line">adjusted = tf.image.adjust_saturation(img_data , a)</span><br><span class="line">adjusted = tf.image.random_saturation(image , lower , upper)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 图像标准化</span></span><br><span class="line">adjusted = tf.image.per_image_whitening(img_data)</span><br><span class="line">调整亮度均值为<span class="number">0</span>，方差为<span class="number">1</span></span><br></pre></td></tr></table></figure>
+<h3 id="处理标注框"><a href="#处理标注框" class="headerlink" title="处理标注框"></a>处理标注框</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 加入标注框</span></span><br><span class="line">tf.image.draw_bounding_boxes</span><br><span class="line"></span><br><span class="line"><span class="comment">#随机截取图像</span></span><br><span class="line">tf.image.sample_distored_bounding_box</span><br></pre></td></tr></table></figure>
 
           
         
@@ -578,6 +559,175 @@
 </ul>
 </blockquote>
 <h1 id="迁移学习"><a href="#迁移学习" class="headerlink" title="迁移学习"></a>迁移学习</h1><p>将一个问题上训练好的模型通过简单的调整使其适用于一个新的问题。通过迁移学习，可以使用少量的训练数据在短时间内训练出效果还不错的神经网络。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/16/Tensorflow实战/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="闫 锐">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/love.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="饲养员的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/16/Tensorflow实战/" itemprop="url">Tensorflow实战</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-16T14:57:03+08:00">
+                2018-03-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/深度学习/" itemprop="url" rel="index">
+                    <span itemprop="name">深度学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="卷积神经网络"><a href="#卷积神经网络" class="headerlink" title="卷积神经网络"></a>卷积神经网络</h1><h2 id="卷积神经网络的结构"><a href="#卷积神经网络的结构" class="headerlink" title="卷积神经网络的结构"></a>卷积神经网络的结构</h2><blockquote>
+<ul>
+<li>输入层</li>
+<li>卷积层</li>
+<li>池化层</li>
+<li>全连接层</li>
+<li>Softmax层</li>
+</ul>
+</blockquote>
+<h2 id="卷积层"><a href="#卷积层" class="headerlink" title="卷积层"></a>卷积层</h2><blockquote>
+<ul>
+<li>过滤器</li>
+<li>内核</li>
+</ul>
+</blockquote>
+<h2 id="池化层"><a href="#池化层" class="headerlink" title="池化层"></a>池化层</h2><p>池化层使用的过滤器只影响一个深度上的节点</p>
+<blockquote>
+<ul>
+<li>最大池化层 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pool</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li>平均池化层</li>
+<li>其他</li>
+</ul>
+</blockquote>
 
           
         
@@ -808,7 +958,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-count">14</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
