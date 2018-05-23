@@ -294,6 +294,476 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/26/Tensorflow实战 - TensorBoard可视化/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="闫 锐">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/love.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="饲养员的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/26/Tensorflow实战 - TensorBoard可视化/" itemprop="url">Tensorflow实战 - TensorBoard可视化</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-26T10:57:03+08:00">
+                2018-03-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/深度学习/" itemprop="url" rel="index">
+                    <span itemprop="name">深度学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="TensorBoard简介"><a href="#TensorBoard简介" class="headerlink" title="TensorBoard简介"></a>TensorBoard简介</h1><p>通过Tensorflow程序运行过程中的输出的日志文件可视化Tensorflow程序的运行状态</p>
+<h2 id="TensorBoard日志输出"><a href="#TensorBoard日志输出" class="headerlink" title="TensorBoard日志输出"></a>TensorBoard日志输出</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line">input1 = tf.constant([<span class="number">1.0</span>,<span class="number">2.0</span>,<span class="number">3.0</span>], name=<span class="string">"input1"</span>)</span><br><span class="line">input2 = tf.Variable(tf.random_uniform([<span class="number">3</span>]),name=<span class="string">"input2"</span>)</span><br><span class="line">output = tf.add_n([input1,input2],name=<span class="string">"add"</span>)</span><br><span class="line">writer = tf.summary.FileWriter(<span class="string">"F://log"</span>,tf.get_default_graph())</span><br><span class="line">writer.close()</span><br></pre></td></tr></table></figure>
+<h2 id="TensorBoard服务启动"><a href="#TensorBoard服务启动" class="headerlink" title="TensorBoard服务启动"></a>TensorBoard服务启动</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tensorboard --logdir=F://log</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/22/Tensorflow实战 - 循环神经网络/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="闫 锐">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/love.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="饲养员的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/22/Tensorflow实战 - 循环神经网络/" itemprop="url">Tensorflow实战 - 循环神经网络</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-22T14:57:03+08:00">
+                2018-03-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/深度学习/" itemprop="url" rel="index">
+                    <span itemprop="name">深度学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="循环神经网络-RNN"><a href="#循环神经网络-RNN" class="headerlink" title="循环神经网络(RNN)"></a>循环神经网络(RNN)</h1><h1 id="长短时记忆网络结构-LTSM"><a href="#长短时记忆网络结构-LTSM" class="headerlink" title="长短时记忆网络结构(LTSM)"></a>长短时记忆网络结构(LTSM)</h1><p>LSTM单元结构示意图<br><img src="/images/4.png" alt="cmd-markdown-logo"></p>
+<blockquote>
+<ul>
+<li>遗忘门</li>
+<li>输入门</li>
+<li>输出门</li>
+</ul>
+</blockquote>
+<h1 id="循环神经网络的变种"><a href="#循环神经网络的变种" class="headerlink" title="循环神经网络的变种"></a>循环神经网络的变种</h1><h2 id="双向循环神经网络"><a href="#双向循环神经网络" class="headerlink" title="双向循环神经网络"></a>双向循环神经网络</h2><h2 id="深层循环神经网络"><a href="#深层循环神经网络" class="headerlink" title="深层循环神经网络"></a>深层循环神经网络</h2><h2 id="循环神经网络的dropout"><a href="#循环神经网络的dropout" class="headerlink" title="循环神经网络的dropout"></a>循环神经网络的dropout</h2><h1 id="循环神经网络样例应用"><a href="#循环神经网络样例应用" class="headerlink" title="循环神经网络样例应用"></a>循环神经网络样例应用</h1><h2 id="自然语言建模"><a href="#自然语言建模" class="headerlink" title="自然语言建模"></a>自然语言建模</h2><p>数据预处理<br>ptb_raw_data 读取PTB原始数据，并将单词转化为单词ID<br>ptb_iterator 截断并组织成batch</p>
+<h2 id="时序序列预测"><a href="#时序序列预测" class="headerlink" title="时序序列预测"></a>时序序列预测</h2><h3 id="使用TFLean自定义模型"><a href="#使用TFLean自定义模型" class="headerlink" title="使用TFLean自定义模型"></a>使用TFLean自定义模型</h3><p>tf.contrib.learn</p>
+<h3 id="预测正弦函数"><a href="#预测正弦函数" class="headerlink" title="预测正弦函数"></a>预测正弦函数</h3>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/21/Tensorflow实战 - 多线程输入数据处理框架/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="闫 锐">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/love.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="饲养员的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/21/Tensorflow实战 - 多线程输入数据处理框架/" itemprop="url">Tensorflow实战 - 多线程输入数据处理框架</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-21T11:01:03+08:00">
+                2018-03-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/深度学习/" itemprop="url" rel="index">
+                    <span itemprop="name">深度学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="多线程输入数据处理框架"><a href="#多线程输入数据处理框架" class="headerlink" title="多线程输入数据处理框架"></a>多线程输入数据处理框架</h1><p>为了避免图像预处理成为神经网络模型训练效率的瓶颈。</p>
+<h2 id="经典输入数据处理流程图"><a href="#经典输入数据处理流程图" class="headerlink" title="经典输入数据处理流程图"></a>经典输入数据处理流程图</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">op=&gt;operation: 指定原始数据的文件列表</span><br><span class="line">op2=&gt;operation: 创建文件列表队列</span><br><span class="line">op3=&gt;operation: 从文件中读取数据</span><br><span class="line">op4=&gt;operation: 数据预处理</span><br><span class="line">op5=&gt;operation: 整理成Batch作为神经网络输入</span><br><span class="line">op-&gt;op2-&gt;op3-&gt;op4-&gt;op5</span><br></pre></td></tr></table></figure>
+<h2 id="队列与多线程"><a href="#队列与多线程" class="headerlink" title="队列与多线程"></a>队列与多线程</h2><h3 id="队列"><a href="#队列" class="headerlink" title="队列"></a>队列</h3><blockquote>
+<ul>
+<li>FIFOQueue先进先出队列</li>
+<li>RandomShuffleQueue随机队列</li>
+</ul>
+</blockquote>
+<h3 id="多线程"><a href="#多线程" class="headerlink" title="多线程"></a>多线程</h3><blockquote>
+<ul>
+<li>tf.Coordinator协同多线程一起停止<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@should_stop</span></span><br><span class="line"><span class="meta">@request_stop</span></span><br><span class="line"><span class="meta">@join</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li>tf.QueueRunner启动多个线程来操作同一个队列</li>
+</ul>
+</blockquote>
+<h2 id="输入文件队列"><a href="#输入文件队列" class="headerlink" title="输入文件队列"></a>输入文件队列</h2><blockquote>
+<ul>
+<li>tf.train.match_filenames_once函数来获取符合一个正则表达式的所有文件</li>
+<li>tf.train.string_input_producer函数管理文件列表<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 样例代码</span></span><br><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"><span class="comment"># 使用tf.train.match_filenames_once函数获取文件列表</span></span><br><span class="line">files = tf.train.match_filenames_once(<span class="string">"Records/data.tfrecords-*"</span>)</span><br><span class="line"><span class="comment"># 通过tf.train.string_input_producer函数创建输入队列，输入队列的文件列表为tf.train.match_filenames_once函数获取的文件列表，shuffle参数设置为False来避免随机打乱读取文件的顺序。一般情况下设置为True</span></span><br><span class="line">filename_queue = tf.train.string_input_producer(files, shuffle=<span class="keyword">False</span>) </span><br><span class="line"><span class="comment"># 读取并解析一个样本</span></span><br><span class="line">reader = tf.TFRecordReader()</span><br><span class="line">_, serialized_example = reader.read(filename_queue)</span><br><span class="line">features = tf.parse_single_example(</span><br><span class="line">      serialized_example,</span><br><span class="line">      features=&#123;</span><br><span class="line">          <span class="string">'i'</span>: tf.FixedLenFeature([], tf.int64),</span><br><span class="line">          <span class="string">'j'</span>: tf.FixedLenFeature([], tf.int64),</span><br><span class="line">      &#125;)</span><br><span class="line"><span class="keyword">with</span> tf.Session() <span class="keyword">as</span> sess:</span><br><span class="line"><span class="comment"># 使用tf.train.match_filenames_once函数时需要初始化一些变量</span></span><br><span class="line">    tf.global_variables_initializer().run()</span><br><span class="line">    <span class="keyword">print</span> sess.run(files)</span><br><span class="line"><span class="comment"># 声明tf.train.Coordinator类来协同不同线程，并启动线程</span></span><br><span class="line">    coord = tf.train.Coordinator()</span><br><span class="line">    threads = tf.train.start_queue_runners(sess=sess, coord=coord)</span><br><span class="line"><span class="comment"># 多次执行获取数据的操作</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">6</span>):</span><br><span class="line">        <span class="keyword">print</span> sess.run([features[<span class="string">'i'</span>], features[<span class="string">'j'</span>]])</span><br><span class="line">    coord.request_stop()</span><br><span class="line">    coord.join(threads)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</blockquote>
+<h2 id="组合训练数据-batching"><a href="#组合训练数据-batching" class="headerlink" title="组合训练数据(batching)"></a>组合训练数据(batching)</h2><p>将多个输入样例组织成一个batch可以提高模型训练的效率，所以在得到单个样例的预处理结果之后，还需要将它们组织成batch，然后再提供给神经网络的输入层</p>
+<blockquote>
+<ul>
+<li>tf.train.batch</li>
+<li>tf.train.shuffle_batch<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># [example ,label]参数给出了需要组合的元素，一般example和label分别代表训练样本和这个样本对应的正确标签。batch_size参数给出了每个batch中样例的个数。capacity给出了队列的最大容量。队列长度 = 容量，TF将暂停入队，等待元素出队。元素个数 &lt; 容量，TF将重新启动入队</span></span><br><span class="line">example_batch, label_batch = tf.train.batch([example , label],batch_size = batch_size , capacity = capacity)</span><br><span class="line"><span class="comment"># min_after_dequeue参数限制了出队时队列中元素的最少个数。当队列中元素太少时，随机打乱样例顺序的作用就不大了</span></span><br><span class="line">example_batch, label_batch = tf.train.shuffle_batch([example , label],batch_size = batch_size , capacity = capacity , min_after_dequeue = <span class="number">30</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 并行化处理输入数据的方法</span></span><br><span class="line">指定num_thread参数 &gt; <span class="number">1</span>，多个线程会同时读取一个文件中的不同样例并进行预处理。多线程处理不同文件，使用tf.train.shuffle_batch_join函数</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</blockquote>
+<h2 id="输入数据处理框架"><a href="#输入数据处理框架" class="headerlink" title="输入数据处理框架"></a>输入数据处理框架</h2><p><img src="" alt="cmd-markdown-logo"></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/20/Tensorflow实战 - 图像数据处理/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -958,7 +1428,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-count">17</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -969,7 +1439,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -980,7 +1450,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">8</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

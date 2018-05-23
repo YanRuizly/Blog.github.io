@@ -1,6 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[多肉植物 - 马库斯]]></title>
+    <url>%2F2018%2F05%2F23%2F%E6%A4%8D%E7%89%A9%E5%AD%A6%E5%AE%B6%2F%E9%A9%AC%E5%BA%93%E6%96%AF%2F</url>
+    <content type="text"><![CDATA[马库斯 Sedeveria Markus 景天属(Sedum)和拟石莲花属（Echeveria）的杂交品种，叶长钥状，前段斜尖，容易泛红，叶正面平滑，叶背船状凸起，叶色多为绿色、黄绿色到橙黄、粉红色。马库斯叶片呈莲花状紧密排列，养护得当，叶片会显得很包且颜色泛橘泛红，非常迷人，更多的情况则是下部叶片平展开，仅中心叶片略包。 开花季节 马库斯春末或者夏初开花，小花星形白色，花芯黄色，一簇簇的小花看上去也挺清新可爱的。 生长习性和养护防方式 马库斯生长习性整体来说非常强健，生长较快，很容易长侧芽，形成多头老桩。马库斯除了夏天外可以放心露养，光照越好，株型越紧凑，颜色也会更漂亮，浇水可干透浇透。夏季只要注意适当遮阴通风控水，度夏很轻松，如果夏天期间叶片平展、绿油油，可考虑适当增加光照。 马库斯属韩国培育的杂交品种，因为太容易长侧芽了，不管叶插或者枝插都很容易成功繁殖]]></content>
+      <categories>
+        <category>多肉-景天科</category>
+      </categories>
+      <tags>
+        <tag>植物</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[多肉植物 - 月亮仙子]]></title>
+    <url>%2F2018%2F05%2F23%2F%E6%A4%8D%E7%89%A9%E5%AD%A6%E5%AE%B6%2F%E6%9C%88%E4%BA%AE%E4%BB%99%E5%AD%90%2F</url>
+    <content type="text"><![CDATA[月亮仙子 Echeveria Moon Fairy 景天科拟石莲花属多肉植物。月亮仙子植株莲座型，叶肥厚倒卵形，急尖，叶绿色到粉青色，披薄粉，有点果冻感，叶面有时会出现棱线，叶缘明显，叶尖较容易晒红，叶缘有时也能晒红。 开花季节 月亮仙子春末夏初开花，总状花序，小花钟型，五瓣，黄色。 月亮仙子的生长习性和养护防方式月亮仙子养护较易，易群生易度夏。种植月亮仙子的配土可选择疏松透气的介质，如泥炭/椰糠，颗粒土配制，颗粒土占比可较高，配土比例根据各地环境和养护习惯可有不同比例配置。月亮仙子繁殖可选择叶插繁殖。 春秋季 春秋季节生长季节，可给足充分光照，光照充分，月亮仙子形态可更紧凑美腻，可充分浇水，盆土干个七八分就可以浇透，忌长期干透，雨季应避免长期雨淋，防止积水烂叶。 夏季 月亮仙子夏季可半遮阴，少量直射光，保证植株不徒长、摊大饼为佳；应控水，盆土干透后，沿盆沿少量浇水或快速浸盆；应加强通风；月亮仙子夏季忌淋雨，忌当头浇水，忌盆土长期潮湿。 注意1. 月亮仙子光照不足，叶片较容易拉长，颜色变绿 2. 月亮仙子在梅雨季节较易感染煤烟病和黑斑病，但即便不治疗也不会死亡，只是影响其观赏性，可知其皮实]]></content>
+      <categories>
+        <category>多肉-景天科</category>
+      </categories>
+      <tags>
+        <tag>植物</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title></title>
+    <url>%2F2018%2F05%2F17%2FTensorflow%E5%AE%9E%E6%88%98%20-%20MobileNet-V2%2F</url>
+    <content type="text"><![CDATA[轻量化网络：MobileNet-V2 ResNet是：压缩”→“卷积提特征”→“扩张”，MobileNetV2则是Inverted residuals,即：“扩张”→“卷积提特征”→ “压缩” MobileNet-V1 最大的特点就是采用depth-wise separable convolution来减少运算量以及参数量，而在网络结构上，没有采用shortcut的方式。Resnet及Densenet等一系列采用shortcut的网络的成功，表明了shortcut是个非常好的东西，于是MobileNet-V2就将这个好东西拿来用。 拿来主义，最重要的就是要结合自身的特点，MobileNet的特点就是depth-wise separable convolution，但是直接把depth-wise separable convolution应用到 residual block中，会碰到如下问题： 1.DWConv layer层提取得到的特征受限于输入的通道数，若是采用以往的residual block，先“压缩”，再卷积提特征，那么DWConv layer可提取得特征就太少了，因此一开始不“压缩”，MobileNetV2反其道而行，一开始先“扩张”，本文实验“扩张”倍数为6。 通常residual block里面是 “压缩”→“卷积提特征”→“扩张”，MobileNetV2就变成了 “扩张”→“卷积提特征”→ “压缩”，因此称为Inverted residuals 2.当采用“扩张”→“卷积提特征”→ “压缩”时，在“压缩”之后会碰到一个问题，那就是Relu会破坏特征。为什么这里的Relu会破坏特征呢？这得从Relu的性质说起，Relu对于负的输入，输出全为零；而本来特征就已经被“压缩”，再经过Relu的话，又要“损失”一部分特征，因此这里不采用Relu，实验结果表明这样做是正确的，这就称为Linear bottlenecks inverted residuals结构一个bottleneck11 conv2d ,Relu6 扩张33 dwise s=s, Relu6 卷积linear 1*1 conv2d 压缩 除了最后的avgpool，中间没有使用pool进行下采样 和MobileNet V1相比，MobileNet V2主要的改进有两点：1、Linear Bottlenecks。也就是去掉了小维度输出层后面的非线性激活层，目的是为了保证模型的表达能力。2、Inverted Residual block。该结构和传统residual block中维度先缩减再扩增正好相反，因此shotcut也就变成了连接的是维度缩减后的feature map 非线性激活层 relubottleneck的输出不接非线性激活层，所以是linear]]></content>
+  </entry>
+  <entry>
     <title><![CDATA[Tensorflow实战 - 模型持久化]]></title>
     <url>%2F2018%2F05%2F09%2FTensorflow%E5%AE%9E%E6%88%98%20-%20%E6%A8%A1%E5%9E%8B%E7%9A%84%E4%BF%9D%E5%AD%98%E4%B8%8E%E6%81%A2%E5%A4%8D%2F</url>
     <content type="text"><![CDATA[持久化代码实现tf.train.Saver12saver = tf.train.Saver()saver.save( ... ) Tensorflow模型保存到ckpt文件中，生成三个文件model.ckpt.meta，保存计算图的结构model.ckpt，保存TF程序中每一个变量的取值checkpoint，保存了一个目录下所有的模型文件列表]]></content>
@@ -45,9 +72,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[Python学习 - 基础]]></title>
-    <url>%2F2018%2F03%2F27%2FPython%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80%2F</url>
-    <content type="text"><![CDATA[tf.placeholder(dtype, shape=None, name=None) placeholder，占位符，在tensorflow中类似于函数参数，运行时必须传入值。 dtype：数据类型。常用的是tf.float32,tf.float64等数值类型。shape：数据形状。默认是None，就是一维值，也可以是多维，比如[2,3], [None, 3]表示列是3，行不定。name：名称。]]></content>
+    <title><![CDATA[Python学习 - 文件目录处理]]></title>
+    <url>%2F2018%2F03%2F27%2FPython%E5%AD%A6%E4%B9%A0%2F</url>
+    <content type="text"><![CDATA[OS模块Python os模块包含普遍的操作系统功能。如果你希望你的程序能够与平台无关的话，这个模块是尤为重要的。在自动化测试中，经常需要查找操作文件，比如说查找配置文件（从而读取配置文件的信息），查找测试报告（从而发送测试报告邮件），经常要对大量文件和大量路径进行操作，这就依赖于os模块 1.当前路径及路径下的文件os.getcwd()：查看当前所在路径。os.listdir(path):列举目录下的所有文件。返回的是列表类型。 2.绝对路径os.path.abspath(path):返回path的绝对路径。 3.查看路径的文件夹部分和文件名部分os.path.split(path):将路径分解为(文件夹,文件名)，返回的是元组类型。可以看出，若路径字符串最后一个字符是\,则只有文件夹部分有值；若路径字符串中均无\,则只有文件名部分有值。若路径字符串有\，且不在最后，则文件夹和文件名均有值。且返回的文件夹的结果不包含.os.path.join(path1,path2,…):将path进行组合，若其中有绝对路径，则之前的path将被删除。os.path.dirname(path):返回path中的文件夹部分，结果不包含’\’os.path.basename(path):返回path中的文件名。 4.查看文件时间os.path.getmtime(path):文件或文件夹的最后修改时间，从新纪元到访问时的秒数。os.path.getatime(path):文件或文件夹的最后访问时间，从新纪元到访问时的秒数。os.path.getctime(path):文件或文件夹的创建时间，从新纪元到访问时的秒数。]]></content>
       <categories>
         <category>Python基础</category>
       </categories>
@@ -56,9 +83,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[Python学习 - 文件目录处理]]></title>
-    <url>%2F2018%2F03%2F27%2FPython%E5%AD%A6%E4%B9%A0%2F</url>
-    <content type="text"><![CDATA[OS模块Python os模块包含普遍的操作系统功能。如果你希望你的程序能够与平台无关的话，这个模块是尤为重要的。在自动化测试中，经常需要查找操作文件，比如说查找配置文件（从而读取配置文件的信息），查找测试报告（从而发送测试报告邮件），经常要对大量文件和大量路径进行操作，这就依赖于os模块 1.当前路径及路径下的文件os.getcwd()：查看当前所在路径。os.listdir(path):列举目录下的所有文件。返回的是列表类型。 2.绝对路径os.path.abspath(path):返回path的绝对路径。 3.查看路径的文件夹部分和文件名部分os.path.split(path):将路径分解为(文件夹,文件名)，返回的是元组类型。可以看出，若路径字符串最后一个字符是\,则只有文件夹部分有值；若路径字符串中均无\,则只有文件名部分有值。若路径字符串有\，且不在最后，则文件夹和文件名均有值。且返回的文件夹的结果不包含.os.path.join(path1,path2,…):将path进行组合，若其中有绝对路径，则之前的path将被删除。os.path.dirname(path):返回path中的文件夹部分，结果不包含’\’os.path.basename(path):返回path中的文件名。 4.查看文件时间os.path.getmtime(path):文件或文件夹的最后修改时间，从新纪元到访问时的秒数。os.path.getatime(path):文件或文件夹的最后访问时间，从新纪元到访问时的秒数。os.path.getctime(path):文件或文件夹的创建时间，从新纪元到访问时的秒数。]]></content>
+    <title><![CDATA[Python学习 - 基础]]></title>
+    <url>%2F2018%2F03%2F27%2FPython%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80%2F</url>
+    <content type="text"><![CDATA[tf.placeholder(dtype, shape=None, name=None) placeholder，占位符，在tensorflow中类似于函数参数，运行时必须传入值。 dtype：数据类型。常用的是tf.float32,tf.float64等数值类型。shape：数据形状。默认是None，就是一维值，也可以是多维，比如[2,3], [None, 3]表示列是3，行不定。name：名称。]]></content>
       <categories>
         <category>Python基础</category>
       </categories>
