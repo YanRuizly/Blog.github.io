@@ -83,11 +83,11 @@
 <meta name="keywords" content="Python基础">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Python学习 - 文件目录处理">
-<meta property="og:url" content="http://yoursite.com/2018/03/27/Python学习/index.html">
+<meta property="og:url" content="http://yoursite.com/2018/03/27/Python学习/Python学习/index.html">
 <meta property="og:site_name" content="饲养员的博客">
 <meta property="og:description" content="OS模块Python os模块包含普遍的操作系统功能。如果你希望你的程序能够与平台无关的话，这个模块是尤为重要的。在自动化测试中，经常需要查找操作文件，比如说查找配置文件（从而读取配置文件的信息），查找测试报告（从而发送测试报告邮件），经常要对大量文件和大量路径进行操作，这就依赖于os模块 1.当前路径及路径下的文件os.getcwd()：查看当前所在路径。os.listdir(path):列举目">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-03-27T07:35:02.279Z">
+<meta property="og:updated_time" content="2018-05-29T11:41:23.883Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Python学习 - 文件目录处理">
 <meta name="twitter:description" content="OS模块Python os模块包含普遍的操作系统功能。如果你希望你的程序能够与平台无关的话，这个模块是尤为重要的。在自动化测试中，经常需要查找操作文件，比如说查找配置文件（从而读取配置文件的信息），查找测试报告（从而发送测试报告邮件），经常要对大量文件和大量路径进行操作，这就依赖于os模块 1.当前路径及路径下的文件os.getcwd()：查看当前所在路径。os.listdir(path):列举目">
@@ -120,7 +120,7 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/03/27/Python学习/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/03/27/Python学习/Python学习/"/>
 
 
 
@@ -298,7 +298,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/27/Python学习/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/27/Python学习/Python学习/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="闫 锐">
@@ -392,6 +392,7 @@
 <p>2.绝对路径<br>os.path.abspath(path):返回path的绝对路径。</p>
 <p>3.查看路径的文件夹部分和文件名部分<br>os.path.split(path):将路径分解为(文件夹,文件名)，返回的是元组类型。可以看出，若路径字符串最后一个字符是\,则只有文件夹部分有值；若路径字符串中均无\,则只有文件名部分有值。若路径字符串有\，且不在最后，则文件夹和文件名均有值。且返回的文件夹的结果不包含.<br>os.path.join(path1,path2,…):将path进行组合，若其中有绝对路径，则之前的path将被删除。<br>os.path.dirname(path):返回path中的文件夹部分，结果不包含’\’<br>os.path.basename(path):返回path中的文件名。</p>
 <p>4.查看文件时间<br>os.path.getmtime(path):文件或文件夹的最后修改时间，从新纪元到访问时的秒数。<br>os.path.getatime(path):文件或文件夹的最后访问时间，从新纪元到访问时的秒数。<br>os.path.getctime(path):文件或文件夹的创建时间，从新纪元到访问时的秒数。</p>
+<h1 id="sys"><a href="#sys" class="headerlink" title="sys"></a>sys</h1><p>对于模块和自己写的程序不在同一个目录下，可以把模块的路径通过sys.path.append(路径)添加到程序中。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line">sys.path.append(<span class="string">'引用模块的地址'</span>)</span><br></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -422,7 +423,7 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/03/27/Python学习-基础/" rel="next" title="Python学习 - 基础">
+              <a href="/2018/03/27/Python学习/Python学习-基础/" rel="next" title="Python学习 - 基础">
                 <i class="fa fa-chevron-left"></i> Python学习 - 基础
               </a>
             
@@ -570,7 +571,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#OS模块"><span class="nav-number">1.</span> <span class="nav-text">OS模块</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#OS模块"><span class="nav-number">1.</span> <span class="nav-text">OS模块</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#sys"><span class="nav-number">2.</span> <span class="nav-text">sys</span></a></li></ol></div>
             
 
           </div>

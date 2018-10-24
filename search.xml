@@ -73,8 +73,8 @@
   </entry>
   <entry>
     <title><![CDATA[Python学习 - 文件目录处理]]></title>
-    <url>%2F2018%2F03%2F27%2FPython%E5%AD%A6%E4%B9%A0%2F</url>
-    <content type="text"><![CDATA[OS模块Python os模块包含普遍的操作系统功能。如果你希望你的程序能够与平台无关的话，这个模块是尤为重要的。在自动化测试中，经常需要查找操作文件，比如说查找配置文件（从而读取配置文件的信息），查找测试报告（从而发送测试报告邮件），经常要对大量文件和大量路径进行操作，这就依赖于os模块 1.当前路径及路径下的文件os.getcwd()：查看当前所在路径。os.listdir(path):列举目录下的所有文件。返回的是列表类型。 2.绝对路径os.path.abspath(path):返回path的绝对路径。 3.查看路径的文件夹部分和文件名部分os.path.split(path):将路径分解为(文件夹,文件名)，返回的是元组类型。可以看出，若路径字符串最后一个字符是\,则只有文件夹部分有值；若路径字符串中均无\,则只有文件名部分有值。若路径字符串有\，且不在最后，则文件夹和文件名均有值。且返回的文件夹的结果不包含.os.path.join(path1,path2,…):将path进行组合，若其中有绝对路径，则之前的path将被删除。os.path.dirname(path):返回path中的文件夹部分，结果不包含’\’os.path.basename(path):返回path中的文件名。 4.查看文件时间os.path.getmtime(path):文件或文件夹的最后修改时间，从新纪元到访问时的秒数。os.path.getatime(path):文件或文件夹的最后访问时间，从新纪元到访问时的秒数。os.path.getctime(path):文件或文件夹的创建时间，从新纪元到访问时的秒数。]]></content>
+    <url>%2F2018%2F03%2F27%2FPython%E5%AD%A6%E4%B9%A0%2FPython%E5%AD%A6%E4%B9%A0%2F</url>
+    <content type="text"><![CDATA[OS模块Python os模块包含普遍的操作系统功能。如果你希望你的程序能够与平台无关的话，这个模块是尤为重要的。在自动化测试中，经常需要查找操作文件，比如说查找配置文件（从而读取配置文件的信息），查找测试报告（从而发送测试报告邮件），经常要对大量文件和大量路径进行操作，这就依赖于os模块 1.当前路径及路径下的文件os.getcwd()：查看当前所在路径。os.listdir(path):列举目录下的所有文件。返回的是列表类型。 2.绝对路径os.path.abspath(path):返回path的绝对路径。 3.查看路径的文件夹部分和文件名部分os.path.split(path):将路径分解为(文件夹,文件名)，返回的是元组类型。可以看出，若路径字符串最后一个字符是\,则只有文件夹部分有值；若路径字符串中均无\,则只有文件名部分有值。若路径字符串有\，且不在最后，则文件夹和文件名均有值。且返回的文件夹的结果不包含.os.path.join(path1,path2,…):将path进行组合，若其中有绝对路径，则之前的path将被删除。os.path.dirname(path):返回path中的文件夹部分，结果不包含’\’os.path.basename(path):返回path中的文件名。 4.查看文件时间os.path.getmtime(path):文件或文件夹的最后修改时间，从新纪元到访问时的秒数。os.path.getatime(path):文件或文件夹的最后访问时间，从新纪元到访问时的秒数。os.path.getctime(path):文件或文件夹的创建时间，从新纪元到访问时的秒数。 sys对于模块和自己写的程序不在同一个目录下，可以把模块的路径通过sys.path.append(路径)添加到程序中。12import syssys.path.append('引用模块的地址')]]></content>
       <categories>
         <category>Python基础</category>
       </categories>
@@ -84,7 +84,7 @@
   </entry>
   <entry>
     <title><![CDATA[Python学习 - 基础]]></title>
-    <url>%2F2018%2F03%2F27%2FPython%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80%2F</url>
+    <url>%2F2018%2F03%2F27%2FPython%E5%AD%A6%E4%B9%A0%2FPython%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80%2F</url>
     <content type="text"><![CDATA[tf.placeholder(dtype, shape=None, name=None) placeholder，占位符，在tensorflow中类似于函数参数，运行时必须传入值。 dtype：数据类型。常用的是tf.float32,tf.float64等数值类型。shape：数据形状。默认是None，就是一维值，也可以是多维，比如[2,3], [None, 3]表示列是3，行不定。name：名称。]]></content>
       <categories>
         <category>Python基础</category>
@@ -149,9 +149,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[Tensorflow实战 - 卷积神经网络]]></title>
-    <url>%2F2018%2F03%2F16%2FTensorflow%E5%AE%9E%E6%88%98%20-%20%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%2F</url>
-    <content type="text"><![CDATA[经典卷积神经网络模型LeNet5模型 第一层，卷积层 第二层，池化层 第三层，卷积层 第四层，池化层 第五层，全连接层 第六层，全连接层 第七层，全连接层 1输入层 -&gt; (卷积层 +-&gt; 池化层？) +-&gt; 全连接层 + Inception-v3模型Inception结构将不同的卷积层通过并联的方式结合到一起 Inception-v3模型TensorFlow-Slim工具12net = slim.conv2d(输入节点矩阵, 当前卷积层过滤器的深度, 过滤器的尺寸)可选参数: 过滤器移动步长（stride）、是否使用全0填充（padding="SAME"/"VALID"）、激活函数选择、变量的命名空间 计算 矩阵大小的计算 参数 连接数 迁移学习将一个问题上训练好的模型通过简单的调整使其适用于一个新的问题。通过迁移学习，可以使用少量的训练数据在短时间内训练出效果还不错的神经网络。]]></content>
+    <title><![CDATA[Tensorflow实战]]></title>
+    <url>%2F2018%2F03%2F16%2FTensorflow%E5%AE%9E%E6%88%98%2F</url>
+    <content type="text"><![CDATA[卷积神经网络卷积神经网络的结构 输入层 卷积层 池化层 全连接层 Softmax层 卷积层 过滤器 内核 池化层池化层使用的过滤器只影响一个深度上的节点 最大池化层 1pool 平均池化层 其他]]></content>
       <categories>
         <category>深度学习</category>
       </categories>
@@ -160,9 +160,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[Tensorflow实战]]></title>
-    <url>%2F2018%2F03%2F16%2FTensorflow%E5%AE%9E%E6%88%98%2F</url>
-    <content type="text"><![CDATA[卷积神经网络卷积神经网络的结构 输入层 卷积层 池化层 全连接层 Softmax层 卷积层 过滤器 内核 池化层池化层使用的过滤器只影响一个深度上的节点 最大池化层 1pool 平均池化层 其他]]></content>
+    <title><![CDATA[Tensorflow实战 - 卷积神经网络]]></title>
+    <url>%2F2018%2F03%2F16%2FTensorflow%E5%AE%9E%E6%88%98%20-%20%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%2F</url>
+    <content type="text"><![CDATA[经典卷积神经网络模型LeNet5模型 第一层，卷积层 第二层，池化层 第三层，卷积层 第四层，池化层 第五层，全连接层 第六层，全连接层 第七层，全连接层 1输入层 -&gt; (卷积层 +-&gt; 池化层？) +-&gt; 全连接层 + Inception-v3模型Inception结构将不同的卷积层通过并联的方式结合到一起 Inception-v3模型TensorFlow-Slim工具12net = slim.conv2d(输入节点矩阵, 当前卷积层过滤器的深度, 过滤器的尺寸)可选参数: 过滤器移动步长（stride）、是否使用全0填充（padding="SAME"/"VALID"）、激活函数选择、变量的命名空间 计算 矩阵大小的计算 参数 连接数 迁移学习将一个问题上训练好的模型通过简单的调整使其适用于一个新的问题。通过迁移学习，可以使用少量的训练数据在短时间内训练出效果还不错的神经网络。]]></content>
       <categories>
         <category>深度学习</category>
       </categories>
