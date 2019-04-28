@@ -1,309 +1,170 @@
 <?xml version="1.0" encoding="utf-8"?>
-<search> 
-  
-    
-    <entry>
-      <title></title>
-      <link href="/2019/04/28/Tensorflow%E5%AE%9E%E6%88%98%20-%20MobileNet-V2/"/>
-      <content type="html"><![CDATA[<p>轻量化网络：MobileNet-V2</p><p>ResNet是：压缩”→“卷积提特征”→“扩张”，MobileNetV2则是Inverted residuals,即：“扩张”→“卷积提特征”→ “压缩”</p><p>MobileNet-V1 最大的特点就是采用depth-wise separable convolution来减少运算量以及参数量，而在网络结构上，没有采用shortcut的方式。<br>Resnet及Densenet等一系列采用shortcut的网络的成功，表明了shortcut是个非常好的东西，于是MobileNet-V2就将这个好东西拿来用。</p><p>拿来主义，最重要的就是要结合自身的特点，MobileNet的特点就是depth-wise separable convolution，但是直接把depth-wise separable convolution应用到 residual block中，会碰到如下问题：</p><p>1.DWConv layer层提取得到的特征受限于输入的通道数，若是采用以往的residual block，先“压缩”，再卷积提特征，那么DWConv layer可提取得特征就太少了，因此一开始不“压缩”，MobileNetV2反其道而行，一开始先“扩张”，本文实验“扩张”倍数为6。 通常residual block里面是 “压缩”→“卷积提特征”→“扩张”，MobileNetV2就变成了 “扩张”→“卷积提特征”→ “压缩”，因此称为Inverted residuals</p><p>2.当采用“扩张”→“卷积提特征”→ “压缩”时，在“压缩”之后会碰到一个问题，那就是Relu会破坏特征。为什么这里的Relu会破坏特征呢？这得从Relu的性质说起，Relu对于负的输入，输出全为零；而本来特征就已经被“压缩”，再经过Relu的话，又要“损失”一部分特征，因此这里不采用Relu，实验结果表明这样做是正确的，这就称为Linear bottlenecks</p><p>inverted residuals结构<br>一个bottleneck<br>1<em>1 conv2d ,Relu6 扩张<br>3</em>3 dwise s=s, Relu6 卷积<br>linear 1*1 conv2d 压缩</p><p>除了最后的avgpool，中间没有使用pool进行下采样</p><p>和MobileNet V1相比，MobileNet V2主要的改进有两点：1、Linear Bottlenecks。也就是去掉了小维度输出层后面的非线性激活层，目的是为了保证模型的表达能力。2、Inverted Residual block。该结构和传统residual block中维度先缩减再扩增正好相反，因此shotcut也就变成了连接的是维度缩减后的feature map</p><p>非线性激活层 relu<br>bottleneck的输出不接非线性激活层，所以是linear</p>]]></content>
-      
-      
-    </entry>
-    
-    <entry>
-      <title>Hello World</title>
-      <link href="/2019/04/28/hello-world/"/>
-      <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>]]></content>
-      
-      
-    </entry>
-    
-    <entry>
-      <title>Tensorflow实战 - 模型持久化</title>
-      <link href="/2018/05/09/Tensorflow%E5%AE%9E%E6%88%98%20-%20%E6%A8%A1%E5%9E%8B%E7%9A%84%E4%BF%9D%E5%AD%98%E4%B8%8E%E6%81%A2%E5%A4%8D/"/>
-      <content type="html"><![CDATA[<h1 id="持久化代码实现"><a href="#持久化代码实现" class="headerlink" title="持久化代码实现"></a>持久化代码实现</h1><p>tf.train.Saver<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">saver = tf.train.Saver()</span><br><span class="line">saver.save( ... )</span><br></pre></td></tr></table></figure></p><p>Tensorflow模型保存到ckpt文件中，生成三个文件<br>model.ckpt.meta，保存计算图的结构<br>model.ckpt，保存TF程序中每一个变量的取值<br>checkpoint，保存了一个目录下所有的模型文件列表</p>]]></content>
-      
+<search>
+  <entry>
+    <title></title>
+    <url>%2F2019%2F04%2F28%2FTensorflow%E5%AE%9E%E6%88%98%20-%20MobileNet-V2%2F</url>
+    <content type="text"><![CDATA[轻量化网络：MobileNet-V2 ResNet是：压缩”→“卷积提特征”→“扩张”，MobileNetV2则是Inverted residuals,即：“扩张”→“卷积提特征”→ “压缩” MobileNet-V1 最大的特点就是采用depth-wise separable convolution来减少运算量以及参数量，而在网络结构上，没有采用shortcut的方式。Resnet及Densenet等一系列采用shortcut的网络的成功，表明了shortcut是个非常好的东西，于是MobileNet-V2就将这个好东西拿来用。 拿来主义，最重要的就是要结合自身的特点，MobileNet的特点就是depth-wise separable convolution，但是直接把depth-wise separable convolution应用到 residual block中，会碰到如下问题： 1.DWConv layer层提取得到的特征受限于输入的通道数，若是采用以往的residual block，先“压缩”，再卷积提特征，那么DWConv layer可提取得特征就太少了，因此一开始不“压缩”，MobileNetV2反其道而行，一开始先“扩张”，本文实验“扩张”倍数为6。 通常residual block里面是 “压缩”→“卷积提特征”→“扩张”，MobileNetV2就变成了 “扩张”→“卷积提特征”→ “压缩”，因此称为Inverted residuals 2.当采用“扩张”→“卷积提特征”→ “压缩”时，在“压缩”之后会碰到一个问题，那就是Relu会破坏特征。为什么这里的Relu会破坏特征呢？这得从Relu的性质说起，Relu对于负的输入，输出全为零；而本来特征就已经被“压缩”，再经过Relu的话，又要“损失”一部分特征，因此这里不采用Relu，实验结果表明这样做是正确的，这就称为Linear bottlenecks inverted residuals结构一个bottleneck11 conv2d ,Relu6 扩张33 dwise s=s, Relu6 卷积linear 1*1 conv2d 压缩 除了最后的avgpool，中间没有使用pool进行下采样 和MobileNet V1相比，MobileNet V2主要的改进有两点：1、Linear Bottlenecks。也就是去掉了小维度输出层后面的非线性激活层，目的是为了保证模型的表达能力。2、Inverted Residual block。该结构和传统residual block中维度先缩减再扩增正好相反，因此shotcut也就变成了连接的是维度缩减后的feature map 非线性激活层 relubottleneck的输出不接非线性激活层，所以是linear]]></content>
+  </entry>
+  <entry>
+    <title><![CDATA[Hello World]]></title>
+    <url>%2F2019%2F04%2F28%2Fhello-world%2F</url>
+    <content type="text"><![CDATA[Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick StartCreate a new post1$ hexo new "My New Post" More info: Writing Run server1$ hexo server More info: Server Generate static files1$ hexo generate More info: Generating Deploy to remote sites1$ hexo deploy More info: Deployment]]></content>
+  </entry>
+  <entry>
+    <title><![CDATA[Tensorflow实战 - 模型持久化]]></title>
+    <url>%2F2018%2F05%2F09%2FTensorflow%E5%AE%9E%E6%88%98%20-%20%E6%A8%A1%E5%9E%8B%E7%9A%84%E4%BF%9D%E5%AD%98%E4%B8%8E%E6%81%A2%E5%A4%8D%2F</url>
+    <content type="text"><![CDATA[持久化代码实现tf.train.Saver12saver = tf.train.Saver()saver.save( ... ) Tensorflow模型保存到ckpt文件中，生成三个文件model.ckpt.meta，保存计算图的结构model.ckpt，保存TF程序中每一个变量的取值checkpoint，保存了一个目录下所有的模型文件列表]]></content>
       <categories>
-          
-          <category> 深度学习 </category>
-          
+        <category>深度学习</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> 深度学习 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    <entry>
-      <title>大数据</title>
-      <link href="/2018/05/07/%E5%A4%A7%E6%95%B0%E6%8D%AE/"/>
-      <content type="html"><![CDATA[]]></content>
-      
+      <tags>
+        <tag>深度学习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[大数据]]></title>
+    <url>%2F2018%2F05%2F07%2F%E5%A4%A7%E6%95%B0%E6%8D%AE%2F</url>
+    <content type="text"></content>
       <categories>
-          
-          <category> 大数据 </category>
-          
+        <category>大数据</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> 大数据 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    <entry>
-      <title>Tensorflow实战 - 模型持久化</title>
-      <link href="/2018/04/03/Tensorflow%E5%AE%9E%E6%88%98%20-%20%E6%A8%A1%E5%9E%8B%E6%8C%81%E4%B9%85%E5%8C%96/"/>
-      <content type="html"><![CDATA[<h1 id="持久化代码实现"><a href="#持久化代码实现" class="headerlink" title="持久化代码实现"></a>持久化代码实现</h1><p>tf.train.Saver<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">saver = tf.train.Saver()</span><br><span class="line">saver.save( ... )</span><br></pre></td></tr></table></figure></p><h1 id="模型的保存"><a href="#模型的保存" class="headerlink" title="模型的保存"></a>模型的保存</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line">ckpt_dir = <span class="string">r'...\model.ckpt'</span></span><br><span class="line">v1 = tf.Variable(tf.constant(<span class="number">1.0</span>, shape=[<span class="number">1</span>], name=<span class="string">"v1"</span>))</span><br><span class="line">v2 = tf.Variable(tf.constant(<span class="number">2.0</span>, shape=[<span class="number">1</span>], name=<span class="string">"v2"</span>))</span><br><span class="line">result = v1 + v2 </span><br><span class="line">init = tf.global_variables_initializer()</span><br><span class="line">saver = tf.train.Saver()</span><br><span class="line"><span class="keyword">with</span> tf.Session() <span class="keyword">as</span> sess:</span><br><span class="line">    sess.run(init)</span><br><span class="line">    saver.save(sess,ckpt_dir)</span><br></pre></td></tr></table></figure><p>tf.train.Saver()使用的时候必须在之前是有变量存在的，上述代码中定义了v1,v2两个变量，保存在模型文件中。</p><p>代码产生四个文件</p><blockquote><ul><li>checkpoint文件保存了一个录下多有的模型文件列表</li><li>model.ckpt.meta保存了TensorFlow计算图的结构信息</li><li>model.ckpt保存每个变量的取值，此处文件名的写入方式会因不同参数的设置而不同，但加载restore时的文件路径名是以checkpoint文件中的“model_checkpoint_path”值决定的。</li></ul></blockquote><h1 id="模型的恢复"><a href="#模型的恢复" class="headerlink" title="模型的恢复"></a>模型的恢复</h1><p>恢复时特别注意checkpoints文件中的“model_checkpoint_path”值，一定与meta、ckpt路径对应起来<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf  </span><br><span class="line">ckpt_dir = <span class="string">r'...\model.ckpt'</span></span><br><span class="line">v1 = tf.Variable(tf.constant(<span class="number">1.0</span>, shape=[<span class="number">1</span>]), name=<span class="string">"v1"</span>)  </span><br><span class="line">v2 = tf.Variable(tf.constant(<span class="number">2.0</span>, shape=[<span class="number">1</span>]), name=<span class="string">"v2"</span>)  </span><br><span class="line">result = v1 + v2  </span><br><span class="line">saver = tf.train.Saver()  </span><br><span class="line"><span class="keyword">with</span> tf.Session() <span class="keyword">as</span> sess:  </span><br><span class="line">    saver.restore(sess, ckpt_dir) </span><br><span class="line">    print(sess.run(result))</span><br></pre></td></tr></table></figure></p><p>上述恢复时重复了计算图上的运算</p><h1 id="直接加载持久化的图"><a href="#直接加载持久化的图" class="headerlink" title="直接加载持久化的图"></a>直接加载持久化的图</h1><p>不重复计算图的计算<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf </span><br><span class="line">checkpoint = <span class="string">r'...\ckpts'</span> <span class="comment">#checkpoint路径</span></span><br><span class="line">ckpt_dir = <span class="string">r'...\model.ckpt'</span></span><br><span class="line">meta_dir = <span class="string">r'...\ckpts\model.ckpt.meta'</span></span><br><span class="line">graph = tf.Graph()</span><br><span class="line">sess_conf = tf.ConfigProto()</span><br><span class="line">sess = tf.Session(graph=graph, config=sess_conf)</span><br><span class="line"><span class="keyword">with</span> graph.as_default():</span><br><span class="line">    </span><br><span class="line">    saver = tf.train.import_meta_graph(model_meta)</span><br><span class="line">    saver.restore(source_sess, ckpts)</span><br><span class="line">    <span class="comment"># or</span></span><br><span class="line">    <span class="comment"># latest_checkpoint = tf.train.latest_checkpoint(model_checkpoints) </span></span><br><span class="line">    <span class="comment"># saver.restore(source_sess, latest_checkpoint)</span></span><br><span class="line">    tensor = graph.get_tensor_by_name(<span class="string">'tensorname'</span>)</span><br><span class="line">    print(sess.run(tensor))</span><br></pre></td></tr></table></figure></p><h1 id="从训练好的模型中的保存部分参数到新模型"><a href="#从训练好的模型中的保存部分参数到新模型" class="headerlink" title="从训练好的模型中的保存部分参数到新模型"></a>从训练好的模型中的保存部分参数到新模型</h1><p>每次都重新训练新的模型，是一件十分耗时费力的事情，在我们的项目中有用到tensorflow-finetune的知识，就是取出中间某些层的权值，去掉最后一层FC，那么就需要对原模型部分参数保存，首先还是一样直接加载持久化的图<br>按照tf.train.Saver源码中关于var_list的解释：<code>var_list</code> specifies the variables that will be saved and restored. It can be passed as a <code>dict</code> or a list,可以选择性的保存参数<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf </span><br><span class="line">checkpoint = <span class="string">r'...\ckpts'</span> <span class="comment">#checkpoint路径</span></span><br><span class="line">ckpt_dir = <span class="string">r'...\ckpts\model.ckpt'</span></span><br><span class="line">meta_dir = <span class="string">r'...\ckpts\model.ckpt.meta'</span></span><br><span class="line"><span class="comment"># 包含部分参数的ckpt</span></span><br><span class="line">part_ckpt = <span class="string">r'...\ckptsp\model.ckpt'</span></span><br><span class="line"></span><br><span class="line">sourceGraph = tf.Graph()</span><br><span class="line">sess_conf = tf.ConfigProto()</span><br><span class="line">sess = tf.Session(graph=graph, config=sess_conf)</span><br><span class="line"><span class="keyword">with</span> sourceGraph.as_default():</span><br><span class="line">    </span><br><span class="line">    saver = tf.train.import_meta_graph(model_meta)</span><br><span class="line">    saver.restore(source_sess, ckpts)</span><br><span class="line">    <span class="comment"># 获得所有训练的变量名称</span></span><br><span class="line">    variables_names = [v.name <span class="keyword">for</span> v <span class="keyword">in</span> tf.trainable_variables()]</span><br><span class="line">    tensorList = []</span><br><span class="line">    <span class="keyword">for</span> name <span class="keyword">in</span> variables_names:</span><br><span class="line">        <span class="keyword">if</span> <span class="string">'name(last_fc)'</span> <span class="keyword">not</span> <span class="keyword">in</span> name:</span><br><span class="line">            tensorList.append(sourceGraph.get_tensor_by_name(name))</span><br><span class="line">    <span class="comment"># tensorList中保存了去掉最后一层fc的其他层权值</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 重新构建一个save1</span></span><br><span class="line">    saver1 = tf.train.Saver(tensorList)</span><br><span class="line">    saver1.save(source_sess, part_ckpt + <span class="string">'/model.ckpt'</span>, global_step=<span class="string">'...'</span>)</span><br></pre></td></tr></table></figure></p><h1 id="包含部分参数的模型恢复"><a href="#包含部分参数的模型恢复" class="headerlink" title="包含部分参数的模型恢复"></a>包含部分参数的模型恢复</h1>]]></content>
-      
+      <tags>
+        <tag>大数据</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Tensorflow实战 - 模型持久化]]></title>
+    <url>%2F2018%2F04%2F03%2FTensorflow%E5%AE%9E%E6%88%98%20-%20%E6%A8%A1%E5%9E%8B%E6%8C%81%E4%B9%85%E5%8C%96%2F</url>
+    <content type="text"><![CDATA[持久化代码实现tf.train.Saver12saver = tf.train.Saver()saver.save( ... ) 模型的保存12345678910import tensorflow as tfckpt_dir = r'...\model.ckpt'v1 = tf.Variable(tf.constant(1.0, shape=[1], name="v1"))v2 = tf.Variable(tf.constant(2.0, shape=[1], name="v2"))result = v1 + v2 init = tf.global_variables_initializer()saver = tf.train.Saver()with tf.Session() as sess: sess.run(init) saver.save(sess,ckpt_dir) tf.train.Saver()使用的时候必须在之前是有变量存在的，上述代码中定义了v1,v2两个变量，保存在模型文件中。 代码产生四个文件 checkpoint文件保存了一个录下多有的模型文件列表 model.ckpt.meta保存了TensorFlow计算图的结构信息 model.ckpt保存每个变量的取值，此处文件名的写入方式会因不同参数的设置而不同，但加载restore时的文件路径名是以checkpoint文件中的“model_checkpoint_path”值决定的。 模型的恢复恢复时特别注意checkpoints文件中的“model_checkpoint_path”值，一定与meta、ckpt路径对应起来123456789import tensorflow as tf ckpt_dir = r'...\model.ckpt'v1 = tf.Variable(tf.constant(1.0, shape=[1]), name="v1") v2 = tf.Variable(tf.constant(2.0, shape=[1]), name="v2") result = v1 + v2 saver = tf.train.Saver() with tf.Session() as sess: saver.restore(sess, ckpt_dir) print(sess.run(result)) 上述恢复时重复了计算图上的运算 直接加载持久化的图不重复计算图的计算12345678910111213141516import tensorflow as tf checkpoint = r'...\ckpts' #checkpoint路径ckpt_dir = r'...\model.ckpt'meta_dir = r'...\ckpts\model.ckpt.meta'graph = tf.Graph()sess_conf = tf.ConfigProto()sess = tf.Session(graph=graph, config=sess_conf)with graph.as_default(): saver = tf.train.import_meta_graph(model_meta) saver.restore(source_sess, ckpts) # or # latest_checkpoint = tf.train.latest_checkpoint(model_checkpoints) # saver.restore(source_sess, latest_checkpoint) tensor = graph.get_tensor_by_name('tensorname') print(sess.run(tensor)) 从训练好的模型中的保存部分参数到新模型每次都重新训练新的模型，是一件十分耗时费力的事情，在我们的项目中有用到tensorflow-finetune的知识，就是取出中间某些层的权值，去掉最后一层FC，那么就需要对原模型部分参数保存，首先还是一样直接加载持久化的图按照tf.train.Saver源码中关于var_list的解释：var_list specifies the variables that will be saved and restored. It can be passed as a dict or a list,可以选择性的保存参数12345678910111213141516171819202122232425import tensorflow as tf checkpoint = r'...\ckpts' #checkpoint路径ckpt_dir = r'...\ckpts\model.ckpt'meta_dir = r'...\ckpts\model.ckpt.meta'# 包含部分参数的ckptpart_ckpt = r'...\ckptsp\model.ckpt'sourceGraph = tf.Graph()sess_conf = tf.ConfigProto()sess = tf.Session(graph=graph, config=sess_conf)with sourceGraph.as_default(): saver = tf.train.import_meta_graph(model_meta) saver.restore(source_sess, ckpts) # 获得所有训练的变量名称 variables_names = [v.name for v in tf.trainable_variables()] tensorList = [] for name in variables_names: if 'name(last_fc)' not in name: tensorList.append(sourceGraph.get_tensor_by_name(name)) # tensorList中保存了去掉最后一层fc的其他层权值 # 重新构建一个save1 saver1 = tf.train.Saver(tensorList) saver1.save(source_sess, part_ckpt + '/model.ckpt', global_step='...') 包含部分参数的模型恢复]]></content>
       <categories>
-          
-          <category> 深度学习 </category>
-          
+        <category>深度学习</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> 深度学习 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    <entry>
-      <title>Tensorflow高级API - TensorBoard计算加速</title>
-      <link href="/2018/03/30/Tensorflow%E9%AB%98%E7%BA%A7API/"/>
-      <content type="html"><![CDATA[<h1 id="对Dataset中的元素做变换"><a href="#对Dataset中的元素做变换" class="headerlink" title="对Dataset中的元素做变换"></a>对Dataset中的元素做变换</h1><p>Dataset支持一类特殊的操作：Transformation。一个Dataset通过Transformation变成一个新的Dataset。通常我们可以通过Transformation完成数据变换，打乱，组成batch，生成epoch等一系列操作。</p><p>常用的Transformation有：</p><blockquote><ul><li>map</li><li>batch</li><li>shuffle</li><li>repeat</li></ul></blockquote><p>(1) map<br>map接收一个函数，Dataset中的每个元素都会被当作这个函数的输入，并将函数返回值作为新的Dataset。</p><p>(2) batch<br>batch就是将多个元素组合成batch，如下面的程序将dataset中的每个元素组成了大小为32的batch：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dataset = dataset.batch(<span class="number">32</span>)</span><br></pre></td></tr></table></figure></p><p>(3) shuffle<br>shuffle的功能为打乱dataset中的元素，它有一个参数buffersize，表示打乱时使用的buffer的大小</p><p>(4) repeat<br>repeat的功能就是将整个序列重复多次，主要用来处理机器学习中的epoch，假设原先的数据是一个epoch，使用repeat(5)就可以将之变成5个epoch</p>]]></content>
-      
+      <tags>
+        <tag>深度学习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Tensorflow高级API - TensorBoard计算加速]]></title>
+    <url>%2F2018%2F03%2F30%2FTensorflow%E9%AB%98%E7%BA%A7API%2F</url>
+    <content type="text"><![CDATA[对Dataset中的元素做变换Dataset支持一类特殊的操作：Transformation。一个Dataset通过Transformation变成一个新的Dataset。通常我们可以通过Transformation完成数据变换，打乱，组成batch，生成epoch等一系列操作。 常用的Transformation有： map batch shuffle repeat (1) mapmap接收一个函数，Dataset中的每个元素都会被当作这个函数的输入，并将函数返回值作为新的Dataset。 (2) batchbatch就是将多个元素组合成batch，如下面的程序将dataset中的每个元素组成了大小为32的batch：1dataset = dataset.batch(32) (3) shuffleshuffle的功能为打乱dataset中的元素，它有一个参数buffersize，表示打乱时使用的buffer的大小 (4) repeatrepeat的功能就是将整个序列重复多次，主要用来处理机器学习中的epoch，假设原先的数据是一个epoch，使用repeat(5)就可以将之变成5个epoch]]></content>
       <categories>
-          
-          <category> 深度学习 </category>
-          
+        <category>深度学习</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> 深度学习 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    <entry>
-      <title>Python学习 - 文件目录处理</title>
-      <link href="/2018/03/27/Python%E5%AD%A6%E4%B9%A0/Python%E5%AD%A6%E4%B9%A0/"/>
-      <content type="html"><![CDATA[<h1 id="OS模块"><a href="#OS模块" class="headerlink" title="OS模块"></a>OS模块</h1><p>Python os模块包含普遍的操作系统功能。如果你希望你的程序能够与平台无关的话，这个模块是尤为重要的。在自动化测试中，经常需要查找操作文件，比如说查找配置文件（从而读取配置文件的信息），查找测试报告（从而发送测试报告邮件），经常要对大量文件和大量路径进行操作，这就依赖于os模块</p><p>1.当前路径及路径下的文件<br>os.getcwd()：查看当前所在路径。<br>os.listdir(path):列举目录下的所有文件。返回的是列表类型。</p><p>2.绝对路径<br>os.path.abspath(path):返回path的绝对路径。</p><p>3.查看路径的文件夹部分和文件名部分<br>os.path.split(path):将路径分解为(文件夹,文件名)，返回的是元组类型。可以看出，若路径字符串最后一个字符是\,则只有文件夹部分有值；若路径字符串中均无\,则只有文件名部分有值。若路径字符串有\，且不在最后，则文件夹和文件名均有值。且返回的文件夹的结果不包含.<br>os.path.join(path1,path2,…):将path进行组合，若其中有绝对路径，则之前的path将被删除。<br>os.path.dirname(path):返回path中的文件夹部分，结果不包含’\’<br>os.path.basename(path):返回path中的文件名。</p><p>4.查看文件时间<br>os.path.getmtime(path):文件或文件夹的最后修改时间，从新纪元到访问时的秒数。<br>os.path.getatime(path):文件或文件夹的最后访问时间，从新纪元到访问时的秒数。<br>os.path.getctime(path):文件或文件夹的创建时间，从新纪元到访问时的秒数。</p><h1 id="sys"><a href="#sys" class="headerlink" title="sys"></a>sys</h1><p>对于模块和自己写的程序不在同一个目录下，可以把模块的路径通过sys.path.append(路径)添加到程序中。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line">sys.path.append(<span class="string">'引用模块的地址'</span>)</span><br></pre></td></tr></table></figure></p>]]></content>
-      
+      <tags>
+        <tag>深度学习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Python学习 - 基础]]></title>
+    <url>%2F2018%2F03%2F27%2FPython%E5%AD%A6%E4%B9%A0%2FPython%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80%2F</url>
+    <content type="text"><![CDATA[tf.placeholder(dtype, shape=None, name=None) placeholder，占位符，在tensorflow中类似于函数参数，运行时必须传入值。 dtype：数据类型。常用的是tf.float32,tf.float64等数值类型。shape：数据形状。默认是None，就是一维值，也可以是多维，比如[2,3], [None, 3]表示列是3，行不定。name：名称。]]></content>
       <categories>
-          
-          <category> Python基础 </category>
-          
+        <category>Python基础</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> Python基础 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    <entry>
-      <title>Python学习 - 基础</title>
-      <link href="/2018/03/27/Python%E5%AD%A6%E4%B9%A0/Python%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80/"/>
-      <content type="html"><![CDATA[<p>tf.placeholder(dtype, shape=None, name=None)</p><p>placeholder，占位符，在tensorflow中类似于函数参数，运行时必须传入值。</p><p>dtype：数据类型。常用的是tf.float32,tf.float64等数值类型。<br>shape：数据形状。默认是None，就是一维值，也可以是多维，比如[2,3], [None, 3]表示列是3，行不定。<br>name：名称。</p>]]></content>
-      
+      <tags>
+        <tag>Python基础</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Python学习 - 文件目录处理]]></title>
+    <url>%2F2018%2F03%2F27%2FPython%E5%AD%A6%E4%B9%A0%2FPython%E5%AD%A6%E4%B9%A0%2F</url>
+    <content type="text"><![CDATA[OS模块Python os模块包含普遍的操作系统功能。如果你希望你的程序能够与平台无关的话，这个模块是尤为重要的。在自动化测试中，经常需要查找操作文件，比如说查找配置文件（从而读取配置文件的信息），查找测试报告（从而发送测试报告邮件），经常要对大量文件和大量路径进行操作，这就依赖于os模块 1.当前路径及路径下的文件os.getcwd()：查看当前所在路径。os.listdir(path):列举目录下的所有文件。返回的是列表类型。 2.绝对路径os.path.abspath(path):返回path的绝对路径。 3.查看路径的文件夹部分和文件名部分os.path.split(path):将路径分解为(文件夹,文件名)，返回的是元组类型。可以看出，若路径字符串最后一个字符是\,则只有文件夹部分有值；若路径字符串中均无\,则只有文件名部分有值。若路径字符串有\，且不在最后，则文件夹和文件名均有值。且返回的文件夹的结果不包含.os.path.join(path1,path2,…):将path进行组合，若其中有绝对路径，则之前的path将被删除。os.path.dirname(path):返回path中的文件夹部分，结果不包含’\’os.path.basename(path):返回path中的文件名。 4.查看文件时间os.path.getmtime(path):文件或文件夹的最后修改时间，从新纪元到访问时的秒数。os.path.getatime(path):文件或文件夹的最后访问时间，从新纪元到访问时的秒数。os.path.getctime(path):文件或文件夹的创建时间，从新纪元到访问时的秒数。 sys对于模块和自己写的程序不在同一个目录下，可以把模块的路径通过sys.path.append(路径)添加到程序中。12import syssys.path.append('引用模块的地址')]]></content>
       <categories>
-          
-          <category> Python基础 </category>
-          
+        <category>Python基础</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> Python基础 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    <entry>
-      <title>Tensorflow实战 - TensorBoard计算加速</title>
-      <link href="/2018/03/26/Tensorflow%E5%AE%9E%E6%88%98%20-%20Tensorflow%E8%AE%A1%E7%AE%97%E5%8A%A0%E9%80%9F/"/>
-      <content type="html"><![CDATA[<h1 id="Tensorflow计算加速"><a href="#Tensorflow计算加速" class="headerlink" title="Tensorflow计算加速"></a>Tensorflow计算加速</h1><h2 id="Tensorflow使用GPU"><a href="#Tensorflow使用GPU" class="headerlink" title="Tensorflow使用GPU"></a>Tensorflow使用GPU</h2><h3 id="tf-ConfigProto"><a href="#tf-ConfigProto" class="headerlink" title="tf.ConfigProto"></a>tf.ConfigProto</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">tf.ConfigProto一般用在创建session的时候。用来对session进行参数配置</span><br><span class="line"><span class="keyword">with</span> tf.Session(config = tf.ConfigProto(...),...)</span><br><span class="line"></span><br><span class="line"><span class="comment">#tf.ConfigProto()的参数</span></span><br><span class="line">log_device_placement=<span class="keyword">True</span> : 是否打印设备分配日志</span><br><span class="line">allow_soft_placement=<span class="keyword">True</span> ： 如果你指定的设备不存在，允许TF自动分配设备</span><br><span class="line">tf.ConfigProto(log_device_placement=<span class="keyword">True</span>,allow_soft_placement=<span class="keyword">True</span>)</span><br></pre></td></tr></table></figure><h2 id="深度学习训练并行模式"><a href="#深度学习训练并行模式" class="headerlink" title="深度学习训练并行模式"></a>深度学习训练并行模式</h2><blockquote><ul><li>异步模式</li><li>同步模式</li></ul></blockquote><h2 id="多GPU并行"><a href="#多GPU并行" class="headerlink" title="多GPU并行"></a>多GPU并行</h2><h2 id="分布式Tensorflow"><a href="#分布式Tensorflow" class="headerlink" title="分布式Tensorflow"></a>分布式Tensorflow</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">tf.train.ClusterSpec(&#123;</span><br><span class="line"><span class="string">"worker"</span>:[</span><br><span class="line"><span class="string">"tf.worker0:2222"</span>,</span><br><span class="line"><span class="string">"tf.worker1:2222"</span>,</span><br><span class="line"><span class="string">"tf.worker2:2222"</span></span><br><span class="line">],[</span><br><span class="line"><span class="string">"ps"</span>:[</span><br><span class="line"><span class="string">""</span></span><br><span class="line">]&#125;)</span><br></pre></td></tr></table></figure>]]></content>
-      
+      <tags>
+        <tag>Python基础</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Tensorflow实战 - TensorBoard计算加速]]></title>
+    <url>%2F2018%2F03%2F26%2FTensorflow%E5%AE%9E%E6%88%98%20-%20Tensorflow%E8%AE%A1%E7%AE%97%E5%8A%A0%E9%80%9F%2F</url>
+    <content type="text"><![CDATA[Tensorflow计算加速Tensorflow使用GPUtf.ConfigProto1234567tf.ConfigProto一般用在创建session的时候。用来对session进行参数配置with tf.Session(config = tf.ConfigProto(...),...)#tf.ConfigProto()的参数log_device_placement=True : 是否打印设备分配日志allow_soft_placement=True ： 如果你指定的设备不存在，允许TF自动分配设备tf.ConfigProto(log_device_placement=True,allow_soft_placement=True) 深度学习训练并行模式 异步模式 同步模式 多GPU并行分布式Tensorflow123456789tf.train.ClusterSpec(&#123; "worker":[ "tf.worker0:2222", "tf.worker1:2222", "tf.worker2:2222" ],[ "ps":[ "" ]&#125;)]]></content>
       <categories>
-          
-          <category> 深度学习 </category>
-          
+        <category>深度学习</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> 深度学习 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    <entry>
-      <title>Tensorflow实战 - TensorBoard可视化</title>
-      <link href="/2018/03/26/Tensorflow%E5%AE%9E%E6%88%98%20-%20TensorBoard%E5%8F%AF%E8%A7%86%E5%8C%96/"/>
-      <content type="html"><![CDATA[<h1 id="TensorBoard简介"><a href="#TensorBoard简介" class="headerlink" title="TensorBoard简介"></a>TensorBoard简介</h1><p>通过Tensorflow程序运行过程中的输出的日志文件可视化Tensorflow程序的运行状态</p><h2 id="TensorBoard日志输出"><a href="#TensorBoard日志输出" class="headerlink" title="TensorBoard日志输出"></a>TensorBoard日志输出</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line">input1 = tf.constant([<span class="number">1.0</span>,<span class="number">2.0</span>,<span class="number">3.0</span>], name=<span class="string">"input1"</span>)</span><br><span class="line">input2 = tf.Variable(tf.random_uniform([<span class="number">3</span>]),name=<span class="string">"input2"</span>)</span><br><span class="line">output = tf.add_n([input1,input2],name=<span class="string">"add"</span>)</span><br><span class="line">writer = tf.summary.FileWriter(<span class="string">"F://log"</span>,tf.get_default_graph())</span><br><span class="line">writer.close()</span><br></pre></td></tr></table></figure><h2 id="TensorBoard服务启动"><a href="#TensorBoard服务启动" class="headerlink" title="TensorBoard服务启动"></a>TensorBoard服务启动</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tensorboard --logdir=F://log</span><br></pre></td></tr></table></figure>]]></content>
-      
+      <tags>
+        <tag>深度学习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Tensorflow实战 - TensorBoard可视化]]></title>
+    <url>%2F2018%2F03%2F26%2FTensorflow%E5%AE%9E%E6%88%98%20-%20TensorBoard%E5%8F%AF%E8%A7%86%E5%8C%96%2F</url>
+    <content type="text"><![CDATA[TensorBoard简介通过Tensorflow程序运行过程中的输出的日志文件可视化Tensorflow程序的运行状态 TensorBoard日志输出123456import tensorflow as tfinput1 = tf.constant([1.0,2.0,3.0], name="input1")input2 = tf.Variable(tf.random_uniform([3]),name="input2")output = tf.add_n([input1,input2],name="add")writer = tf.summary.FileWriter("F://log",tf.get_default_graph())writer.close() TensorBoard服务启动1tensorboard --logdir=F://log]]></content>
       <categories>
-          
-          <category> 深度学习 </category>
-          
+        <category>深度学习</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> 深度学习 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    <entry>
-      <title>Tensorflow实战 - 循环神经网络</title>
-      <link href="/2018/03/22/Tensorflow%E5%AE%9E%E6%88%98%20-%20%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/"/>
-      <content type="html"><![CDATA[<h1 id="循环神经网络-RNN"><a href="#循环神经网络-RNN" class="headerlink" title="循环神经网络(RNN)"></a>循环神经网络(RNN)</h1><h1 id="长短时记忆网络结构-LTSM"><a href="#长短时记忆网络结构-LTSM" class="headerlink" title="长短时记忆网络结构(LTSM)"></a>长短时记忆网络结构(LTSM)</h1><p>LSTM单元结构示意图<br><img src="/images/4.png" alt="cmd-markdown-logo"></p><blockquote><ul><li>遗忘门</li><li>输入门</li><li>输出门</li></ul></blockquote><h1 id="循环神经网络的变种"><a href="#循环神经网络的变种" class="headerlink" title="循环神经网络的变种"></a>循环神经网络的变种</h1><h2 id="双向循环神经网络"><a href="#双向循环神经网络" class="headerlink" title="双向循环神经网络"></a>双向循环神经网络</h2><h2 id="深层循环神经网络"><a href="#深层循环神经网络" class="headerlink" title="深层循环神经网络"></a>深层循环神经网络</h2><h2 id="循环神经网络的dropout"><a href="#循环神经网络的dropout" class="headerlink" title="循环神经网络的dropout"></a>循环神经网络的dropout</h2><h1 id="循环神经网络样例应用"><a href="#循环神经网络样例应用" class="headerlink" title="循环神经网络样例应用"></a>循环神经网络样例应用</h1><h2 id="自然语言建模"><a href="#自然语言建模" class="headerlink" title="自然语言建模"></a>自然语言建模</h2><p>数据预处理<br>ptb_raw_data 读取PTB原始数据，并将单词转化为单词ID<br>ptb_iterator 截断并组织成batch</p><h2 id="时序序列预测"><a href="#时序序列预测" class="headerlink" title="时序序列预测"></a>时序序列预测</h2><h3 id="使用TFLean自定义模型"><a href="#使用TFLean自定义模型" class="headerlink" title="使用TFLean自定义模型"></a>使用TFLean自定义模型</h3><p>tf.contrib.learn</p><h3 id="预测正弦函数"><a href="#预测正弦函数" class="headerlink" title="预测正弦函数"></a>预测正弦函数</h3>]]></content>
-      
+      <tags>
+        <tag>深度学习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Tensorflow实战 - 循环神经网络]]></title>
+    <url>%2F2018%2F03%2F22%2FTensorflow%E5%AE%9E%E6%88%98%20-%20%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%2F</url>
+    <content type="text"><![CDATA[循环神经网络(RNN)长短时记忆网络结构(LTSM)LSTM单元结构示意图 遗忘门 输入门 输出门 循环神经网络的变种双向循环神经网络深层循环神经网络循环神经网络的dropout循环神经网络样例应用自然语言建模数据预处理ptb_raw_data 读取PTB原始数据，并将单词转化为单词IDptb_iterator 截断并组织成batch 时序序列预测使用TFLean自定义模型tf.contrib.learn 预测正弦函数]]></content>
       <categories>
-          
-          <category> 深度学习 </category>
-          
+        <category>深度学习</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> 深度学习 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    <entry>
-      <title>Tensorflow实战 - 多线程输入数据处理框架</title>
-      <link href="/2018/03/21/Tensorflow%E5%AE%9E%E6%88%98%20-%20%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BE%93%E5%85%A5%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86%E6%A1%86%E6%9E%B6/"/>
-      <content type="html"><![CDATA[<h1 id="多线程输入数据处理框架"><a href="#多线程输入数据处理框架" class="headerlink" title="多线程输入数据处理框架"></a>多线程输入数据处理框架</h1><p>为了避免图像预处理成为神经网络模型训练效率的瓶颈。</p><h2 id="经典输入数据处理流程图"><a href="#经典输入数据处理流程图" class="headerlink" title="经典输入数据处理流程图"></a>经典输入数据处理流程图</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">op=&gt;operation: 指定原始数据的文件列表</span><br><span class="line">op2=&gt;operation: 创建文件列表队列</span><br><span class="line">op3=&gt;operation: 从文件中读取数据</span><br><span class="line">op4=&gt;operation: 数据预处理</span><br><span class="line">op5=&gt;operation: 整理成Batch作为神经网络输入</span><br><span class="line">op-&gt;op2-&gt;op3-&gt;op4-&gt;op5</span><br></pre></td></tr></table></figure><h2 id="队列与多线程"><a href="#队列与多线程" class="headerlink" title="队列与多线程"></a>队列与多线程</h2><h3 id="队列"><a href="#队列" class="headerlink" title="队列"></a>队列</h3><blockquote><ul><li>FIFOQueue先进先出队列</li><li>RandomShuffleQueue随机队列</li></ul></blockquote><h3 id="多线程"><a href="#多线程" class="headerlink" title="多线程"></a>多线程</h3><blockquote><ul><li>tf.Coordinator协同多线程一起停止<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@should_stop</span></span><br><span class="line"><span class="meta">@request_stop</span></span><br><span class="line"><span class="meta">@join</span></span><br></pre></td></tr></table></figure></li></ul></blockquote><blockquote><ul><li>tf.QueueRunner启动多个线程来操作同一个队列</li></ul></blockquote><h2 id="输入文件队列"><a href="#输入文件队列" class="headerlink" title="输入文件队列"></a>输入文件队列</h2><blockquote><ul><li>tf.train.match_filenames_once函数来获取符合一个正则表达式的所有文件</li><li>tf.train.string_input_producer函数管理文件列表<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 样例代码</span></span><br><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"><span class="comment"># 使用tf.train.match_filenames_once函数获取文件列表</span></span><br><span class="line">files = tf.train.match_filenames_once(<span class="string">"Records/data.tfrecords-*"</span>)</span><br><span class="line"><span class="comment"># 通过tf.train.string_input_producer函数创建输入队列，输入队列的文件列表为tf.train.match_filenames_once函数获取的文件列表，shuffle参数设置为False来避免随机打乱读取文件的顺序。一般情况下设置为True</span></span><br><span class="line">filename_queue = tf.train.string_input_producer(files, shuffle=<span class="keyword">False</span>) </span><br><span class="line"><span class="comment"># 读取并解析一个样本</span></span><br><span class="line">reader = tf.TFRecordReader()</span><br><span class="line">_, serialized_example = reader.read(filename_queue)</span><br><span class="line">features = tf.parse_single_example(</span><br><span class="line">      serialized_example,</span><br><span class="line">      features=&#123;</span><br><span class="line">          <span class="string">'i'</span>: tf.FixedLenFeature([], tf.int64),</span><br><span class="line">          <span class="string">'j'</span>: tf.FixedLenFeature([], tf.int64),</span><br><span class="line">      &#125;)</span><br><span class="line"><span class="keyword">with</span> tf.Session() <span class="keyword">as</span> sess:</span><br><span class="line"><span class="comment"># 使用tf.train.match_filenames_once函数时需要初始化一些变量</span></span><br><span class="line">    tf.global_variables_initializer().run()</span><br><span class="line">    <span class="keyword">print</span> sess.run(files)</span><br><span class="line"><span class="comment"># 声明tf.train.Coordinator类来协同不同线程，并启动线程</span></span><br><span class="line">    coord = tf.train.Coordinator()</span><br><span class="line">    threads = tf.train.start_queue_runners(sess=sess, coord=coord)</span><br><span class="line"><span class="comment"># 多次执行获取数据的操作</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">6</span>):</span><br><span class="line">        <span class="keyword">print</span> sess.run([features[<span class="string">'i'</span>], features[<span class="string">'j'</span>]])</span><br><span class="line">    coord.request_stop()</span><br><span class="line">    coord.join(threads)</span><br></pre></td></tr></table></figure></li></ul></blockquote><h2 id="组合训练数据-batching"><a href="#组合训练数据-batching" class="headerlink" title="组合训练数据(batching)"></a>组合训练数据(batching)</h2><p>将多个输入样例组织成一个batch可以提高模型训练的效率，所以在得到单个样例的预处理结果之后，还需要将它们组织成batch，然后再提供给神经网络的输入层</p><blockquote><ul><li>tf.train.batch</li><li>tf.train.shuffle_batch<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># [example ,label]参数给出了需要组合的元素，一般example和label分别代表训练样本和这个样本对应的正确标签。batch_size参数给出了每个batch中样例的个数。capacity给出了队列的最大容量。队列长度 = 容量，TF将暂停入队，等待元素出队。元素个数 &lt; 容量，TF将重新启动入队</span></span><br><span class="line">example_batch, label_batch = tf.train.batch([example , label],batch_size = batch_size , capacity = capacity)</span><br><span class="line"><span class="comment"># min_after_dequeue参数限制了出队时队列中元素的最少个数。当队列中元素太少时，随机打乱样例顺序的作用就不大了</span></span><br><span class="line">example_batch, label_batch = tf.train.shuffle_batch([example , label],batch_size = batch_size , capacity = capacity , min_after_dequeue = <span class="number">30</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 并行化处理输入数据的方法</span></span><br><span class="line">指定num_thread参数 &gt; <span class="number">1</span>，多个线程会同时读取一个文件中的不同样例并进行预处理。多线程处理不同文件，使用tf.train.shuffle_batch_join函数</span><br></pre></td></tr></table></figure></li></ul></blockquote><h2 id="输入数据处理框架"><a href="#输入数据处理框架" class="headerlink" title="输入数据处理框架"></a>输入数据处理框架</h2><p><img src="" alt="cmd-markdown-logo"></p>]]></content>
-      
+      <tags>
+        <tag>深度学习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Tensorflow实战 - 多线程输入数据处理框架]]></title>
+    <url>%2F2018%2F03%2F21%2FTensorflow%E5%AE%9E%E6%88%98%20-%20%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BE%93%E5%85%A5%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86%E6%A1%86%E6%9E%B6%2F</url>
+    <content type="text"><![CDATA[多线程输入数据处理框架为了避免图像预处理成为神经网络模型训练效率的瓶颈。 经典输入数据处理流程图123456op=&gt;operation: 指定原始数据的文件列表op2=&gt;operation: 创建文件列表队列op3=&gt;operation: 从文件中读取数据op4=&gt;operation: 数据预处理op5=&gt;operation: 整理成Batch作为神经网络输入op-&gt;op2-&gt;op3-&gt;op4-&gt;op5 队列与多线程队列 FIFOQueue先进先出队列 RandomShuffleQueue随机队列 多线程 tf.Coordinator协同多线程一起停止123@should_stop@request_stop@join tf.QueueRunner启动多个线程来操作同一个队列 输入文件队列 tf.train.match_filenames_once函数来获取符合一个正则表达式的所有文件 tf.train.string_input_producer函数管理文件列表123456789101112131415161718192021222324252627# 样例代码import tensorflow as tf# 使用tf.train.match_filenames_once函数获取文件列表files = tf.train.match_filenames_once("Records/data.tfrecords-*")# 通过tf.train.string_input_producer函数创建输入队列，输入队列的文件列表为tf.train.match_filenames_once函数获取的文件列表，shuffle参数设置为False来避免随机打乱读取文件的顺序。一般情况下设置为Truefilename_queue = tf.train.string_input_producer(files, shuffle=False) # 读取并解析一个样本reader = tf.TFRecordReader()_, serialized_example = reader.read(filename_queue)features = tf.parse_single_example( serialized_example, features=&#123; 'i': tf.FixedLenFeature([], tf.int64), 'j': tf.FixedLenFeature([], tf.int64), &#125;)with tf.Session() as sess:# 使用tf.train.match_filenames_once函数时需要初始化一些变量 tf.global_variables_initializer().run() print sess.run(files)# 声明tf.train.Coordinator类来协同不同线程，并启动线程 coord = tf.train.Coordinator() threads = tf.train.start_queue_runners(sess=sess, coord=coord)# 多次执行获取数据的操作 for i in range(6): print sess.run([features['i'], features['j']]) coord.request_stop() coord.join(threads) 组合训练数据(batching)将多个输入样例组织成一个batch可以提高模型训练的效率，所以在得到单个样例的预处理结果之后，还需要将它们组织成batch，然后再提供给神经网络的输入层 tf.train.batch tf.train.shuffle_batch1234567# [example ,label]参数给出了需要组合的元素，一般example和label分别代表训练样本和这个样本对应的正确标签。batch_size参数给出了每个batch中样例的个数。capacity给出了队列的最大容量。队列长度 = 容量，TF将暂停入队，等待元素出队。元素个数 &lt; 容量，TF将重新启动入队example_batch, label_batch = tf.train.batch([example , label],batch_size = batch_size , capacity = capacity)# min_after_dequeue参数限制了出队时队列中元素的最少个数。当队列中元素太少时，随机打乱样例顺序的作用就不大了example_batch, label_batch = tf.train.shuffle_batch([example , label],batch_size = batch_size , capacity = capacity , min_after_dequeue = 30)# 并行化处理输入数据的方法指定num_thread参数 &gt; 1，多个线程会同时读取一个文件中的不同样例并进行预处理。多线程处理不同文件，使用tf.train.shuffle_batch_join函数 输入数据处理框架]]></content>
       <categories>
-          
-          <category> 深度学习 </category>
-          
+        <category>深度学习</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> 深度学习 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    <entry>
-      <title>Tensorflow实战 - 图像数据处理</title>
-      <link href="/2018/03/20/Tensorflow%E5%AE%9E%E6%88%98%20-%20%E5%9B%BE%E5%83%8F%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/"/>
-      <content type="html"><![CDATA[<h1 id="TFRecord输入数据格式"><a href="#TFRecord输入数据格式" class="headerlink" title="TFRecord输入数据格式"></a>TFRecord输入数据格式</h1><h2 id="TFRecord格式介绍"><a href="#TFRecord格式介绍" class="headerlink" title="TFRecord格式介绍"></a>TFRecord格式介绍</h2><p>tf.train.Example Protocol Buffer的格式存储<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">message Example &#123;</span><br><span class="line">Feature features = <span class="number">1</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">message Feature &#123;</span><br><span class="line">map&lt;String, Feature&gt; features = <span class="number">1</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">message Feature &#123;</span><br><span class="line">oneof kind &#123;</span><br><span class="line">BytesList bytes_list = <span class="number">1</span>;</span><br><span class="line">FloatList float_list = <span class="number">2</span>;</span><br><span class="line">Int64List int64_list = <span class="number">3</span>;</span><br><span class="line">&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p><h1 id="图像数据处理"><a href="#图像数据处理" class="headerlink" title="图像数据处理"></a>图像数据处理</h1><p>使用图像预处理的方法可以减小无关因素对图像识别模型效果的影响</p><h2 id="Tensorflow图像处理函数"><a href="#Tensorflow图像处理函数" class="headerlink" title="Tensorflow图像处理函数"></a>Tensorflow图像处理函数</h2><h3 id="图像编码处理"><a href="#图像编码处理" class="headerlink" title="图像编码处理"></a>图像编码处理</h3><p>Tensorflow处理图像时，将图像视为矩阵，然而图像在存储时并不直接记录这些矩阵中的数字，而是记录经过压缩编码后的结果。所以要将一张图片还原成一个三维矩阵，需要解码的过程。TF提供了对jpeg和png格式图像的编码/解码函数。 在读入图像时，要使用解码函数才能得到三维矩阵；在保存图像时，需要使用编码函数才能将三维矩阵转换为需要的编码格式。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 读入图像的原始数据  </span></span><br><span class="line">image_raw_data = tf.gfile.FastGFile(<span class="string">"F:/input.jpeg"</span>, <span class="string">'rb'</span>).read()  </span><br><span class="line"></span><br><span class="line"><span class="comment"># 将图像使用jpeg的格式解码从而得到图像对应的三维矩阵，解码之后的结果为一个张量  </span></span><br><span class="line">img_data = tf.image.decode_jpeg(image_raw_data)  </span><br><span class="line"></span><br><span class="line"><span class="comment"># 将数据的类型转换为8位无符号整型  </span></span><br><span class="line">img_data = tf.image.convert_image_dtype(img_data, dtype=tf.uint8)  </span><br><span class="line"></span><br><span class="line"><span class="comment"># 将表示一张图片的三维矩阵重新按照png格式编码并存入文件中。  </span></span><br><span class="line">encoder_png_image = tf.image.encode_png(img_data)  </span><br><span class="line"><span class="keyword">with</span> tf.gfile.GFile(<span class="string">"F:/output.png"</span>, <span class="string">'wb'</span>) <span class="keyword">as</span> f:  </span><br><span class="line">f.write(encoder_png_image.eval())  </span><br><span class="line"></span><br><span class="line"><span class="comment"># 按照jpeg格式编码，保存 </span></span><br><span class="line">encoder_jpeg_image = tf.image.encode_png(img_data)  </span><br><span class="line"><span class="keyword">with</span> tf.gfile.GFile(<span class="string">"F:/output.jpeg"</span>, <span class="string">'wb'</span>) <span class="keyword">as</span> f:  </span><br><span class="line">f.write(encoder_jpeg_image.eval())</span><br></pre></td></tr></table></figure></p><h3 id="图像大小调整"><a href="#图像大小调整" class="headerlink" title="图像大小调整"></a>图像大小调整</h3><p>神经网络输入节点的个数是固定的，所以在将图像的像素作为输入提供给神经网络之前，需要将图像的大小统一。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">tf.image.resize_images(param1,param2,param3，method)</span><br><span class="line"><span class="meta">@param1 原始图像</span></span><br><span class="line"><span class="meta">@param2、@param3 调整后图像的大小 </span></span><br><span class="line"><span class="meta">@method 调整图像大小的算法</span></span><br></pre></td></tr></table></figure></p><p>tf.image.resize_images函数的method参数取值对应算法<br>| method取值        | 图像大小调整算法   |<br>| ——–   | —–:  |<br>| 0          | 双线性插值法(Bilinear interpolation) |<br>| 1          | 最近邻居法(Nearest neighbor interpolation)   |<br>| 2          | 双三次插值法(Bicubic interpolation)    |<br>| 3          | 面积插值法(Area interpolation)    | </p><p>图像的裁剪和填充<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 裁剪或者填充图像中间区域</span></span><br><span class="line">tf.image.resize_image_with_crop_or_pad(param1,param2,param3)</span><br><span class="line"><span class="meta">@param1 原始图像</span></span><br><span class="line"><span class="meta">@param2、@param3 调整后图像的大小 </span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 裁剪或者填充给定区域的图像</span></span><br><span class="line">tf.image.crop_to_bounding_box(param2 * param3 &lt; 原始图像尺寸)</span><br><span class="line">tf.image.pad_to_bounding_box</span><br></pre></td></tr></table></figure></p><h3 id="图像翻转"><a href="#图像翻转" class="headerlink" title="图像翻转"></a>图像翻转</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 图像上下翻转</span></span><br><span class="line">flipped = tf.image.flip_up_down(img_data)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 图像左右翻转</span></span><br><span class="line">flipped = tf.image.flip_left_right(img_data)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 图像沿对角线翻转</span></span><br><span class="line">transposed = tf.image.transpose_image(img_data)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 以一定概率上下翻转</span></span><br><span class="line">flipped = tf.image.random_flip_up_down(img_data)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 以一定概率左右翻转</span></span><br><span class="line">flipped = tf.image.random_flip_left_right(img_data)</span><br></pre></td></tr></table></figure><h3 id="图像色彩调整"><a href="#图像色彩调整" class="headerlink" title="图像色彩调整"></a>图像色彩调整</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 将图像的亮度+(-)a</span></span><br><span class="line">adjusted = tf.image.adjust_brightness(img_data, +(-)a)</span><br><span class="line"><span class="comment"># 在[-max_data, max_data]的范围随机调整图像的亮度</span></span><br><span class="line">adjusted = tf.image.random_brightness(image, max_delta)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将图像的对比度+(-)a</span></span><br><span class="line">adjusted = tf.image.adjust_contrast(img_data, +(-)a)</span><br><span class="line"><span class="comment"># 在[lower, upper]的范围内随机调整图的对比度</span></span><br><span class="line">adjusted = tf.image.random_contrast(image, lower, upper)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 调整图像的色相</span></span><br><span class="line">adjusted = tf.image.adjust_hue(ima_data , a)</span><br><span class="line"><span class="comment"># 在[-max_delta , max_delta]的范围内随机调整图像的色相</span></span><br><span class="line"><span class="comment"># max_delta的取值在[0, 0.5]之间</span></span><br><span class="line">adjusted = tf.image.random_hue(image , max_delta)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 调整图像的饱和度</span></span><br><span class="line">adjusted = tf.image.adjust_saturation(img_data , a)</span><br><span class="line">adjusted = tf.image.random_saturation(image , lower , upper)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 图像标准化</span></span><br><span class="line">adjusted = tf.image.per_image_whitening(img_data)</span><br><span class="line">调整亮度均值为<span class="number">0</span>，方差为<span class="number">1</span></span><br></pre></td></tr></table></figure><h3 id="处理标注框"><a href="#处理标注框" class="headerlink" title="处理标注框"></a>处理标注框</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 加入标注框</span></span><br><span class="line">tf.image.draw_bounding_boxes</span><br><span class="line"></span><br><span class="line"><span class="comment">#随机截取图像</span></span><br><span class="line">tf.image.sample_distored_bounding_box</span><br></pre></td></tr></table></figure>]]></content>
-      
+      <tags>
+        <tag>深度学习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Tensorflow实战 - 图像数据处理]]></title>
+    <url>%2F2018%2F03%2F20%2FTensorflow%E5%AE%9E%E6%88%98%20-%20%E5%9B%BE%E5%83%8F%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86%2F</url>
+    <content type="text"><![CDATA[TFRecord输入数据格式TFRecord格式介绍tf.train.Example Protocol Buffer的格式存储123456789101112131415message Example &#123; Feature features = 1;&#125;;message Feature &#123; map&lt;String, Feature&gt; features = 1;&#125;;message Feature &#123; oneof kind &#123; BytesList bytes_list = 1; FloatList float_list = 2; Int64List int64_list = 3; &#125;&#125;; 图像数据处理使用图像预处理的方法可以减小无关因素对图像识别模型效果的影响 Tensorflow图像处理函数图像编码处理Tensorflow处理图像时，将图像视为矩阵，然而图像在存储时并不直接记录这些矩阵中的数字，而是记录经过压缩编码后的结果。所以要将一张图片还原成一个三维矩阵，需要解码的过程。TF提供了对jpeg和png格式图像的编码/解码函数。 在读入图像时，要使用解码函数才能得到三维矩阵；在保存图像时，需要使用编码函数才能将三维矩阵转换为需要的编码格式。123456789101112131415161718# 读入图像的原始数据 image_raw_data = tf.gfile.FastGFile("F:/input.jpeg", 'rb').read() # 将图像使用jpeg的格式解码从而得到图像对应的三维矩阵，解码之后的结果为一个张量 img_data = tf.image.decode_jpeg(image_raw_data) # 将数据的类型转换为8位无符号整型 img_data = tf.image.convert_image_dtype(img_data, dtype=tf.uint8) # 将表示一张图片的三维矩阵重新按照png格式编码并存入文件中。 encoder_png_image = tf.image.encode_png(img_data) with tf.gfile.GFile("F:/output.png", 'wb') as f: f.write(encoder_png_image.eval()) # 按照jpeg格式编码，保存 encoder_jpeg_image = tf.image.encode_png(img_data) with tf.gfile.GFile("F:/output.jpeg", 'wb') as f: f.write(encoder_jpeg_image.eval()) 图像大小调整神经网络输入节点的个数是固定的，所以在将图像的像素作为输入提供给神经网络之前，需要将图像的大小统一。1234tf.image.resize_images(param1,param2,param3，method)@param1 原始图像@param2、@param3 调整后图像的大小 @method 调整图像大小的算法 tf.image.resize_images函数的method参数取值对应算法| method取值 | 图像大小调整算法 || ——– | —–: || 0 | 双线性插值法(Bilinear interpolation) || 1 | 最近邻居法(Nearest neighbor interpolation) || 2 | 双三次插值法(Bicubic interpolation) || 3 | 面积插值法(Area interpolation) | 图像的裁剪和填充12345678# 裁剪或者填充图像中间区域tf.image.resize_image_with_crop_or_pad(param1,param2,param3)@param1 原始图像@param2、@param3 调整后图像的大小 # 裁剪或者填充给定区域的图像tf.image.crop_to_bounding_box(param2 * param3 &lt; 原始图像尺寸)tf.image.pad_to_bounding_box 图像翻转1234567891011121314# 图像上下翻转flipped = tf.image.flip_up_down(img_data)# 图像左右翻转flipped = tf.image.flip_left_right(img_data)# 图像沿对角线翻转transposed = tf.image.transpose_image(img_data)# 以一定概率上下翻转flipped = tf.image.random_flip_up_down(img_data)# 以一定概率左右翻转flipped = tf.image.random_flip_left_right(img_data) 图像色彩调整1234567891011121314151617181920212223# 将图像的亮度+(-)aadjusted = tf.image.adjust_brightness(img_data, +(-)a)# 在[-max_data, max_data]的范围随机调整图像的亮度adjusted = tf.image.random_brightness(image, max_delta)# 将图像的对比度+(-)aadjusted = tf.image.adjust_contrast(img_data, +(-)a)# 在[lower, upper]的范围内随机调整图的对比度adjusted = tf.image.random_contrast(image, lower, upper)# 调整图像的色相adjusted = tf.image.adjust_hue(ima_data , a)# 在[-max_delta , max_delta]的范围内随机调整图像的色相# max_delta的取值在[0, 0.5]之间adjusted = tf.image.random_hue(image , max_delta)# 调整图像的饱和度adjusted = tf.image.adjust_saturation(img_data , a)adjusted = tf.image.random_saturation(image , lower , upper)# 图像标准化adjusted = tf.image.per_image_whitening(img_data)调整亮度均值为0，方差为1 处理标注框12345# 加入标注框tf.image.draw_bounding_boxes#随机截取图像tf.image.sample_distored_bounding_box]]></content>
       <categories>
-          
-          <category> 深度学习 </category>
-          
+        <category>深度学习</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> 深度学习 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    <entry>
-      <title>Tensorflow实战</title>
-      <link href="/2018/03/16/Tensorflow%E5%AE%9E%E6%88%98/"/>
-      <content type="html"><![CDATA[<h1 id="卷积神经网络"><a href="#卷积神经网络" class="headerlink" title="卷积神经网络"></a>卷积神经网络</h1><h2 id="卷积神经网络的结构"><a href="#卷积神经网络的结构" class="headerlink" title="卷积神经网络的结构"></a>卷积神经网络的结构</h2><blockquote><ul><li>输入层</li><li>卷积层</li><li>池化层</li><li>全连接层</li><li>Softmax层</li></ul></blockquote><h2 id="卷积层"><a href="#卷积层" class="headerlink" title="卷积层"></a>卷积层</h2><blockquote><ul><li>过滤器</li><li>内核</li></ul></blockquote><h2 id="池化层"><a href="#池化层" class="headerlink" title="池化层"></a>池化层</h2><p>池化层使用的过滤器只影响一个深度上的节点</p><blockquote><ul><li>最大池化层 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pool</span><br></pre></td></tr></table></figure></li></ul></blockquote><blockquote><ul><li>平均池化层</li><li>其他</li></ul></blockquote>]]></content>
-      
+      <tags>
+        <tag>深度学习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Tensorflow实战]]></title>
+    <url>%2F2018%2F03%2F16%2FTensorflow%E5%AE%9E%E6%88%98%2F</url>
+    <content type="text"><![CDATA[卷积神经网络卷积神经网络的结构 输入层 卷积层 池化层 全连接层 Softmax层 卷积层 过滤器 内核 池化层池化层使用的过滤器只影响一个深度上的节点 最大池化层 1pool 平均池化层 其他]]></content>
       <categories>
-          
-          <category> 深度学习 </category>
-          
+        <category>深度学习</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> 深度学习 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    <entry>
-      <title>Tensorflow实战 - 卷积神经网络</title>
-      <link href="/2018/03/16/Tensorflow%E5%AE%9E%E6%88%98%20-%20%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/"/>
-      <content type="html"><![CDATA[<h1 id="经典卷积神经网络模型"><a href="#经典卷积神经网络模型" class="headerlink" title="经典卷积神经网络模型"></a>经典卷积神经网络模型</h1><h2 id="LeNet5模型"><a href="#LeNet5模型" class="headerlink" title="LeNet5模型"></a>LeNet5模型</h2><blockquote><ul><li>第一层，卷积层</li><li>第二层，池化层</li><li>第三层，卷积层</li><li>第四层，池化层</li><li>第五层，全连接层</li><li>第六层，全连接层</li><li>第七层，全连接层</li></ul></blockquote><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">输入层 -&gt; (卷积层 +-&gt; 池化层？) +-&gt; 全连接层 +</span><br></pre></td></tr></table></figure><h1 id="Inception-v3模型"><a href="#Inception-v3模型" class="headerlink" title="Inception-v3模型"></a>Inception-v3模型</h1><h2 id="Inception结构"><a href="#Inception结构" class="headerlink" title="Inception结构"></a>Inception结构</h2><p>将不同的卷积层通过并联的方式结合到一起</p><h2 id="Inception-v3模型-1"><a href="#Inception-v3模型-1" class="headerlink" title="Inception-v3模型"></a>Inception-v3模型</h2><p>TensorFlow-Slim工具<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">net = slim.conv2d(输入节点矩阵, 当前卷积层过滤器的深度, 过滤器的尺寸)</span><br><span class="line">可选参数: 过滤器移动步长（stride）、是否使用全<span class="number">0</span>填充（padding=<span class="string">"SAME"</span>/<span class="string">"VALID"</span>）、激活函数选择、变量的命名空间</span><br></pre></td></tr></table></figure></p><h1 id="计算"><a href="#计算" class="headerlink" title="计算"></a>计算</h1><blockquote><ul><li>矩阵大小的计算</li><li>参数</li><li>连接数</li></ul></blockquote><h1 id="迁移学习"><a href="#迁移学习" class="headerlink" title="迁移学习"></a>迁移学习</h1><p>将一个问题上训练好的模型通过简单的调整使其适用于一个新的问题。通过迁移学习，可以使用少量的训练数据在短时间内训练出效果还不错的神经网络。</p>]]></content>
-      
+      <tags>
+        <tag>深度学习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Tensorflow实战 - 卷积神经网络]]></title>
+    <url>%2F2018%2F03%2F16%2FTensorflow%E5%AE%9E%E6%88%98%20-%20%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%2F</url>
+    <content type="text"><![CDATA[经典卷积神经网络模型LeNet5模型 第一层，卷积层 第二层，池化层 第三层，卷积层 第四层，池化层 第五层，全连接层 第六层，全连接层 第七层，全连接层 1输入层 -&gt; (卷积层 +-&gt; 池化层？) +-&gt; 全连接层 + Inception-v3模型Inception结构将不同的卷积层通过并联的方式结合到一起 Inception-v3模型TensorFlow-Slim工具12net = slim.conv2d(输入节点矩阵, 当前卷积层过滤器的深度, 过滤器的尺寸)可选参数: 过滤器移动步长（stride）、是否使用全0填充（padding="SAME"/"VALID"）、激活函数选择、变量的命名空间 计算 矩阵大小的计算 参数 连接数 迁移学习将一个问题上训练好的模型通过简单的调整使其适用于一个新的问题。通过迁移学习，可以使用少量的训练数据在短时间内训练出效果还不错的神经网络。]]></content>
       <categories>
-          
-          <category> 深度学习 </category>
-          
+        <category>深度学习</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> 深度学习 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    <entry>
-      <title>Hello,Hexo</title>
-      <link href="/2018/03/16/Hello-Hexo/"/>
-      <content type="html"><![CDATA[]]></content>
-      
+      <tags>
+        <tag>深度学习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Hello,Hexo]]></title>
+    <url>%2F2018%2F03%2F16%2FHello-Hexo%2F</url>
+    <content type="text"></content>
       <categories>
-          
-          <category> 搭建博客 </category>
-          
+        <category>搭建博客</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> hexo </tag>
-            
-            <tag> github </tag>
-            
-            <tag> npm </tag>
-            
-            <tag> 基础 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-  
-  
+      <tags>
+        <tag>hexo</tag>
+        <tag>github</tag>
+        <tag>npm</tag>
+        <tag>基础</tag>
+      </tags>
+  </entry>
 </search>
