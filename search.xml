@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[JAVA虚拟机]]></title>
+    <url>%2F2019%2F04%2F28%2FJava%2F%E4%BB%8EGCRoots%E5%88%B0CMS%E6%94%B6%E9%9B%86%E5%99%A8%2F</url>
+    <content type="text"><![CDATA[JVM GC漫谈GCRootsGC Roots是一些由堆外指向堆内的引用，可作为GC Roots的对象包含但不限于： 虚拟机栈中引用的对象 方法区中类静态属性引用的对象 方法区中常量引用的对象 本地方法栈中引用的对象 哪些对象需要垃圾回收?对象到GC Roots没有引用链 jvm如何判断对象是否存活？ 引用计数法每个对象自身持有一个计数器，每当对象被一个地方引用那么计数器+1；存在循环引用的问题（两个失效对象相互保存了对方的指针） 可达性分析法有一系列”GC Roots”起点，从这些点开始向下搜索，走过的路径称为“引用链”。若一个对象没有任何引用链可达GC Roots，那么该对象就是不可用，即使该对象还与其它对象相关联。经可达性分析算法所标记出的对象，会进行一次筛选（根据finalize方法）。若经过筛选，判定可回收，那么就会进行立即回收；若判定没有必要回收，那么就会将finalizable对象放入F-Queue队列中，进行二次筛查。二次筛查会执行对象的finalize()方法，若重写了该方法，与引用链上的任何一个对象建立关联，那么该对象就会从回收集合中移除，否则被回收。 垃圾回收算法 引用计数法就是为对象设置计数器 停止-复制法无内存碎片，浪费内存 标记清除法标记、清除两个阶段，产生大量内存碎片。大对象无法分配到足够的连续内存，从而不得不提前触发GC 标记整理法所有存活对象移动到一端，清理掉端边界外的内存 分代法主要思想根据对象的生命周期长短特点将其进行分块，把Java堆分为新生代和老年代，这样就可以根据各个年代的特点采用最适当的收集算法。 JVM内存区域划分heap区域和非heap区域heap区域：Eden Space(伊甸园)、Survivor Space(幸存者区)、Tenured Gen(老年代)非head区域：Perm Gen（永久代1.8以前，现在叫元空间）、Code Cache（代码缓存区）、JVM虚拟机栈、本地方法栈 Stop The World(stw)虚拟机为一些特定指令位置设置“检查点”，程序运行到点时会暂停其他非垃圾回收线程的工作（Stop The World），暂停后再找到“GC Roots”进行关系的组建，进而执行标记和清除，直到完成垃圾回收。这也就造成了垃圾回收所谓的暂停时间（GC pause）。Stop the world指令位置：1、 循环的末尾2、 方法临返回前/调用方法call后3、 可能抛出异常的位置CMS用两次短暂停来代替标记整理法中的长暂停 部分内存参考自：https://blog.csdn.net/zqz_zqz/article/details/70568819 垃圾收集器串行回收 Serial收集器，单线程回收，全程stw 并行回收 Parallel xxx收集器，多线程回收，全程stw 并发回收 CMS和G1，多线程分阶段回收，只有某阶段stw 担保机制 串行老年代收集器将会以stw的方式进行一次Full GC，会对整个堆做标记和压缩，最后将包含纯粹的存活对象，从而造成较大的停顿时间 CMS 标记清除 老年代 最小延迟特点：只回收老年代和永久带（jdk1.8开始为元空间），不是说老年代满了再回收，而是有个触发阈值（92%），到阈值就开始回收 CMS的步骤：1、初始标记（根可以直接关联的对象）stw2、并发标记（和用户线程一起），标记对象（初始标记阶段标记的对象的引用的老年代的对象） 2.1 预清理（和用户线程一起） （老年代中有些没有被引用到对象） 2.2 可被终止的预清理（和用户线程一起）3、重新标记 (多个标记线程，修正)stw4、并发清除（和用户线程一起），清除对象5、并发重置（和用户线程一起），等待下次CMS的触发 关键点：第一次stw：初始标记阶段（可以是多线程） 标记老年代中所有存活的GC Roots对象 年轻代中活着的对象引用到的老年代的对象 第二次stw：重新标记阶段 标记整个老年代的所有的存活对象 标记的范畴是整个堆？（如果新生代引用老年代的对象，那么这个老年代对象视为存活） 这个阶段最为耗时 CMS的两次暂停为什么？一种场景：当虚拟机完成两次标记后，便可以确认可回收的对象，而垃圾回收线程与程序并行，当GC线程标记好一个对象时，此时程序线程将对象重新加入“关系网”，当执行二次标记时，该对象没有重写finallze()方法，这个对象被回收 缺陷 1、CMS会产生内存碎片，老年代空间会随着应用时长被逐步耗尽，最后不得不通过担保机制对对内存进行压缩（串行老年代收集器将会以stw的方式进行一次GC，从而造成较大的停顿时间）CMS提供参数来指定多少次CMS收集后进行一次压缩的FULL GC 2、由于并发进行，CMS在收集与应用线程会同时增加对堆内存的占用，也就是说，CMS必须要在老年代堆内存用尽之前完成垃圾回收，否则CMS回收失败时，将触发担保机制。 G1 分区 适合大尺寸堆内存 最小延迟分区：RegionRegion可以是： eden survivor old humongous（巨型对象）一个大小达到甚至超过分区大小的一半的对象 堆内存空间的划分，可以在物理上是不连续的，只要逻辑上连续即可 G1的步骤：1、初始标记2、并发标记3、重新标记4、清除5、转移回收 G1的设计原则：1、启发式算法，收集尽可能多的垃圾，在老年代找出具有高收集收益的分区进行收集。同时G1根据用户设置的暂停时间目标自动调整年轻代和总堆的大小，暂停目标越短年轻带空间越小，总空间越大。2、分区（Region），将内存划分为一个个相等大学校的内存分区，回收以分区为单位进行，存活的对象复制到另一个空闲分区中3、分代，逻辑上分代，物理上无差别4、G1的收集都是STW的 young gc 年轻代的gc，停止复制 mixed gc 执行ygc 和 回收一部分老年代（注意是部分） full gc 单线程执行的serial old gc（触发担保机制） Minor GC &amp; Major GC &amp; Full GCMinor GC年轻代的GC，停止复制法内存池被填满的时候，其中的内容全部会被复制，指针从9开始跟踪空闲内存，始终停留在内存池顶部大部分Eden区的对象都被认为是垃圾，直接就给清理掉了 Major GC清理老年代的内存 Full GC清理整个堆内存，包括年轻代和老年代，还有部分永久带 System.gc()直接调用system.gc()只会把这次的gc请求记录下来，并不会马上执行gc。等到runFinalization=true的时候才会执行gc，runFinalization=true之后会允许一次system.gc()，之后在call system.gc()还会重复上面的行为。 system.gc() runtime.runFinalzationSync(); System.gc() finalize方法finalize()方法是 Object 类的一个 protected 方法， 它是在对象被垃圾回收之前由 Java 虚拟机来调用的。1、对象再生问题：调用system.gc()，是否重写了finalize方法，在该方法中重写，可将待回收对象赋值给GC Roots可达的对象引用，从而达到对象再生的目的。2、finalize方法至多由GC执行一次(用户当然可以手动调用对象的finalize方法，但并不影响GC对finalize的行为)3、有一种 JNI(Java Native Interface)调用 non-Java程序（C 或 C++） ， finalize()的工作就是回收这部分的内存 如何减少GCGC会stw。会暂停程序的执行，带来延迟的代价。所以在开发中，我们不希望GC的次数过多。（1）对象不用时最好显式置为 Null（2）尽量少用 System.gc()（3）尽量少用静态变量（4）尽量使用 StringBuffer,而不用 String 来累加字符串（5）分散对象创建或删除的时间（6）尽量少用 finalize 函数（7）使用软引用类型 （只有在内存不足的时候JVM才会回收该对象。因此，这一点可以很好地用来解决OOM的问题，并且这个特性很适合用来实现缓存：比如网页缓存、图片缓存等） 如何触发full gc1、 system.gc()方法的调用2、 老年代空间不足，调优时应该尽量做到让对象在Minor GC阶段就挥手，让对象在新生代多活一阵子，不要创建过大的数组和对象3、 永久带空间不足（方法区在永久带中）4、 堆中分配很大的内存5、 如果yong gc的平均晋升大小比目前old gen剩余空间大，则不会触发young gc，而是直接触发full gc… 如何排查JVM进行GC之后还有很多的内存没有释放借大佬博客：https://blog.csdn.net/fishinhouse/article/details/80781673 JVM参数设置转自：http://blog.csdn.net/kthq/article/details/8618052-Xmx3550m：设置JVM最大堆内存为3550M。-Xms3550m：设置JVM初始堆内存为3550M。此值可以设置与-Xmx相同，以避免每次垃圾回收完成后JVM重新分配内存。-Xss128k：设置每个线程的栈大小。JDK5.0以后每个线程栈大小为1M，之前每个线程栈大小为256K。应当根据应用的线程所需内存大小进行调整。在相同物理内存下，减小这个值能生成更多的线程。但是操作系统对一个进程内的线程数还是有限制的，不能无限生成，经验值在3000~5000左右。需要注意的是：当这个值被设置的较大（例如&gt;2MB）时将会在很大程度上降低系统的性能。-Xmn2g：设置年轻代大小为2G。在整个堆内存大小确定的情况下，增大年轻代将会减小年老代，反之亦然。此值关系到JVM垃圾回收，对系统性能影响较大，官方推荐配置为整个堆大小的3/8。-XX:NewSize=1024m：设置年轻代初始值为1024M。-XX:MaxNewSize=1024m：设置年轻代最大值为1024M。-XX:PermSize=256m：设置持久代初始值为256M。-XX:MaxPermSize=256m：设置持久代最大值为256M。-XX:NewRatio=4：设置年轻代（包括1个Eden和2个Survivor区）与年老代的比值。表示年轻代比年老代为1:4。-XX:SurvivorRatio=4：设置年轻代中Eden区与Survivor区的比值。表示2个Survivor区（JVM堆内存年轻代中默认有2个大小相等的Survivor区）与1个Eden区的比值为2:4，即1个Survivor区占整个年轻代大小的1/6。-XX:MaxTenuringThreshold=7：表示一个对象如果在Survivor区（救助空间）移动了7次还没有被垃圾回收就进入年老代。如果设置为0的话，则年轻代对象不经过Survivor区，直接进入年老代，对于需要大量常驻内存的应用，这样做可以提高效率。如果将此值设置为一个较大值，则年轻代对象会在Survivor区进行多次复制，这样可以增加对象在年轻代存活时间，增加对象在年轻代被垃圾回收的概率，减少Full GC的频率，这样做可以在某种程度上提高服务稳定性。 JVM性能调优工具 top 查看系统整体运行情况 cpu 、mem 、swap 、 进程等jps 查看进程jmap 生成 java 程序的 dump 文件， 也可以查看堆内对象示例的统计信息、查看 ClassLoader 的信息以及 finalizer 队列。 jmap pid 查看进程的内存映像信息。 jmap -heap pid 显示Java堆详细信息 jmap -histo:live pid 显示堆中对象的统计信息 jmap -clstats pid 打印类加载器信息 jmap -dump:format=b,file=heapdump.phrof pid 生成堆转储快照dump文件。jstat 查看堆内存各部分的使用量，以及加载类的数量 jstat -class pid 类加载统计 jstat -compiler pid 编译统计 jstat -gc pid 垃圾回收统计 jstat -gcutil pid times 总结垃圾回收统计(百分比，可以加时间) jstat -gccapacity pid 堆内存统计 jstat -gcnew pid 新生代垃圾回收统计 jstat -gcnewcapacity pid 新生代内存统计 jstat -gcold pid 老年代垃圾回收统计 jstat -gcoldcapacity pid 老年代内存统计 jstat -gcmetacapacity pid 元数据空间统计 jstat -printcompilation pid 编译方法统计jstack pid 堆栈跟踪工具jconsole 可视化工具]]></content>
+      <categories>
+        <category>JAVA基础</category>
+      </categories>
+      <tags>
+        <tag>JAVA基础</tag>
+      </tags>
+  </entry>
+  <entry>
     <title></title>
     <url>%2F2019%2F04%2F28%2FTensorflow%E5%AE%9E%E6%88%98%20-%20MobileNet-V2%2F</url>
     <content type="text"><![CDATA[轻量化网络：MobileNet-V2 ResNet是：压缩”→“卷积提特征”→“扩张”，MobileNetV2则是Inverted residuals,即：“扩张”→“卷积提特征”→ “压缩” MobileNet-V1 最大的特点就是采用depth-wise separable convolution来减少运算量以及参数量，而在网络结构上，没有采用shortcut的方式。Resnet及Densenet等一系列采用shortcut的网络的成功，表明了shortcut是个非常好的东西，于是MobileNet-V2就将这个好东西拿来用。 拿来主义，最重要的就是要结合自身的特点，MobileNet的特点就是depth-wise separable convolution，但是直接把depth-wise separable convolution应用到 residual block中，会碰到如下问题： 1.DWConv layer层提取得到的特征受限于输入的通道数，若是采用以往的residual block，先“压缩”，再卷积提特征，那么DWConv layer可提取得特征就太少了，因此一开始不“压缩”，MobileNetV2反其道而行，一开始先“扩张”，本文实验“扩张”倍数为6。 通常residual block里面是 “压缩”→“卷积提特征”→“扩张”，MobileNetV2就变成了 “扩张”→“卷积提特征”→ “压缩”，因此称为Inverted residuals 2.当采用“扩张”→“卷积提特征”→ “压缩”时，在“压缩”之后会碰到一个问题，那就是Relu会破坏特征。为什么这里的Relu会破坏特征呢？这得从Relu的性质说起，Relu对于负的输入，输出全为零；而本来特征就已经被“压缩”，再经过Relu的话，又要“损失”一部分特征，因此这里不采用Relu，实验结果表明这样做是正确的，这就称为Linear bottlenecks inverted residuals结构一个bottleneck11 conv2d ,Relu6 扩张33 dwise s=s, Relu6 卷积linear 1*1 conv2d 压缩 除了最后的avgpool，中间没有使用pool进行下采样 和MobileNet V1相比，MobileNet V2主要的改进有两点：1、Linear Bottlenecks。也就是去掉了小维度输出层后面的非线性激活层，目的是为了保证模型的表达能力。2、Inverted Residual block。该结构和传统residual block中维度先缩减再扩增正好相反，因此shotcut也就变成了连接的是维度缩减后的feature map 非线性激活层 relubottleneck的输出不接非线性激活层，所以是linear]]></content>
@@ -55,9 +66,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[Python学习 - 基础]]></title>
-    <url>%2F2018%2F03%2F27%2FPython%E5%AD%A6%E4%B9%A0%2FPython%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80%2F</url>
-    <content type="text"><![CDATA[tf.placeholder(dtype, shape=None, name=None) placeholder，占位符，在tensorflow中类似于函数参数，运行时必须传入值。 dtype：数据类型。常用的是tf.float32,tf.float64等数值类型。shape：数据形状。默认是None，就是一维值，也可以是多维，比如[2,3], [None, 3]表示列是3，行不定。name：名称。]]></content>
+    <title><![CDATA[Python学习 - 文件目录处理]]></title>
+    <url>%2F2018%2F03%2F27%2FPython%E5%AD%A6%E4%B9%A0%2FPython%E5%AD%A6%E4%B9%A0%2F</url>
+    <content type="text"><![CDATA[OS模块Python os模块包含普遍的操作系统功能。如果你希望你的程序能够与平台无关的话，这个模块是尤为重要的。在自动化测试中，经常需要查找操作文件，比如说查找配置文件（从而读取配置文件的信息），查找测试报告（从而发送测试报告邮件），经常要对大量文件和大量路径进行操作，这就依赖于os模块 1.当前路径及路径下的文件os.getcwd()：查看当前所在路径。os.listdir(path):列举目录下的所有文件。返回的是列表类型。 2.绝对路径os.path.abspath(path):返回path的绝对路径。 3.查看路径的文件夹部分和文件名部分os.path.split(path):将路径分解为(文件夹,文件名)，返回的是元组类型。可以看出，若路径字符串最后一个字符是\,则只有文件夹部分有值；若路径字符串中均无\,则只有文件名部分有值。若路径字符串有\，且不在最后，则文件夹和文件名均有值。且返回的文件夹的结果不包含.os.path.join(path1,path2,…):将path进行组合，若其中有绝对路径，则之前的path将被删除。os.path.dirname(path):返回path中的文件夹部分，结果不包含’\’os.path.basename(path):返回path中的文件名。 4.查看文件时间os.path.getmtime(path):文件或文件夹的最后修改时间，从新纪元到访问时的秒数。os.path.getatime(path):文件或文件夹的最后访问时间，从新纪元到访问时的秒数。os.path.getctime(path):文件或文件夹的创建时间，从新纪元到访问时的秒数。 sys对于模块和自己写的程序不在同一个目录下，可以把模块的路径通过sys.path.append(路径)添加到程序中。12import syssys.path.append('引用模块的地址')]]></content>
       <categories>
         <category>Python基础</category>
       </categories>
@@ -66,9 +77,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[Python学习 - 文件目录处理]]></title>
-    <url>%2F2018%2F03%2F27%2FPython%E5%AD%A6%E4%B9%A0%2FPython%E5%AD%A6%E4%B9%A0%2F</url>
-    <content type="text"><![CDATA[OS模块Python os模块包含普遍的操作系统功能。如果你希望你的程序能够与平台无关的话，这个模块是尤为重要的。在自动化测试中，经常需要查找操作文件，比如说查找配置文件（从而读取配置文件的信息），查找测试报告（从而发送测试报告邮件），经常要对大量文件和大量路径进行操作，这就依赖于os模块 1.当前路径及路径下的文件os.getcwd()：查看当前所在路径。os.listdir(path):列举目录下的所有文件。返回的是列表类型。 2.绝对路径os.path.abspath(path):返回path的绝对路径。 3.查看路径的文件夹部分和文件名部分os.path.split(path):将路径分解为(文件夹,文件名)，返回的是元组类型。可以看出，若路径字符串最后一个字符是\,则只有文件夹部分有值；若路径字符串中均无\,则只有文件名部分有值。若路径字符串有\，且不在最后，则文件夹和文件名均有值。且返回的文件夹的结果不包含.os.path.join(path1,path2,…):将path进行组合，若其中有绝对路径，则之前的path将被删除。os.path.dirname(path):返回path中的文件夹部分，结果不包含’\’os.path.basename(path):返回path中的文件名。 4.查看文件时间os.path.getmtime(path):文件或文件夹的最后修改时间，从新纪元到访问时的秒数。os.path.getatime(path):文件或文件夹的最后访问时间，从新纪元到访问时的秒数。os.path.getctime(path):文件或文件夹的创建时间，从新纪元到访问时的秒数。 sys对于模块和自己写的程序不在同一个目录下，可以把模块的路径通过sys.path.append(路径)添加到程序中。12import syssys.path.append('引用模块的地址')]]></content>
+    <title><![CDATA[Python学习 - 基础]]></title>
+    <url>%2F2018%2F03%2F27%2FPython%E5%AD%A6%E4%B9%A0%2FPython%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80%2F</url>
+    <content type="text"><![CDATA[tf.placeholder(dtype, shape=None, name=None) placeholder，占位符，在tensorflow中类似于函数参数，运行时必须传入值。 dtype：数据类型。常用的是tf.float32,tf.float64等数值类型。shape：数据形状。默认是None，就是一维值，也可以是多维，比如[2,3], [None, 3]表示列是3，行不定。name：名称。]]></content>
       <categories>
         <category>Python基础</category>
       </categories>
@@ -132,9 +143,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[Tensorflow实战]]></title>
-    <url>%2F2018%2F03%2F16%2FTensorflow%E5%AE%9E%E6%88%98%2F</url>
-    <content type="text"><![CDATA[卷积神经网络卷积神经网络的结构 输入层 卷积层 池化层 全连接层 Softmax层 卷积层 过滤器 内核 池化层池化层使用的过滤器只影响一个深度上的节点 最大池化层 1pool 平均池化层 其他]]></content>
+    <title><![CDATA[Tensorflow实战 - 卷积神经网络]]></title>
+    <url>%2F2018%2F03%2F16%2FTensorflow%E5%AE%9E%E6%88%98%20-%20%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%2F</url>
+    <content type="text"><![CDATA[经典卷积神经网络模型LeNet5模型 第一层，卷积层 第二层，池化层 第三层，卷积层 第四层，池化层 第五层，全连接层 第六层，全连接层 第七层，全连接层 1输入层 -&gt; (卷积层 +-&gt; 池化层？) +-&gt; 全连接层 + Inception-v3模型Inception结构将不同的卷积层通过并联的方式结合到一起 Inception-v3模型TensorFlow-Slim工具12net = slim.conv2d(输入节点矩阵, 当前卷积层过滤器的深度, 过滤器的尺寸)可选参数: 过滤器移动步长（stride）、是否使用全0填充（padding="SAME"/"VALID"）、激活函数选择、变量的命名空间 计算 矩阵大小的计算 参数 连接数 迁移学习将一个问题上训练好的模型通过简单的调整使其适用于一个新的问题。通过迁移学习，可以使用少量的训练数据在短时间内训练出效果还不错的神经网络。]]></content>
       <categories>
         <category>深度学习</category>
       </categories>
@@ -143,9 +154,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[Tensorflow实战 - 卷积神经网络]]></title>
-    <url>%2F2018%2F03%2F16%2FTensorflow%E5%AE%9E%E6%88%98%20-%20%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%2F</url>
-    <content type="text"><![CDATA[经典卷积神经网络模型LeNet5模型 第一层，卷积层 第二层，池化层 第三层，卷积层 第四层，池化层 第五层，全连接层 第六层，全连接层 第七层，全连接层 1输入层 -&gt; (卷积层 +-&gt; 池化层？) +-&gt; 全连接层 + Inception-v3模型Inception结构将不同的卷积层通过并联的方式结合到一起 Inception-v3模型TensorFlow-Slim工具12net = slim.conv2d(输入节点矩阵, 当前卷积层过滤器的深度, 过滤器的尺寸)可选参数: 过滤器移动步长（stride）、是否使用全0填充（padding="SAME"/"VALID"）、激活函数选择、变量的命名空间 计算 矩阵大小的计算 参数 连接数 迁移学习将一个问题上训练好的模型通过简单的调整使其适用于一个新的问题。通过迁移学习，可以使用少量的训练数据在短时间内训练出效果还不错的神经网络。]]></content>
+    <title><![CDATA[Tensorflow实战]]></title>
+    <url>%2F2018%2F03%2F16%2FTensorflow%E5%AE%9E%E6%88%98%2F</url>
+    <content type="text"><![CDATA[卷积神经网络卷积神经网络的结构 输入层 卷积层 池化层 全连接层 Softmax层 卷积层 过滤器 内核 池化层池化层使用的过滤器只影响一个深度上的节点 最大池化层 1pool 平均池化层 其他]]></content>
       <categories>
         <category>深度学习</category>
       </categories>
